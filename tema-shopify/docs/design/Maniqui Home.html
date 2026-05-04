@@ -1,0 +1,1803 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maniquí · Arreglos de ropa en Valencia</title>
+<meta name="description" content="Taller de arreglos de ropa en Marxalenes, Valencia. Tres modistas profesionales. Pregunta por WhatsApp, pásate sin cita o contrata online.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Red+Hat+Text:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Red Hat Text', system-ui, sans-serif;
+
+    --sage: #8FA585;
+    --sage-dark: #738B68;
+    --sage-soft: rgba(143,165,133,0.10);
+    --sage-line: rgba(143,165,133,0.35);
+    --cream: #FFFEFE;
+    --cream-warm: #FDFBF7;
+    --warm-dark: #2A2520;
+    --warm-dark-2: #3A332C;
+    --text-2: #6B6660;
+    --text-muted: #948B7E;
+    --border: #E8E2D5;
+    --border-2: #D4CDB8;
+    --terracotta: #C9A98E;
+    --whatsapp: #25D366;
+    --whatsapp-dark: #128C7E;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--warm-dark);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  img { max-width: 100%; display: block; }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; }
+  a { color: inherit; text-decoration: none; }
+
+  ::selection { background: var(--sage); color: var(--cream); }
+
+  /* ============ TOKENS ============ */
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+  @media (max-width: 600px) {
+    .container { padding: 0 24px; }
+  }
+
+  .eyebrow {
+    font-family: var(--font-body);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--sage);
+    font-weight: 500;
+  }
+  .eyebrow.terracotta { color: var(--terracotta); }
+  .eyebrow.cream { color: var(--sage); }
+
+  .h-display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.005em;
+    line-height: 1.08;
+    color: var(--warm-dark);
+  }
+  .h-display em { font-style: italic; color: var(--sage); font-weight: 400; }
+  .h-display .terra { font-style: italic; color: var(--terracotta); font-weight: 400; }
+
+  .lede {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--text-2);
+    font-weight: 400;
+  }
+
+  /* sage line decorative separator */
+  .sep-line {
+    display: inline-block;
+    width: 40px;
+    height: 1px;
+    background: var(--sage);
+    margin: 0 0 24px;
+    opacity: 0.6;
+  }
+
+  /* ============ BUTTONS ============ */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 24px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    border-radius: 2px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: transform 220ms ease, background 220ms ease, color 220ms ease, border-color 220ms ease;
+    min-height: 44px;
+    white-space: nowrap;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-wa { background: var(--whatsapp); color: #fff; border-color: var(--whatsapp); }
+  .btn-wa:hover { background: var(--whatsapp-dark); border-color: var(--whatsapp-dark); }
+  .btn-sage { background: var(--sage); color: var(--cream); border-color: var(--sage); }
+  .btn-sage:hover { background: var(--sage-dark); border-color: var(--sage-dark); }
+  .btn-dark { background: var(--warm-dark); color: var(--cream); border-color: var(--warm-dark); }
+  .btn-dark:hover { background: #1d1916; }
+  .btn-outline-cream { background: transparent; color: var(--cream); border-color: rgba(253,251,247,0.7); }
+  .btn-outline-cream:hover { background: rgba(253,251,247,0.08); border-color: var(--cream); }
+  .btn-outline-dark { background: transparent; color: var(--warm-dark); border-color: var(--border-2); }
+  .btn-outline-dark:hover { border-color: var(--warm-dark); }
+  .btn-pill { border-radius: 999px; padding: 12px 22px; }
+  .btn-link {
+    display: inline-flex;
+    gap: 8px;
+    color: var(--sage-dark);
+    border-bottom: 1px solid var(--sage-line);
+    padding: 4px 0;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    transition: color 200ms ease, border-color 200ms ease;
+  }
+  .btn-link:hover { color: var(--sage-dark); border-bottom-color: var(--sage); }
+  .btn-link.terracotta { color: var(--terracotta); border-bottom-color: rgba(201,169,142,0.4); }
+  .btn-link.terracotta:hover { border-bottom-color: var(--terracotta); }
+
+  .icon-wa {
+    width: 16px; height: 16px;
+    flex-shrink: 0;
+  }
+  .icon-arrow {
+    width: 14px; height: 14px;
+    transition: transform 220ms ease;
+  }
+  .btn-link:hover .icon-arrow { transform: translateX(3px); }
+
+  /* ============ NAV — TRANSPARENT (over hero) ============ */
+  .nav-hero {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    padding: 28px 48px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    color: var(--cream);
+  }
+  .nav-hero-links {
+    display: flex;
+    gap: 36px;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+  }
+  .nav-hero-links a {
+    color: var(--cream);
+    opacity: 0.95;
+    transition: opacity 200ms ease;
+    position: relative;
+    padding: 4px 0;
+  }
+  .nav-hero-links a:hover { opacity: 0.7; }
+  .nav-hero-logo {
+    display: flex;
+    justify-content: center;
+  }
+  .nav-hero-logo img {
+    height: 44px;
+    width: auto;
+    filter: brightness(0) invert(1);
+    opacity: 0.92;
+  }
+  .nav-hero-cta {
+    justify-self: end;
+  }
+  .nav-burger {
+    display: none;
+    background: rgba(253,251,247,0.12);
+    border: 1px solid rgba(253,251,247,0.3);
+    width: 44px; height: 44px;
+    border-radius: 999px;
+    align-items: center;
+    justify-content: center;
+  }
+  .nav-burger span {
+    display: block;
+    width: 18px; height: 1px;
+    background: var(--cream);
+    position: relative;
+  }
+  .nav-burger span::before, .nav-burger span::after {
+    content: ''; position: absolute; left: 0; right: 0;
+    height: 1px; background: var(--cream);
+  }
+  .nav-burger span::before { top: -6px; }
+  .nav-burger span::after { top: 6px; }
+
+  /* ============ NAV STICKY ============ */
+  .nav-sticky {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 80;
+    padding: 14px 48px;
+    background: var(--cream);
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    transform: translateY(-100%);
+    transition: transform 320ms ease;
+  }
+  .nav-sticky.visible { transform: translateY(0); }
+  .nav-sticky-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .nav-sticky-logo img {
+    height: 32px;
+    width: auto;
+    filter: brightness(0);
+    opacity: 0.92;
+  }
+  .nav-sticky-logo .wordmark {
+    font-family: var(--font-display);
+    font-size: 22px;
+    color: var(--warm-dark);
+    letter-spacing: 0.01em;
+    margin-left: 4px;
+  }
+  .nav-sticky-links {
+    display: flex;
+    gap: 32px;
+    justify-self: center;
+    font-size: 14px;
+    color: var(--text-2);
+  }
+  .nav-sticky-links a {
+    transition: color 200ms ease;
+    padding: 6px 0;
+    position: relative;
+  }
+  .nav-sticky-links a::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 1px;
+    background: var(--sage);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 240ms ease;
+  }
+  .nav-sticky-links a:hover { color: var(--warm-dark); }
+  .nav-sticky-links a:hover::after { transform: scaleX(1); }
+  .nav-sticky-cta {
+    justify-self: end;
+  }
+
+  @media (max-width: 1024px) {
+    .nav-hero { padding: 24px 32px; }
+    .nav-hero-links { display: none; }
+    .nav-hero { grid-template-columns: auto 1fr auto; }
+    .nav-burger { display: flex; }
+    .nav-hero-logo { justify-content: center; }
+    .nav-hero-cta { display: none; }
+
+    .nav-sticky { padding: 12px 24px; grid-template-columns: 1fr auto; }
+    .nav-sticky-links { display: none; }
+  }
+  @media (max-width: 600px) {
+    .nav-hero { padding: 20px 20px; }
+  }
+
+  /* ============ HERO ============ */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+    color: var(--cream);
+    background: var(--warm-dark);
+  }
+  .hero-img {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .hero-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  .hero-img::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(42,37,32,0.18) 0%, rgba(42,37,32,0.05) 35%, rgba(42,37,32,0.55) 100%);
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 0 96px;
+  }
+  .hero-content-inner {
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+  .hero-headline {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(48px, 7.2vw, 96px);
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    color: var(--cream);
+    margin-bottom: 28px;
+    max-width: 1000px;
+  }
+  .hero-sub {
+    font-size: 17px;
+    line-height: 1.55;
+    color: rgba(253,251,247,0.85);
+    max-width: 540px;
+    margin-bottom: 36px;
+    font-weight: 400;
+  }
+  .hero-ctas {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 1024px) {
+    .hero-content { padding: 0 0 72px; }
+    .hero-content-inner { padding: 0 32px; }
+  }
+  @media (max-width: 600px) {
+    .hero-content { padding: 0 0 56px; }
+    .hero-content-inner { padding: 0 24px; }
+    .hero-headline { font-size: clamp(40px, 12vw, 56px); margin-bottom: 20px; }
+    .hero-sub { font-size: 15px; margin-bottom: 28px; }
+    .hero-ctas { flex-direction: column; align-items: stretch; }
+    .hero-ctas .btn { justify-content: center; }
+  }
+
+  /* ============ SECTION SCAFFOLD ============ */
+  section.band {
+    padding: 120px 0;
+    position: relative;
+  }
+  @media (max-width: 1024px) { section.band { padding: 80px 0; } }
+  @media (max-width: 600px) { section.band { padding: 64px 0; } }
+
+  .bg-cream { background: var(--cream); }
+  .bg-cream-warm { background: var(--cream-warm); }
+  .bg-warm-dark { background: var(--warm-dark); color: var(--cream); }
+  .bg-warm-dark .lede { color: rgba(253,251,247,0.72); }
+  .bg-warm-dark .h-display { color: var(--cream); }
+
+  .section-head {
+    text-align: center;
+    max-width: 760px;
+    margin: 0 auto 72px;
+  }
+  .section-head .eyebrow { display: block; margin-bottom: 20px; }
+  .section-head h2 {
+    font-size: clamp(36px, 4vw, 52px);
+    margin-bottom: 18px;
+  }
+  .section-head .lede { max-width: 560px; margin: 0 auto; }
+
+  /* ============ 03 PROBLEMA / SOLUCIÓN ============ */
+  .problema-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .problema-img {
+    aspect-ratio: 4 / 5;
+    background: var(--border);
+    overflow: hidden;
+    position: relative;
+  }
+  .problema-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .problema-img-caption {
+    position: absolute;
+    bottom: 16px; left: 16px;
+    background: rgba(42,37,32,0.7);
+    color: var(--cream);
+    padding: 6px 12px;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    border-radius: 1px;
+  }
+  .problema-text h2 {
+    font-size: clamp(36px, 3.6vw, 56px);
+    margin: 16px 0 24px;
+    max-width: 540px;
+  }
+  .problema-text .lede { margin-bottom: 32px; max-width: 480px; }
+  .tag-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+  }
+  .tag {
+    font-size: 13px;
+    background: var(--sage-soft);
+    color: var(--sage-dark);
+    padding: 8px 14px;
+    border-radius: 2px;
+    letter-spacing: 0.02em;
+    transition: background 200ms ease;
+    cursor: pointer;
+    border: 1px solid transparent;
+  }
+  .tag:hover { background: rgba(143,165,133,0.18); border-color: var(--sage-line); }
+
+  @media (max-width: 1024px) {
+    .problema-grid { grid-template-columns: 1fr; gap: 48px; }
+    .problema-img { max-width: 480px; aspect-ratio: 4/3; }
+  }
+
+  /* ============ 04 BANDA DE CONFIANZA ============ */
+  .trust-band {
+    background: var(--cream-warm);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 0;
+  }
+  .trust-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px 40px;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    color: var(--text-2);
+  }
+  .trust-row .dot {
+    display: inline-block;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--sage);
+    vertical-align: middle;
+  }
+  .trust-row .item {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .trust-row .item:not(:last-child)::after {
+    content: '';
+    display: inline-block;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--sage);
+    margin-left: 28px;
+  }
+  @media (max-width: 600px) {
+    .trust-row { flex-direction: column; gap: 14px; text-align: center; }
+    .trust-row .item:not(:last-child)::after { display: none; }
+  }
+
+  /* ============ 05 CANALES ============ */
+  .canales-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr 0.85fr;
+    gap: 24px;
+    align-items: stretch;
+  }
+  .canales-card {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    padding: 40px 36px 36px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 280ms ease, box-shadow 280ms ease;
+    position: relative;
+  }
+  .canales-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px -20px rgba(42,37,32,0.18);
+  }
+  .canales-card.featured {
+    border: 1.5px solid var(--whatsapp);
+    background: rgba(37,211,102,0.04);
+  }
+  .canales-card.online {
+    border: 1px dashed var(--border-2);
+  }
+  .canal-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 28px;
+    border: 1px solid var(--sage-line);
+    color: var(--sage-dark);
+  }
+  .canales-card.featured .canal-icon {
+    border-color: rgba(37,211,102,0.4);
+    background: rgba(37,211,102,0.08);
+    color: var(--whatsapp-dark);
+  }
+  .canales-card.online .canal-icon {
+    border-style: dashed;
+  }
+  .canal-icon svg { width: 22px; height: 22px; }
+  .canales-card h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 1.15;
+    margin-bottom: 14px;
+    color: var(--warm-dark);
+  }
+  .canales-card p {
+    font-size: 15px;
+    color: var(--text-2);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex-grow: 1;
+  }
+  .canal-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    margin-bottom: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+  .canales-card.featured .canal-meta { border-top-color: rgba(37,211,102,0.18); }
+  .canal-cta-row { margin-top: auto; }
+
+  @media (max-width: 1024px) {
+    .canales-grid { grid-template-columns: 1fr; gap: 16px; }
+  }
+
+  /* ============ 06 LAS MODISTAS ============ */
+  .modistas {
+    background: var(--warm-dark);
+    color: var(--cream);
+  }
+  .modistas-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    align-items: stretch;
+    min-height: 640px;
+  }
+  .modistas-img {
+    background: var(--warm-dark-2);
+    overflow: hidden;
+    position: relative;
+  }
+  .modistas-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .modistas-text {
+    padding: 96px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 620px;
+  }
+  .modistas-text .eyebrow { color: var(--sage); margin-bottom: 20px; display: block; }
+  .modistas-text h2 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(36px, 3.6vw, 52px);
+    line-height: 1.1;
+    color: var(--cream);
+    margin-bottom: 28px;
+  }
+  .modistas-text h2 em { font-style: italic; color: var(--terracotta); font-weight: 400; }
+  .modistas-text p {
+    font-size: 16px;
+    line-height: 1.65;
+    color: rgba(253,251,247,0.72);
+    margin-bottom: 28px;
+    max-width: 460px;
+  }
+  .modistas-link {
+    color: var(--terracotta);
+    border-bottom: 1px solid rgba(201,169,142,0.4);
+    padding-bottom: 4px;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    align-self: flex-start;
+    transition: border-color 220ms ease;
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .modistas-link:hover { border-bottom-color: var(--terracotta); }
+  .modistas-link svg { width: 14px; height: 14px; transition: transform 220ms ease; }
+  .modistas-link:hover svg { transform: translateX(4px); }
+
+  @media (max-width: 1024px) {
+    .modistas-grid { grid-template-columns: 1fr; min-height: 0; }
+    .modistas-img { aspect-ratio: 4/3; }
+    .modistas-text { padding: 64px 32px; }
+  }
+  @media (max-width: 600px) {
+    .modistas-text { padding: 48px 24px; }
+  }
+
+  /* ============ 07 ARREGLOS MÁS PEDIDOS ============ */
+  .arreglos-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+  .arreglo-card {
+    cursor: pointer;
+    transition: transform 280ms ease;
+    display: block;
+  }
+  .arreglo-card:hover { transform: translateY(-4px); }
+  .arreglo-img {
+    aspect-ratio: 1 / 1;
+    background: var(--border);
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 16px;
+  }
+  .arreglo-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 700ms ease;
+  }
+  .arreglo-card:hover .arreglo-img img { transform: scale(1.04); }
+  .arreglo-tag {
+    position: absolute;
+    top: 12px; left: 12px;
+    background: rgba(255,254,254,0.92);
+    backdrop-filter: blur(4px);
+    color: var(--warm-dark);
+    padding: 6px 10px;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .arreglo-name {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 20px;
+    margin-bottom: 4px;
+    color: var(--warm-dark);
+  }
+  .arreglo-price {
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
+  }
+  .arreglos-cta { text-align: center; }
+
+  @media (max-width: 1024px) {
+    .arreglos-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  }
+  @media (max-width: 600px) {
+    .arreglos-grid {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 16px;
+      margin: 0 -24px 40px;
+      padding: 0 24px;
+      scrollbar-width: none;
+    }
+    .arreglos-grid::-webkit-scrollbar { display: none; }
+    .arreglo-card {
+      flex: 0 0 70%;
+      scroll-snap-align: start;
+    }
+  }
+
+  /* ============ 08 ANTES / DESPUÉS + TESTIMONIOS ============ */
+  .resultados-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+  .resultado-card {
+    display: flex;
+    flex-direction: column;
+  }
+  .resultado-img {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    aspect-ratio: 4 / 5;
+    background: var(--border);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .resultado-half {
+    position: relative;
+    overflow: hidden;
+  }
+  .resultado-half img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .resultado-half:first-child { border-right: 1px solid rgba(255,254,254,0.5); }
+  .resultado-label {
+    position: absolute;
+    top: 12px;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream);
+    background: rgba(42,37,32,0.6);
+    padding: 4px 10px;
+    backdrop-filter: blur(4px);
+  }
+  .resultado-half:first-child .resultado-label { left: 12px; }
+  .resultado-half:last-child .resultado-label { right: 12px; }
+  .resultado-caption {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 17px;
+    color: var(--warm-dark);
+    margin-bottom: 16px;
+    line-height: 1.4;
+  }
+  .resultado-quote {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-2);
+    font-style: italic;
+    margin-bottom: 12px;
+    padding-left: 16px;
+    border-left: 1px solid var(--sage-line);
+  }
+  .resultado-author {
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 1024px) {
+    .resultados-grid {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 20px;
+      margin: 0 -24px;
+      padding: 0 24px 16px;
+      scrollbar-width: none;
+    }
+    .resultados-grid::-webkit-scrollbar { display: none; }
+    .resultado-card {
+      flex: 0 0 80%;
+      scroll-snap-align: start;
+    }
+  }
+
+  /* ============ 09 VISITA EL TALLER ============ */
+  .taller-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+  .map-wrap {
+    height: 420px;
+    background: var(--cream-warm);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    position: relative;
+  }
+  .map-wrap iframe {
+    width: 100%; height: 100%;
+    border: 0;
+    filter: grayscale(0.15) contrast(0.95);
+  }
+  .taller-info {
+    padding-top: 8px;
+  }
+  .taller-row {
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .taller-row:first-child { padding-top: 0; }
+  .taller-label {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .taller-value {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 22px;
+    color: var(--warm-dark);
+    line-height: 1.3;
+  }
+  .taller-value-sub {
+    font-size: 14px;
+    color: var(--text-2);
+    margin-top: 4px;
+  }
+  .taller-ctas {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+  .taller-callout {
+    margin-top: 56px;
+    background: var(--cream);
+    border-left: 2px solid var(--terracotta);
+    padding: 28px 32px;
+    font-size: 15px;
+    color: var(--text-2);
+    line-height: 1.6;
+  }
+  .taller-callout strong { color: var(--warm-dark); font-weight: 500; }
+  .taller-callout a {
+    color: var(--terracotta);
+    border-bottom: 1px solid rgba(201,169,142,0.4);
+    padding-bottom: 2px;
+    margin-left: 4px;
+    transition: border-color 200ms ease;
+  }
+  .taller-callout a:hover { border-bottom-color: var(--terracotta); }
+
+  @media (max-width: 1024px) {
+    .taller-grid { grid-template-columns: 1fr; gap: 40px; }
+    .map-wrap { height: 320px; }
+  }
+
+  /* ============ 10 FAQ ============ */
+  .faq-list {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .faq-item {
+    border-bottom: 1px solid var(--border);
+  }
+  .faq-q {
+    width: 100%;
+    text-align: left;
+    padding: 28px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 22px;
+    color: var(--warm-dark);
+    line-height: 1.3;
+    transition: color 200ms ease;
+  }
+  .faq-q:hover { color: var(--sage-dark); }
+  .faq-toggle {
+    flex-shrink: 0;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 1px solid var(--sage-line);
+    color: var(--sage);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 320ms ease, border-color 200ms ease;
+    position: relative;
+  }
+  .faq-toggle::before, .faq-toggle::after {
+    content: '';
+    position: absolute;
+    background: var(--sage);
+    transition: transform 300ms ease, opacity 300ms ease;
+  }
+  .faq-toggle::before {
+    width: 12px; height: 1px;
+  }
+  .faq-toggle::after {
+    width: 1px; height: 12px;
+  }
+  .faq-item.open .faq-toggle {
+    transform: rotate(135deg);
+    border-color: var(--sage);
+  }
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 360ms ease;
+  }
+  .faq-a-inner {
+    padding: 0 8px 28px;
+    font-size: 15px;
+    color: var(--text-2);
+    line-height: 1.7;
+    max-width: 640px;
+  }
+
+  /* ============ 11 CTA FINAL ============ */
+  .cta-final {
+    background: var(--warm-dark);
+    color: var(--cream);
+    padding: 140px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-final::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(143,165,133,0.10) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-final-inner {
+    position: relative;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+  .cta-final .eyebrow { display: block; margin-bottom: 24px; color: var(--sage); }
+  .cta-final h2 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1.05;
+    color: var(--cream);
+    margin-bottom: 24px;
+  }
+  .cta-final h2 em { font-style: italic; color: var(--sage); font-weight: 400; }
+  .cta-final p {
+    font-size: 17px;
+    color: rgba(253,251,247,0.6);
+    margin-bottom: 44px;
+  }
+  .cta-final-ctas {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  @media (max-width: 600px) {
+    .cta-final { padding: 100px 0; }
+    .cta-final-inner { padding: 0 24px; }
+    .cta-final-ctas { flex-direction: column; align-items: stretch; }
+    .cta-final-ctas .btn { justify-content: center; }
+  }
+
+  /* ============ 12 FOOTER ============ */
+  .footer {
+    background: var(--warm-dark-2);
+    color: rgba(253,251,247,0.62);
+    padding: 80px 0 32px;
+    font-size: 14px;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 56px;
+  }
+  .footer-col h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 20px;
+    color: var(--cream);
+    margin-bottom: 20px;
+  }
+  .footer-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .footer-col a {
+    color: rgba(253,251,247,0.62);
+    transition: color 200ms ease;
+  }
+  .footer-col a:hover { color: var(--cream); }
+  .footer-brand .footer-logo {
+    height: 38px;
+    margin-bottom: 20px;
+    opacity: 0.92;
+  }
+  .footer-brand p {
+    color: rgba(253,251,247,0.62);
+    line-height: 1.6;
+    margin-bottom: 6px;
+  }
+  .footer-brand .phone { color: var(--terracotta); margin-top: 12px; display: inline-block; }
+  .footer-bottom {
+    border-top: 1px solid rgba(232,226,213,0.12);
+    padding-top: 28px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 11px;
+    color: rgba(253,251,247,0.4);
+    letter-spacing: 0.04em;
+  }
+  .footer-bottom a {
+    color: rgba(253,251,247,0.4);
+    margin-left: 24px;
+    transition: color 200ms ease;
+  }
+  .footer-bottom a:hover { color: rgba(253,251,247,0.7); }
+
+  @media (max-width: 1024px) {
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+  }
+  @media (max-width: 600px) {
+    .footer { padding: 64px 0 28px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 40px; }
+  }
+
+  /* ============ STICKY MOBILE WHATSAPP ============ */
+  .sticky-wa {
+    display: none;
+    position: fixed;
+    bottom: calc(20px + env(safe-area-inset-bottom));
+    right: 20px;
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--whatsapp);
+    color: #fff;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(37,211,102,0.4);
+    z-index: 70;
+    transition: transform 220ms ease, background 220ms ease;
+  }
+  .sticky-wa:hover { background: var(--whatsapp-dark); transform: scale(1.05); }
+  .sticky-wa svg { width: 26px; height: 26px; }
+  @media (max-width: 1024px) { .sticky-wa { display: flex; } }
+
+  /* ============ POPUP ============ */
+  .popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(42,37,32,0.55);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 90;
+    padding: 24px;
+    opacity: 0;
+    transition: opacity 280ms ease;
+  }
+  .popup-overlay.visible { display: flex; opacity: 1; }
+  .popup {
+    background: var(--cream);
+    border: 1px solid var(--sage);
+    max-width: 440px;
+    width: 100%;
+    padding: 48px 40px 40px;
+    text-align: center;
+    position: relative;
+    transform: translateY(12px);
+    transition: transform 320ms ease;
+  }
+  .popup-overlay.visible .popup { transform: translateY(0); }
+  .popup-close {
+    position: absolute;
+    top: 14px; right: 14px;
+    width: 32px; height: 32px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 200ms ease;
+  }
+  .popup-close:hover { color: var(--warm-dark); }
+  .popup .eyebrow { display: block; margin-bottom: 16px; }
+  .popup h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 28px;
+    color: var(--warm-dark);
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  .popup p {
+    font-size: 15px;
+    color: var(--text-2);
+    line-height: 1.6;
+    margin-bottom: 28px;
+  }
+  @media (max-width: 600px) {
+    .popup { padding: 40px 28px 32px; }
+    .popup h3 { font-size: 24px; }
+  }
+
+  /* ============ MOBILE MENU ============ */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    background: var(--cream);
+    z-index: 100;
+    padding: 80px 32px 32px;
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    transform: translateX(100%);
+    transition: transform 360ms ease;
+  }
+  .mobile-menu.visible { display: flex; transform: translateX(0); }
+  .mobile-menu-close {
+    position: absolute;
+    top: 24px; right: 24px;
+    width: 44px; height: 44px;
+    color: var(--warm-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .mobile-menu a {
+    font-family: var(--font-display);
+    font-size: 32px;
+    color: var(--warm-dark);
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .mobile-menu a:last-child {
+    border-bottom: none;
+    margin-top: 24px;
+  }
+
+  /* ============ UTIL ============ */
+  .center { text-align: center; }
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 700ms ease, transform 700ms ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV STICKY (after hero) ============ -->
+<nav class="nav-sticky" id="navSticky" aria-label="Navegación principal">
+  <a class="nav-sticky-logo" href="#top" aria-label="Maniquí · Inicio">
+    <img src="assets/logo-white.png" alt="">
+    <span class="wordmark">Maniquí</span>
+  </a>
+  <div class="nav-sticky-links">
+    <a href="#canales">Cómo funciona</a>
+    <a href="#arreglos">Servicios</a>
+    <a href="#taller">El taller</a>
+    <a href="#modistas">Sobre nosotras</a>
+  </div>
+  <a class="btn btn-wa btn-pill nav-sticky-cta" href="https://wa.me/34603305566?text=Hola,%20necesito%20arreglar%20una%20prenda.%20%C2%BFMe%20pod%C3%A9is%20dar%20precio%3F">
+    <svg class="icon-wa" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.6 6.32A8 8 0 0 0 4.45 16.4L4 20l3.74-1A8 8 0 1 0 17.6 6.32Zm-5.6 12a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.22.58.6-2.16-.16-.25a6.64 6.64 0 1 1 5.38 2.9Zm3.62-4.96c-.2-.1-1.18-.58-1.36-.65s-.32-.1-.45.1-.5.65-.62.78-.23.15-.43.05a5.42 5.42 0 0 1-1.6-1 6 6 0 0 1-1.1-1.38c-.12-.2 0-.3.08-.4s.2-.23.3-.34a1.34 1.34 0 0 0 .2-.34.37.37 0 0 0 0-.35c-.05-.1-.45-1.08-.62-1.48s-.33-.34-.45-.34h-.38a.74.74 0 0 0-.54.25 2.25 2.25 0 0 0-.7 1.67 3.9 3.9 0 0 0 .82 2.08 8.94 8.94 0 0 0 3.42 3.02c.48.2.85.32 1.14.41a2.76 2.76 0 0 0 1.26.08 2.06 2.06 0 0 0 1.36-.96 1.69 1.69 0 0 0 .12-.96c-.05-.08-.18-.13-.38-.23Z"/></svg>
+    WhatsApp
+  </a>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <button class="mobile-menu-close" id="closeMenu" aria-label="Cerrar menú">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6L18 18M6 18L18 6"/></svg>
+  </button>
+  <a href="#canales" class="menu-link">Cómo funciona</a>
+  <a href="#arreglos" class="menu-link">Servicios</a>
+  <a href="#taller" class="menu-link">El taller</a>
+  <a href="#modistas" class="menu-link">Sobre nosotras</a>
+  <a href="https://wa.me/34603305566?text=Hola,%20necesito%20arreglar%20una%20prenda.%20%C2%BFMe%20pod%C3%A9is%20dar%20precio%3F" class="btn btn-wa" style="justify-content:center">
+    <svg class="icon-wa" viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A8 8 0 0 0 4.45 16.4L4 20l3.74-1A8 8 0 1 0 17.6 6.32Zm-5.6 12a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.22.58.6-2.16-.16-.25a6.64 6.64 0 1 1 5.38 2.9Zm3.62-4.96c-.2-.1-1.18-.58-1.36-.65s-.32-.1-.45.1-.5.65-.62.78-.23.15-.43.05a5.42 5.42 0 0 1-1.6-1 6 6 0 0 1-1.1-1.38c-.12-.2 0-.3.08-.4s.2-.23.3-.34a1.34 1.34 0 0 0 .2-.34.37.37 0 0 0 0-.35c-.05-.1-.45-1.08-.62-1.48s-.33-.34-.45-.34h-.38a.74.74 0 0 0-.54.25 2.25 2.25 0 0 0-.7 1.67 3.9 3.9 0 0 0 .82 2.08 8.94 8.94 0 0 0 3.42 3.02c.48.2.85.32 1.14.41a2.76 2.76 0 0 0 1.26.08 2.06 2.06 0 0 0 1.36-.96 1.69 1.69 0 0 0 .12-.96c-.05-.08-.18-.13-.38-.23Z"/></svg>
+    Escribir por WhatsApp
+  </a>
+</div>
+
+<main id="top">
+
+<!-- ============ 02 HERO ============ -->
+<header class="hero" data-screen-label="02 Hero">
+  <div class="hero-img">
+    <img src="assets/hero-image.png" alt="Modista colocando un alfiler en el hombro de una americana de lino en el taller">
+  </div>
+
+  <nav class="nav-hero" aria-label="Navegación hero">
+    <div class="nav-hero-links">
+      <a href="#top">Inicio</a>
+      <a href="#canales">Contratación</a>
+      <a href="#modistas">Sobre Nosotras</a>
+    </div>
+    <a class="nav-hero-logo" href="#top" aria-label="Maniquí">
+      <img src="assets/logo-white.png" alt="Maniquí">
+    </a>
+    <div class="nav-hero-cta">
+      <a class="btn btn-sage btn-pill" href="#taller">Pedir Cita</a>
+    </div>
+    <button class="nav-burger" id="openMenu" aria-label="Abrir menú">
+      <span></span>
+    </button>
+  </nav>
+
+  <div class="hero-content">
+    <div class="hero-content-inner">
+      <h1 class="hero-headline">Ajustes de Ropa<br>a tu medida</h1>
+      <p class="hero-sub">Arreglos profesionales con envío a domicilio o asesoramiento en nuestro taller</p>
+      <div class="hero-ctas">
+        <a class="btn btn-sage" href="#taller">Visitar Taller</a>
+        <a class="btn btn-outline-cream" href="#arreglos">Arreglos Online</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ 03 PROBLEMA · SOLUCIÓN ============ -->
+<section class="band bg-cream-warm" id="problema" data-screen-label="03 Problema-Solucion">
+  <div class="container">
+    <div class="problema-grid">
+      <div class="problema-img reveal">
+        <!-- Cliente sustituirá: antes/después de un bajo de pantalón -->
+        <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=1200&q=80" alt="Detalle de un bajo de pantalón siendo medido con cinta métrica" loading="lazy">
+        <span class="problema-img-caption">Antes / Después</span>
+      </div>
+      <div class="problema-text reveal">
+        <span class="eyebrow terracotta">Lo que más nos pedís</span>
+        <span class="sep-line" style="margin-top:20px;"></span>
+        <h2 class="h-display">Compraste online y la prenda no te queda como esperabas.</h2>
+        <p class="lede">Bajos largos, mangas que sobran, una cintura que pide ajuste. No hace falta devolver — un arreglo bien hecho lo cambia todo.</p>
+        <div class="tag-row">
+          <span class="tag">Bajos</span>
+          <span class="tag">Cintura</span>
+          <span class="tag">Mangas</span>
+          <span class="tag">Hombros</span>
+          <span class="tag">Camisas</span>
+        </div>
+        <a class="btn btn-wa" href="https://wa.me/34603305566?text=Hola,%20necesito%20arreglar%20una%20prenda.%20%C2%BFMe%20pod%C3%A9is%20dar%20precio%3F">
+          <svg class="icon-wa" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.6 6.32A8 8 0 0 0 4.45 16.4L4 20l3.74-1A8 8 0 1 0 17.6 6.32Zm-5.6 12a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.22.58.6-2.16-.16-.25a6.64 6.64 0 1 1 5.38 2.9Zm3.62-4.96c-.2-.1-1.18-.58-1.36-.65s-.32-.1-.45.1-.5.65-.62.78-.23.15-.43.05a5.42 5.42 0 0 1-1.6-1 6 6 0 0 1-1.1-1.38c-.12-.2 0-.3.08-.4s.2-.23.3-.34a1.34 1.34 0 0 0 .2-.34.37.37 0 0 0 0-.35c-.05-.1-.45-1.08-.62-1.48s-.33-.34-.45-.34h-.38a.74.74 0 0 0-.54.25 2.25 2.25 0 0 0-.7 1.67 3.9 3.9 0 0 0 .82 2.08 8.94 8.94 0 0 0 3.42 3.02c.48.2.85.32 1.14.41a2.76 2.76 0 0 0 1.26.08 2.06 2.06 0 0 0 1.36-.96 1.69 1.69 0 0 0 .12-.96c-.05-.08-.18-.13-.38-.23Z"/></svg>
+          Cuéntanos tu caso
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 BANDA DE CONFIANZA ============ -->
+<aside class="trust-band" data-screen-label="04 Banda de confianza">
+  <div class="container">
+    <div class="trust-row">
+      <span class="item">3 años en Marxalenes</span>
+      <span class="item">5 estrellas en Google</span>
+      <span class="item">Atención sin cita previa</span>
+      <span class="item">Presupuesto al momento</span>
+    </div>
+  </div>
+</aside>
+
+<!-- ============ 05 CÓMO TRABAJAMOS · 3 CANALES ============ -->
+<section class="band bg-cream" id="canales" data-screen-label="05 Canales">
+  <div class="container">
+    <header class="section-head reveal">
+      <span class="eyebrow">Cómo trabajamos</span>
+      <span class="sep-line" style="margin: 20px auto;"></span>
+      <h2 class="h-display">Tres formas de empezar.</h2>
+      <p class="lede">Tú eliges la que más te encaje.</p>
+    </header>
+
+    <div class="canales-grid">
+
+      <!-- Tarjeta 1 — WhatsApp (más ancha, destacada) -->
+      <article class="canales-card featured reveal">
+        <div class="canal-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A8 8 0 0 0 4.45 16.4L4 20l3.74-1A8 8 0 1 0 17.6 6.32Zm-5.6 12a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.22.58.6-2.16-.16-.25a6.64 6.64 0 1 1 5.38 2.9Zm3.62-4.96c-.2-.1-1.18-.58-1.36-.65s-.32-.1-.45.1-.5.65-.62.78-.23.15-.43.05a5.42 5.42 0 0 1-1.6-1 6 6 0 0 1-1.1-1.38c-.12-.2 0-.3.08-.4s.2-.23.3-.34a1.34 1.34 0 0 0 .2-.34.37.37 0 0 0 0-.35c-.05-.1-.45-1.08-.62-1.48s-.33-.34-.45-.34h-.38a.74.74 0 0 0-.54.25 2.25 2.25 0 0 0-.7 1.67 3.9 3.9 0 0 0 .82 2.08 8.94 8.94 0 0 0 3.42 3.02c.48.2.85.32 1.14.41a2.76 2.76 0 0 0 1.26.08 2.06 2.06 0 0 0 1.36-.96 1.69 1.69 0 0 0 .12-.96c-.05-.08-.18-.13-.38-.23Z"/></svg>
+        </div>
+        <h3>Pregunta por WhatsApp</h3>
+        <p>Cuéntanos qué necesitas y te decimos precio y tiempos en minutos. Sin compromiso.</p>
+        <div class="canal-meta">Respuesta &lt; 2h en horario de taller</div>
+        <div class="canal-cta-row">
+          <a class="btn btn-wa" href="https://wa.me/34603305566?text=Hola,%20necesito%20arreglar%20una%20prenda.%20%C2%BFMe%20pod%C3%A9is%20dar%20precio%3F">
+            <svg class="icon-wa" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.6 6.32A8 8 0 0 0 4.45 16.4L4 20l3.74-1A8 8 0 1 0 17.6 6.32Zm-5.6 12a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.22.58.6-2.16-.16-.25a6.64 6.64 0 1 1 5.38 2.9Zm3.62-4.96c-.2-.1-1.18-.58-1.36-.65s-.32-.1-.45.1-.5.65-.62.78-.23.15-.43.05a5.42 5.42 0 0 1-1.6-1 6 6 0 0 1-1.1-1.38c-.12-.2 0-.3.08-.4s.2-.23.3-.34a1.34 1.34 0 0 0 .2-.34.37.37 0 0 0 0-.35c-.05-.1-.45-1.08-.62-1.48s-.33-.34-.45-.34h-.38a.74.74 0 0 0-.54.25 2.25 2.25 0 0 0-.7 1.67 3.9 3.9 0 0 0 .82 2.08 8.94 8.94 0 0 0 3.42 3.02c.48.2.85.32 1.14.41a2.76 2.76 0 0 0 1.26.08 2.06 2.06 0 0 0 1.36-.96 1.69 1.69 0 0 0 .12-.96c-.05-.08-.18-.13-.38-.23Z"/></svg>
+            Escribir ahora
+          </a>
+        </div>
+      </article>
+
+      <!-- Tarjeta 2 — Taller -->
+      <article class="canales-card reveal">
+        <div class="canal-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        </div>
+        <h3>Pásate por el taller</h3>
+        <p>Sin cita previa. Las modistas valoran la prenda contigo y te dan precio en mano.</p>
+        <div class="canal-meta">Marxalenes · L–V 10–14 / 17–20</div>
+        <div class="canal-cta-row">
+          <a class="btn btn-dark" href="https://maps.google.com/?q=Avinguda+de+la+Constituci%C3%B3+94,+46009+Valencia">
+            Cómo llegar
+            <svg class="icon-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- Tarjeta 3 — Online -->
+      <article class="canales-card online reveal">
+        <div class="canal-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
+        </div>
+        <h3>Contrátalo online</h3>
+        <p>Elige el arreglo, envíanos la prenda y te la devolvemos lista. Para quien no puede venir.</p>
+        <div class="canal-meta">Envíos a toda España</div>
+        <div class="canal-cta-row">
+          <a class="btn-link" href="#arreglos">
+            Ver arreglos
+            <svg class="icon-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ 06 LAS MODISTAS ============ -->
+<section class="modistas" id="modistas" data-screen-label="06 Las modistas">
+  <div class="modistas-grid">
+    <div class="modistas-img reveal">
+      <!-- Cliente sustituirá: foto del equipo o detalle del taller -->
+      <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=1400&q=80" alt="Detalle del taller Maniquí: hilos, tijeras y prenda en proceso" loading="lazy">
+    </div>
+    <div class="modistas-text reveal">
+      <span class="eyebrow">El equipo</span>
+      <span class="sep-line" style="margin-top:20px; background: var(--sage);"></span>
+      <h2>Tres amigas. Un taller. <em>Cosen ellas mismas tu prenda.</em></h2>
+      <p>Sin intermediarios, sin protocolos. Las personas que valoran tu arreglo son las mismas que lo cosen.</p>
+      <a class="modistas-link" href="#">
+        Conoce su historia
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 07 ARREGLOS MÁS PEDIDOS ============ -->
+<section class="band bg-cream" id="arreglos" data-screen-label="07 Arreglos">
+  <div class="container">
+    <header class="section-head reveal">
+      <span class="eyebrow">Catálogo</span>
+      <span class="sep-line" style="margin: 20px auto;"></span>
+      <h2 class="h-display">Lo que más arreglamos.</h2>
+      <p class="lede">Los servicios más habituales, con precio orientativo. Si tu prenda es especial, pregunta antes.</p>
+    </header>
+
+    <div class="arreglos-grid">
+
+      <a class="arreglo-card reveal" href="#">
+        <div class="arreglo-img">
+          <img src="https://images.unsplash.com/photo-1605518216938-7c31b7b14ad0?auto=format&fit=crop&w=800&q=80" alt="Bajo de pantalón en proceso" loading="lazy">
+          <span class="arreglo-tag">Bajo pantalón</span>
+        </div>
+        <h3 class="arreglo-name">Bajo de pantalón</h3>
+        <p class="arreglo-price">desde 12 €</p>
+      </a>
+
+      <a class="arreglo-card reveal" href="#">
+        <div class="arreglo-img">
+          <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=800&q=80" alt="Ajuste de cintura sobre prenda" loading="lazy">
+          <span class="arreglo-tag">Cintura</span>
+        </div>
+        <h3 class="arreglo-name">Ajuste de cintura</h3>
+        <p class="arreglo-price">desde 18 €</p>
+      </a>
+
+      <a class="arreglo-card reveal" href="#">
+        <div class="arreglo-img">
+          <img src="https://images.unsplash.com/photo-1581090700227-1e37b190418e?auto=format&fit=crop&w=800&q=80" alt="Manga de camisa siendo medida" loading="lazy">
+          <span class="arreglo-tag">Manga</span>
+        </div>
+        <h3 class="arreglo-name">Mangas camisa</h3>
+        <p class="arreglo-price">desde 14 €</p>
+      </a>
+
+      <a class="arreglo-card reveal" href="#">
+        <div class="arreglo-img">
+          <img src="https://images.unsplash.com/photo-1551803091-e20673f15770?auto=format&fit=crop&w=800&q=80" alt="Hombros de chaqueta en revisión" loading="lazy">
+          <span class="arreglo-tag">Hombros</span>
+        </div>
+        <h3 class="arreglo-name">Hombros chaqueta</h3>
+        <p class="arreglo-price">desde 25 €</p>
+      </a>
+
+    </div>
+
+    <div class="arreglos-cta">
+      <a class="btn-link" href="#">
+        Ver todos los arreglos
+        <svg class="icon-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 08 ANTES / DESPUÉS + TESTIMONIOS ============ -->
+<section class="band bg-cream-warm" id="resultados" data-screen-label="08 Resultados">
+  <div class="container">
+    <header class="section-head reveal">
+      <span class="eyebrow">Resultados reales</span>
+      <span class="sep-line" style="margin: 20px auto;"></span>
+      <h2 class="h-display">La misma prenda, otra sensación.</h2>
+    </header>
+
+    <div class="resultados-grid">
+
+      <article class="resultado-card reveal">
+        <div class="resultado-img">
+          <div class="resultado-half">
+            <img src="https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=600&q=80" alt="Pantalón antes del arreglo" loading="lazy">
+            <span class="resultado-label">Antes</span>
+          </div>
+          <div class="resultado-half">
+            <img src="https://images.unsplash.com/photo-1473966968600-fa801b3a6175?auto=format&fit=crop&w=600&q=80" alt="Pantalón después del arreglo" loading="lazy">
+            <span class="resultado-label">Después</span>
+          </div>
+        </div>
+        <p class="resultado-caption">Pantalón Zara — bajo en 48h</p>
+        <p class="resultado-quote">Lo recogí el viernes. Es como si fuera otra prenda.</p>
+        <p class="resultado-author">M.G. · Valencia</p>
+      </article>
+
+      <article class="resultado-card reveal">
+        <div class="resultado-img">
+          <div class="resultado-half">
+            <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=600&q=80" alt="Vestido antes del arreglo" loading="lazy">
+            <span class="resultado-label">Antes</span>
+          </div>
+          <div class="resultado-half">
+            <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=600&q=80" alt="Vestido después del arreglo" loading="lazy">
+            <span class="resultado-label">Después</span>
+          </div>
+        </div>
+        <p class="resultado-caption">Vestido Mango — ajuste de cintura</p>
+        <p class="resultado-quote">Pregunté por WhatsApp y al día siguiente lo tenía listo.</p>
+        <p class="resultado-author">L.M. · Russafa</p>
+      </article>
+
+      <article class="resultado-card reveal">
+        <div class="resultado-img">
+          <div class="resultado-half">
+            <img src="https://images.unsplash.com/photo-1591047139756-eb1903a4226a?auto=format&fit=crop&w=600&q=80" alt="Americana antes del arreglo" loading="lazy">
+            <span class="resultado-label">Antes</span>
+          </div>
+          <div class="resultado-half">
+            <img src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=600&q=80" alt="Americana después del arreglo" loading="lazy">
+            <span class="resultado-label">Después</span>
+          </div>
+        </div>
+        <p class="resultado-caption">Americana COS — hombros recolocados</p>
+        <p class="resultado-quote">Vine sin cita y me atendieron al momento.</p>
+        <p class="resultado-author">A.F. · Benimaclet</p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ 09 VISITA EL TALLER ============ -->
+<section class="band bg-cream" id="taller" data-screen-label="09 Visita el taller">
+  <div class="container">
+    <header class="section-head reveal" style="text-align: left; margin-left: 0;">
+      <span class="eyebrow">El taller</span>
+      <span class="sep-line" style="margin: 20px 0;"></span>
+      <h2 class="h-display">Te esperamos en Marxalenes.</h2>
+      <p class="lede">Atención sin cita previa en horario de taller. Llega cuando puedas.</p>
+    </header>
+
+    <div class="taller-grid">
+      <div class="map-wrap reveal">
+        <iframe
+          src="https://www.google.com/maps?q=Avinguda+de+la+Constituci%C3%B3+94,+46009+Valencia&z=15&output=embed"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Mapa de Maniquí en Avinguda de la Constitució 94, Valencia"></iframe>
+      </div>
+
+      <div class="taller-info reveal">
+        <div class="taller-row">
+          <div class="taller-label">Dirección</div>
+          <div class="taller-value">Avinguda de la Constitució 94</div>
+          <div class="taller-value-sub">46009 Valencia · La Saïdia</div>
+        </div>
+        <div class="taller-row">
+          <div class="taller-label">Horario</div>
+          <div class="taller-value">Lunes a Viernes</div>
+          <div class="taller-value-sub">10:00–14:00 · 17:00–20:00</div>
+        </div>
+        <div class="taller-row">
+          <div class="taller-label">Contacto directo</div>
+          <div class="taller-value">+34 603 30 55 66</div>
+          <div class="taller-value-sub">hola@maniquicreaciones.com</div>
+        </div>
+
+        <div class="taller-ctas">
+          <a class="btn btn-dark" href="https://maps.google.com/?q=Avinguda+de+la+Constituci%C3%B3+94,+46009+Valencia">
+            Cómo llegar
+          </a>
+          <a class="btn btn-wa" href="https://wa.me/34603305566?text=Hola,%20necesito%20arreglar%20una%20prenda.%20%C2%BFMe%20pod%C3%A9is%20dar%20precio%3F">
+            <svg class="icon-wa" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.6 6.32A8 8 0 0 0 4.45 16.4L4 20l3.74-1A8 8 0 1 0 17.6 6.32Zm-5.6 12a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.22.58.6-2.16-.16-.25a6.64 6.64 0 1 1 5.38 2.9Zm3.62-4.96c-.2-.1-1.18-.58-1.36-.65s-.32-.1-.45.1-.5.65-.62.78-.23.15-.43.05a5.42 5.42 0 0 1-1.6-1 6 6 0 0 1-1.1-1.38c-.12-.2 0-.3.08-.4s.2-.23.3-.34a1.34 1.34 0 0 0 .2-.34.37.37 0 0 0 0-.35c-.05-.1-.45-1.08-.62-1.48s-.33-.34-.45-.34h-.38a.74.74 0 0 0-.54.25 2.25 2.25 0 0 0-.7 1.67 3.9 3.9 0 0 0 .82 2.08 8.94 8.94 0 0 0 3.42 3.02c.48.2.85.32 1.14.41a2.76 2.76 0 0 0 1.26.08 2.06 2.06 0 0 0 1.36-.96 1.69 1.69 0 0 0 .12-.96c-.05-.08-.18-.13-.38-.23Z"/></svg>
+            WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="taller-callout reveal">
+      <strong>¿Proyecto complejo, varias prendas o asesoría detallada?</strong>
+      Reserva una franja garantizada para tu consulta.
+      <a href="#">Agendar consulta →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 10 FAQ ============ -->
+<section class="band bg-cream-warm" id="faq" data-screen-label="10 FAQ">
+  <div class="container">
+    <header class="section-head reveal">
+      <span class="eyebrow">Preguntas frecuentes</span>
+      <span class="sep-line" style="margin: 20px auto;"></span>
+      <h2 class="h-display">Lo que más nos preguntáis.</h2>
+    </header>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          ¿Hace falta cita previa?
+          <span class="faq-toggle" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">No para arreglos estándar. Atendemos por orden de llegada en horario de taller. Para proyectos con varias prendas o asesoría detallada, mejor agenda una franja para asegurar tiempo.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          ¿Cuánto tarda un arreglo?
+          <span class="faq-toggle" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Bajos sencillos, 48–72 horas. Ajustes más complejos, 5 a 7 días. Te damos plazo exacto el día que dejas la prenda.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          ¿Cuánto cuesta un arreglo?
+          <span class="faq-toggle" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Desde 12€ los bajos, hasta 25€ los más complejos. Cada servicio tiene precio orientativo en la web — el presupuesto cerrado se da al ver la prenda.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          ¿Y si no estoy en Valencia?
+          <span class="faq-toggle" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Tenemos servicio online: nos envías la prenda por mensajería y te la devolvemos lista. Disponible en toda España.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          ¿Trabajáis con ropa que no he comprado en tienda?
+          <span class="faq-toggle" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Sí. Vintage, segunda mano, prendas de archivo familiar. Lo único que no tocamos es piel auténtica y cuero.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          ¿Y si el arreglo no me convence?
+          <span class="faq-toggle" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Última prueba antes de cobrar. Si algo no cae como debe, lo retocamos en el momento sin coste.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11 CTA FINAL ============ -->
+<section class="cta-final" data-screen-label="11 CTA Final">
+  <div class="cta-final-inner">
+    <span class="eyebrow">Última parada</span>
+    <span class="sep-line" style="margin: 20px auto;"></span>
+    <h2>¿Tienes una prenda que necesita <em>un retoque?</em></h2>
+    <p>Cuéntanoslo o pásate. Lo demás lo hacemos nosotras.</p>
+    <div class="cta-final-ctas">
+      <a class="btn btn-wa" href="https://wa.me/34603305566?text=Hola,%20necesito%20arreglar%20una%20prenda.%20%C2%BFMe%20pod%C3%A9is%20dar%20precio%3F">
+        <svg class="icon-wa" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.6 6.32A8 8 0 0 0 4.45 16.4L4 20l3.74-1A8 8 0 1 0 17.6 6.32Zm-5.6 12a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.22.58.6-2.16-.16-.25a6.64 6.64 0 1 1 5.38 2.9Zm3.62-4.96c-.2-.1-1.18-.58-1.36-.65s-.32-.1-.45.1-.5.65-.62.78-.23.15-.43.05a5.42 5.42 0 0 1-1.6-1 6 6 0 0 1-1.1-1.38c-.12-.2 0-.3.08-.4s.2-.23.3-.34a1.34 1.34 0 0 0 .2-.34.37.37 0 0 0 0-.35c-.05-.1-.45-1.08-.62-1.48s-.33-.34-.45-.34h-.38a.74.74 0 0 0-.54.25 2.25 2.25 0 0 0-.7 1.67 3.9 3.9 0 0 0 .82 2.08 8.94 8.94 0 0 0 3.42 3.02c.48.2.85.32 1.14.41a2.76 2.76 0 0 0 1.26.08 2.06 2.06 0 0 0 1.36-.96 1.69 1.69 0 0 0 .12-.96c-.05-.08-.18-.13-.38-.23Z"/></svg>
+        Escribir por WhatsApp
+      </a>
+      <a class="btn btn-outline-cream" href="#taller">Ven al taller</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ 12 FOOTER ============ -->
+<footer class="footer" data-screen-label="12 Footer">
+  <div class="container">
+    <div class="footer-grid">
+
+      <div class="footer-col footer-brand">
+        <img class="footer-logo" src="assets/logo-white.png" alt="Maniquí">
+        <p>Arreglos de ropa en Valencia.</p>
+        <p>Avinguda de la Constitució 94, 46009</p>
+        <a class="phone" href="tel:+34603305566">+34 603 30 55 66</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Servicios</h4>
+        <ul>
+          <li><a href="#">Bajos</a></li>
+          <li><a href="#">Cintura</a></li>
+          <li><a href="#">Mangas</a></li>
+          <li><a href="#">Hombros</a></li>
+          <li><a href="#">Ver todos →</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Información</h4>
+        <ul>
+          <li><a href="#canales">Cómo funciona</a></li>
+          <li><a href="#modistas">Sobre nosotras</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#">Blog</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Síguenos</h4>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="https://wa.me/34603305566">WhatsApp</a></li>
+          <li><a href="#">TikTok</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 Maniquí Creaciones · Todos los derechos reservados</span>
+      <span>
+        <a href="#">Aviso legal</a>
+        <a href="#">Privacidad</a>
+        <a href="#">Cookies</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ STICKY MOBILE WHATSAPP ============ -->
+<a class="sticky-wa" href="https://wa.me/34603305566?text=Hola,%20necesito%20arreglar%20una%20prenda.%20%C2%BFMe%20pod%C3%A9is%20dar%20precio%3F" aria-label="Escribir por WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.6 6.32A8 8 0 0 0 4.45 16.4L4 20l3.74-1A8 8 0 1 0 17.6 6.32Zm-5.6 12a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.22.58.6-2.16-.16-.25a6.64 6.64 0 1 1 5.38 2.9Zm3.62-4.96c-.2-.1-1.18-.58-1.36-.65s-.32-.1-.45.1-.5.65-.62.78-.23.15-.43.05a5.42 5.42 0 0 1-1.6-1 6 6 0 0 1-1.1-1.38c-.12-.2 0-.3.08-.4s.2-.23.3-.34a1.34 1.34 0 0 0 .2-.34.37.37 0 0 0 0-.35c-.05-.1-.45-1.08-.62-1.48s-.33-.34-.45-.34h-.38a.74.74 0 0 0-.54.25 2.25 2.25 0 0 0-.7 1.67 3.9 3.9 0 0 0 .82 2.08 8.94 8.94 0 0 0 3.42 3.02c.48.2.85.32 1.14.41a2.76 2.76 0 0 0 1.26.08 2.06 2.06 0 0 0 1.36-.96 1.69 1.69 0 0 0 .12-.96c-.05-.08-.18-.13-.38-.23Z"/></svg>
+</a>
+
+<!-- ============ POPUP ============ -->
+<div class="popup-overlay" id="popup" role="dialog" aria-modal="true" aria-labelledby="popup-title">
+  <div class="popup">
+    <button class="popup-close" id="popupClose" aria-label="Cerrar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6L18 18M6 18L18 6"/></svg>
+    </button>
+    <span class="eyebrow">Estamos al otro lado</span>
+    <span class="sep-line" style="margin: 16px auto;"></span>
+    <h3 id="popup-title">¿Tienes alguna duda con tu prenda?</h3>
+    <p>Te ayudamos en un momento. Sin compromiso.</p>
+    <a class="btn btn-wa" href="https://wa.me/34603305566?text=Hola,%20necesito%20arreglar%20una%20prenda.%20%C2%BFMe%20pod%C3%A9is%20dar%20precio%3F" style="justify-content:center; width:100%;">
+      <svg class="icon-wa" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.6 6.32A8 8 0 0 0 4.45 16.4L4 20l3.74-1A8 8 0 1 0 17.6 6.32Zm-5.6 12a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.22.58.6-2.16-.16-.25a6.64 6.64 0 1 1 5.38 2.9Zm3.62-4.96c-.2-.1-1.18-.58-1.36-.65s-.32-.1-.45.1-.5.65-.62.78-.23.15-.43.05a5.42 5.42 0 0 1-1.6-1 6 6 0 0 1-1.1-1.38c-.12-.2 0-.3.08-.4s.2-.23.3-.34a1.34 1.34 0 0 0 .2-.34.37.37 0 0 0 0-.35c-.05-.1-.45-1.08-.62-1.48s-.33-.34-.45-.34h-.38a.74.74 0 0 0-.54.25 2.25 2.25 0 0 0-.7 1.67 3.9 3.9 0 0 0 .82 2.08 8.94 8.94 0 0 0 3.42 3.02c.48.2.85.32 1.14.41a2.76 2.76 0 0 0 1.26.08 2.06 2.06 0 0 0 1.36-.96 1.69 1.69 0 0 0 .12-.96c-.05-.08-.18-.13-.38-.23Z"/></svg>
+      Escribir por WhatsApp
+    </a>
+  </div>
+</div>
+
+<script>
+  /* ===== Sticky nav appear after hero ===== */
+  const navSticky = document.getElementById('navSticky');
+  const hero = document.querySelector('.hero');
+  const onScroll = () => {
+    const heroBottom = hero.getBoundingClientRect().bottom;
+    if (heroBottom < 60) navSticky.classList.add('visible');
+    else navSticky.classList.remove('visible');
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ===== Mobile menu ===== */
+  const mobileMenu = document.getElementById('mobileMenu');
+  document.getElementById('openMenu').addEventListener('click', () => {
+    mobileMenu.classList.add('visible');
+    mobileMenu.setAttribute('aria-hidden', 'false');
+  });
+  document.getElementById('closeMenu').addEventListener('click', () => {
+    mobileMenu.classList.remove('visible');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+  });
+  mobileMenu.querySelectorAll('.menu-link').forEach(a => {
+    a.addEventListener('click', () => {
+      mobileMenu.classList.remove('visible');
+      mobileMenu.setAttribute('aria-hidden', 'true');
+    });
+  });
+
+  /* ===== FAQ accordion ===== */
+  document.querySelectorAll('.faq-item').forEach(item => {
+    const q = item.querySelector('.faq-q');
+    const a = item.querySelector('.faq-a');
+    q.addEventListener('click', () => {
+      const open = item.classList.toggle('open');
+      q.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open) {
+        a.style.maxHeight = a.scrollHeight + 'px';
+      } else {
+        a.style.maxHeight = '0px';
+      }
+    });
+  });
+
+  /* ===== Scroll reveal ===== */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* ===== Popup: exit-intent (desktop) / scroll+time (mobile) ===== */
+  const popup = document.getElementById('popup');
+  const popupClose = document.getElementById('popupClose');
+  let popupShown = false;
+  const showPopup = () => {
+    if (popupShown) return;
+    popupShown = true;
+    popup.classList.add('visible');
+  };
+  popupClose.addEventListener('click', () => popup.classList.remove('visible'));
+  popup.addEventListener('click', (e) => {
+    if (e.target === popup) popup.classList.remove('visible');
+  });
+
+  const isMobile = window.matchMedia('(max-width: 1024px)').matches;
+  if (!isMobile) {
+    document.addEventListener('mouseout', (e) => {
+      if (!e.relatedTarget && e.clientY < 10) showPopup();
+    });
+  } else {
+    let timeReached = false;
+    setTimeout(() => { timeReached = true; }, 60000);
+    window.addEventListener('scroll', () => {
+      const scrollPct = (window.scrollY + window.innerHeight) / document.body.scrollHeight;
+      if (timeReached && scrollPct > 0.5) showPopup();
+    }, { passive: true });
+  }
+
+  /* ===== Prevent body scroll when popup/menu open ===== */
+  const observer = new MutationObserver(() => {
+    const open = popup.classList.contains('visible') || mobileMenu.classList.contains('visible');
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  observer.observe(popup, { attributes: true, attributeFilter: ['class'] });
+  observer.observe(mobileMenu, { attributes: true, attributeFilter: ['class'] });
+</script>
+
+</body>
+</html>
