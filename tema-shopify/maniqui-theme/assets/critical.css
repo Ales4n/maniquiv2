@@ -1,0 +1,174 @@
+/* Maniquí — Critical CSS — 2026-05-04 */
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  font-family: var(--font-body);
+  background-color: var(--cream);
+  color: var(--warm-dark);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+input, textarea, select { font: inherit; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+a { color: inherit; text-decoration: none; }
+
+p, h1, h2, h3, h4, h5, h6 { overflow-wrap: break-word; }
+p { text-wrap: pretty; }
+p:empty { display: none; }
+
+::selection { background: var(--sage); color: var(--cream); }
+
+/* ─── Accesibilidad ─── */
+.skip-to-content {
+  position: absolute;
+  top: -100%;
+  left: 16px;
+  z-index: 9999;
+  padding: 12px 24px;
+  background: var(--warm-dark);
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 0 0 8px 8px;
+  transition: top var(--tr-fast);
+}
+.skip-to-content:focus { top: 0; }
+
+/* ─── Container ─── */
+.maniqui-container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+/* ─── Eyebrow ─── */
+.maniqui-eyebrow {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--sage);
+}
+.maniqui-eyebrow--terracotta { color: var(--terracotta); }
+.maniqui-eyebrow--cream { color: rgba(253, 251, 247, 0.7); }
+
+/* ─── Línea decorativa sage 40px × 1px ─── */
+.maniqui-sep-line {
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: var(--sage);
+  opacity: 0.6;
+}
+
+/* ─── Sistema de botones ─── */
+.maniqui-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    transform var(--tr-fast),
+    background var(--tr-fast),
+    color var(--tr-fast),
+    border-color var(--tr-fast);
+  min-height: 44px;
+  white-space: nowrap;
+  text-decoration: none;
+  line-height: 1;
+}
+.maniqui-btn:hover { transform: translateY(-2px); }
+
+/* WhatsApp */
+.maniqui-btn--wa {
+  background: var(--whatsapp);
+  color: #fff;
+  border-color: var(--whatsapp);
+}
+.maniqui-btn--wa:hover {
+  background: var(--whatsapp-dark);
+  border-color: var(--whatsapp-dark);
+}
+
+/* Oscuro (sobre fondos claros) */
+.maniqui-btn--dark {
+  background: var(--warm-dark);
+  color: var(--cream);
+  border-color: var(--warm-dark);
+}
+.maniqui-btn--dark:hover { background: #1d1916; }
+
+/* Outline crema (sobre fondos oscuros) */
+.maniqui-btn--outline-cream {
+  background: transparent;
+  color: var(--cream);
+  border-color: rgba(253, 251, 247, 0.7);
+}
+.maniqui-btn--outline-cream:hover {
+  background: rgba(253, 251, 247, 0.08);
+  border-color: var(--cream);
+}
+
+/* Outline oscuro (sobre fondos claros) */
+.maniqui-btn--outline-dark {
+  background: transparent;
+  color: var(--warm-dark);
+  border-color: var(--border-2);
+}
+.maniqui-btn--outline-dark:hover { border-color: var(--warm-dark); }
+
+/* Link (texto con underline) */
+.maniqui-btn--link {
+  background: transparent;
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid var(--sage-line);
+  padding: 4px 0;
+  min-height: auto;
+  color: var(--sage-dark);
+  font-size: 14px;
+  gap: 6px;
+}
+.maniqui-btn--link:hover {
+  transform: none;
+  border-bottom-color: var(--sage);
+}
+.maniqui-btn--link--terracotta {
+  color: var(--terracotta);
+  border-bottom-color: rgba(201, 169, 142, 0.4);
+}
+.maniqui-btn--link--terracotta:hover { border-bottom-color: var(--terracotta); }
+
+/* ─── Icono WhatsApp SVG inline ─── */
+.maniqui-icon-wa {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  fill: currentColor;
+}

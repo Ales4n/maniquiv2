@@ -1,0 +1,56 @@
+{
+  "general": {
+    "accessibility": {
+      "skip_to_content": "Saltar al contenido",
+      "close": "Cerrar",
+      "open_menu": "Abrir menú",
+      "close_menu": "Cerrar menú"
+    },
+    "meta": {
+      "tags": "Con etiqueta \"{{ tags }}\"",
+      "page": "Página {{ page }}"
+    }
+  },
+  "404": {
+    "title": "Página no encontrada",
+    "not_found": "Lo sentimos, la página que buscas no existe.",
+    "back_to_shopping": "Volver al inicio"
+  },
+  "cart": {
+    "title": "Carrito",
+    "checkout": "Finalizar compra",
+    "update": "Actualizar",
+    "remove": "Eliminar",
+    "empty": "Tu carrito está vacío"
+  },
+  "search": {
+    "title": "Búsqueda",
+    "placeholder": "Buscar servicios...",
+    "submit": "Buscar",
+    "no_results_html": "No se encontraron resultados para \"{{ terms }}\"",
+    "results_for_html": "{{ count }} resultados para \"{{ terms }}\""
+  },
+  "password": {
+    "title": "Esta tienda es privada",
+    "password": "Contraseña",
+    "enter": "Acceder"
+  },
+  "customers": {
+    "login": {
+      "title": "Acceder",
+      "email": "Email",
+      "password": "Contraseña",
+      "submit": "Entrar"
+    }
+  },
+  "products": {
+    "add_to_cart": "Contratar",
+    "sold_out": "No disponible",
+    "from_price_html": "Desde {{ price }}"
+  },
+  "sections": {
+    "faq": {
+      "title": "Preguntas frecuentes"
+    }
+  }
+}

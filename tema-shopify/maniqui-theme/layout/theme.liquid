@@ -1,0 +1,96 @@
+{% comment %} MANIQUI: Layout principal — 2026-05-04 {% endcomment %}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    {% comment %} Variables CSS Maniquí — inline en critical path {% endcomment %}
+    {% render 'css-variables' %}
+
+    {% comment %} Preconnect Google Fonts {% endcomment %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    {% comment %}
+      Carga no bloqueante de fuentes.
+      Cormorant Garamond 400 es la fuente del LCP (hero headline).
+      Estrategia: preload del stylesheet + media=print swap trick.
+    {% endcomment %}
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Red+Hat+Text:wght@400;500;600&display=swap"
+    >
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Red+Hat+Text:wght@400;500;600&display=swap"
+      media="print"
+      onload="this.media='all'"
+    >
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Red+Hat+Text:wght@400;500;600&display=swap"
+      >
+    </noscript>
+
+    {% comment %} CSS crítico — reset + tokens globales — preloaded {% endcomment %}
+    {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
+
+    {% comment %} Meta tags, OG, canonical, title {% endcomment %}
+    {% render 'meta-tags' %}
+
+    {% comment %} MANIQUI: Schema LocalBusiness — solo home — 2026-05-04 {% endcomment %}
+    {%- if request.page_type == 'index' -%}
+      <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "name": "Maniquí Creaciones",
+          "description": "Taller de arreglos de ropa en Valencia. Tres modistas profesionales con taller propio en Marxalenes.",
+          "url": "https://maniquicreaciones.com",
+          "telephone": "+34603305566",
+          "email": "hola@maniquicreaciones.com",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Avinguda de la Constitució, 94",
+            "addressLocality": "Valencia",
+            "postalCode": "46009",
+            "addressRegion": "Comunidad Valenciana",
+            "addressCountry": "ES"
+          },
+          "openingHoursSpecification": [
+            {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+              "opens": "10:00",
+              "closes": "14:00"
+            },
+            {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+              "opens": "17:00",
+              "closes": "20:00"
+            }
+          ],
+          "priceRange": "€€",
+          "currenciesAccepted": "EUR"
+        }
+      </script>
+    {%- endif -%}
+
+    {{ content_for_header }}
+  </head>
+
+  <body>
+    <a class="skip-to-content" href="#MainContent">Saltar al contenido</a>
+
+    {% sections 'header-group' %}
+
+    <main id="MainContent">
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+
+    {% comment %} MANIQUI: Botón sticky WhatsApp — se implementa en sprint 1 — 2026-05-04 {% endcomment %}
+  </body>
+</html>

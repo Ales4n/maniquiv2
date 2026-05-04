@@ -1,0 +1,65 @@
+{% comment %} MANIQUI: Variables CSS globales — paleta v3.2 — 2026-05-04 {% endcomment %}
+{% style %}
+  :root {
+    /* Tipografía */
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Red Hat Text', system-ui, -apple-system, sans-serif;
+
+    /* Paleta principal */
+    --sage: #8FA585;
+    --sage-dark: #738B68;
+    --sage-soft: rgba(143, 165, 133, 0.10);
+    --sage-line: rgba(143, 165, 133, 0.35);
+
+    /* Fondos */
+    --cream: #FFFEFE;
+    --cream-warm: #FDFBF7;
+
+    /* Oscuros */
+    --warm-dark: #2A2520;
+    --warm-dark-2: #3A332C;
+
+    /* Texto */
+    --text-2: #6B6660;
+    --text-muted: #948B7E;
+
+    /* Bordes */
+    --border: #E8E2D5;
+    --border-2: #D4CDB8;
+
+    /* Acentos */
+    --terracotta: #C9A98E;
+    --whatsapp: #25D366;
+    --whatsapp-dark: #128C7E;
+
+    /* Espaciado — base 8px */
+    --sp-8: 8px;
+    --sp-16: 16px;
+    --sp-24: 24px;
+    --sp-32: 32px;
+    --sp-48: 48px;
+    --sp-64: 64px;
+    --sp-80: 80px;
+    --sp-120: 120px;
+
+    /* Layout */
+    --container-max: 1280px;
+    --container-padding: 48px;
+    --section-v: var(--sp-120);
+
+    /* Transiciones */
+    --tr-fast: 200ms ease;
+    --tr-base: 320ms ease;
+  }
+
+  @media (max-width: 1024px) {
+    :root { --section-v: var(--sp-80); }
+  }
+
+  @media (max-width: 600px) {
+    :root {
+      --container-padding: 24px;
+      --section-v: var(--sp-64);
+    }
+  }
+{% endstyle %}

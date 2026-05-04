@@ -1,0 +1,49 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Maniquí",
+    "theme_version": "1.0.0",
+    "theme_author": "Maniquí Creaciones",
+    "theme_documentation_url": "https://maniquicreaciones.com",
+    "theme_support_url": "https://maniquicreaciones.com"
+  },
+  {
+    "name": "General",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      }
+    ]
+  },
+  {
+    "name": "WhatsApp",
+    "settings": [
+      {
+        "type": "text",
+        "id": "whatsapp_number",
+        "label": "Número de WhatsApp",
+        "info": "Formato internacional sin espacios, ej: +34603305566",
+        "default": "+34603305566"
+      },
+      {
+        "type": "text",
+        "id": "whatsapp_message",
+        "label": "Mensaje pre-rellenado",
+        "info": "Debe coincidir con el de la campaña Meta para activar el flujo de Make.com",
+        "default": "Hola, necesito arreglar una prenda. ¿Me podéis dar precio?"
+      }
+    ]
+  },
+  {
+    "name": "Redes sociales",
+    "settings": [
+      {
+        "type": "url",
+        "id": "social_instagram",
+        "label": "Instagram"
+      }
+    ]
+  }
+]
