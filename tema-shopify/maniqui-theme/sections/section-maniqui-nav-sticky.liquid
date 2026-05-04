@@ -8,13 +8,13 @@
 -%}
 
 <nav
-  class="mnav-{{ section.id }}"
+  class="mnav"
   id="maniquiNavSticky"
   aria-label="Navegación principal"
   data-section-id="{{ section.id }}"
 >
   {%- comment %} Logo / wordmark {%- endcomment %}
-  <a class="mnav-{{ section.id }}__logo" href="{{ routes.root_url }}" aria-label="Maniquí · Inicio">
+  <a class="mnav__logo" href="{{ routes.root_url }}" aria-label="Maniquí · Inicio">
     {%- if section.settings.logo -%}
       {{
         section.settings.logo
@@ -26,11 +26,11 @@
           alt: ''
       }}
     {%- endif -%}
-    <span class="mnav-{{ section.id }}__wordmark">Maniquí</span>
+    <span class="mnav__wordmark">Maniquí</span>
   </a>
 
   {%- comment %} Links desktop {%- endcomment %}
-  <ul class="mnav-{{ section.id }}__links" role="list">
+  <ul class="mnav__links" role="list">
     {%- for link in menu.links -%}
       <li>
         <a
@@ -42,9 +42,9 @@
   </ul>
 
   {%- comment %} CTA WhatsApp — desktop {%- endcomment %}
-  <div class="mnav-{{ section.id }}__cta-wrap">
+  <div class="mnav__cta-wrap">
     <a
-      class="maniqui-btn maniqui-btn--wa mnav-{{ section.id }}__wa"
+      class="maniqui-btn maniqui-btn--wa mnav__wa"
       href="{{ wa_url }}"
       target="_blank"
       rel="noopener noreferrer"
@@ -58,27 +58,27 @@
 
     {%- comment %} Botón burger — mobile {%- endcomment %}
     <button
-      class="mnav-{{ section.id }}__burger"
+      class="mnav__burger"
       id="maniquiMenuOpen"
       aria-label="Abrir menú"
       aria-controls="maniquiMobileMenu"
       aria-expanded="false"
     >
-      <span class="mnav-{{ section.id }}__burger-line"></span>
+      <span class="mnav__burger-line"></span>
     </button>
   </div>
 </nav>
 
 {%- comment %} Mobile menu drawer {%- endcomment %}
 <div
-  class="mnav-{{ section.id }}__mobile-menu"
+  class="mnav__mobile-menu"
   id="maniquiMobileMenu"
   aria-hidden="true"
   aria-label="Menú de navegación"
   role="dialog"
 >
   <button
-    class="mnav-{{ section.id }}__mobile-close"
+    class="mnav__mobile-close"
     id="maniquiMenuClose"
     aria-label="Cerrar menú"
   >
@@ -87,10 +87,10 @@
     </svg>
   </button>
 
-  <ul class="mnav-{{ section.id }}__mobile-links" role="list">
+  <ul class="mnav__mobile-links" role="list">
     {%- for link in menu.links -%}
       <li>
-        <a href="{{ link.url }}" class="mnav-{{ section.id }}__mobile-link">
+        <a href="{{ link.url }}" class="mnav__mobile-link">
           {{ link.title }}
         </a>
       </li>
@@ -98,7 +98,7 @@
   </ul>
 
   <a
-    class="maniqui-btn maniqui-btn--wa mnav-{{ section.id }}__mobile-wa"
+    class="maniqui-btn maniqui-btn--wa mnav__mobile-wa"
     href="{{ wa_url }}"
     target="_blank"
     rel="noopener noreferrer"
@@ -144,8 +144,8 @@
 {% endschema %}
 
 {% stylesheet %}
-/* ─── Nav sticky — 01 ─── */
-.mnav-{{ section.id }} {
+/* ─── Nav sticky ─── */
+.section-maniqui-nav .mnav {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 80;
@@ -160,12 +160,12 @@
   transition: transform var(--tr-base);
   will-change: transform;
 }
-.mnav-{{ section.id }}.is-visible {
+.section-maniqui-nav .mnav.is-visible {
   transform: translateY(0);
 }
 
 /* Logo */
-.mnav-{{ section.id }}__logo {
+.section-maniqui-nav .mnav__logo {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -178,7 +178,7 @@
   filter: brightness(0);
   opacity: 0.92;
 }
-.mnav-{{ section.id }}__wordmark {
+.section-maniqui-nav .mnav__wordmark {
   font-family: var(--font-display);
   font-size: 22px;
   color: var(--warm-dark);
@@ -187,7 +187,7 @@
 }
 
 /* Links */
-.mnav-{{ section.id }}__links {
+.section-maniqui-nav .mnav__links {
   display: flex;
   gap: 32px;
   list-style: none;
@@ -195,7 +195,7 @@
   padding: 0;
   margin: 0;
 }
-.mnav-{{ section.id }}__links a {
+.section-maniqui-nav .mnav__links a {
   font-size: 14px;
   color: var(--text-2);
   padding: 6px 0;
@@ -203,7 +203,7 @@
   text-decoration: none;
   transition: color var(--tr-fast);
 }
-.mnav-{{ section.id }}__links a::after {
+.section-maniqui-nav .mnav__links a::after {
   content: '';
   position: absolute;
   left: 0; right: 0; bottom: 0;
@@ -213,29 +213,29 @@
   transform-origin: left;
   transition: transform 240ms ease;
 }
-.mnav-{{ section.id }}__links a:hover {
+.section-maniqui-nav .mnav__links a:hover {
   color: var(--warm-dark);
 }
-.mnav-{{ section.id }}__links a:hover::after,
-.mnav-{{ section.id }}__links a[aria-current="page"]::after {
+.section-maniqui-nav .mnav__links a:hover::after,
+.section-maniqui-nav .mnav__links a[aria-current="page"]::after {
   transform: scaleX(1);
 }
 
 /* CTA area */
-.mnav-{{ section.id }}__cta-wrap {
+.section-maniqui-nav .mnav__cta-wrap {
   display: flex;
   align-items: center;
   gap: 12px;
   justify-self: end;
 }
-.mnav-{{ section.id }}__wa {
+.section-maniqui-nav .mnav__wa {
   border-radius: 999px;
   padding: 10px 20px;
   font-size: 13px;
 }
 
 /* Burger */
-.mnav-{{ section.id }}__burger {
+.section-maniqui-nav .mnav__burger {
   display: none;
   width: 44px; height: 44px;
   align-items: center;
@@ -246,25 +246,25 @@
   cursor: pointer;
   flex-shrink: 0;
 }
-.mnav-{{ section.id }}__burger-line {
+.section-maniqui-nav .mnav__burger-line {
   display: block;
   width: 18px; height: 1.5px;
   background: var(--warm-dark);
   position: relative;
 }
-.mnav-{{ section.id }}__burger-line::before,
-.mnav-{{ section.id }}__burger-line::after {
+.section-maniqui-nav .mnav__burger-line::before,
+.section-maniqui-nav .mnav__burger-line::after {
   content: '';
   position: absolute;
   left: 0; right: 0;
   height: 1.5px;
   background: var(--warm-dark);
 }
-.mnav-{{ section.id }}__burger-line::before { top: -6px; }
-.mnav-{{ section.id }}__burger-line::after  { top: 6px; }
+.section-maniqui-nav .mnav__burger-line::before { top: -6px; }
+.section-maniqui-nav .mnav__burger-line::after  { top:  6px; }
 
 /* ─── Mobile menu drawer ─── */
-.mnav-{{ section.id }}__mobile-menu {
+.section-maniqui-nav .mnav__mobile-menu {
   position: fixed;
   inset: 0;
   background: var(--cream);
@@ -277,11 +277,11 @@
   visibility: hidden;
   transition: transform 360ms ease, visibility 360ms ease;
 }
-.mnav-{{ section.id }}__mobile-menu.is-open {
+.section-maniqui-nav .mnav__mobile-menu.is-open {
   transform: translateX(0);
   visibility: visible;
 }
-.mnav-{{ section.id }}__mobile-close {
+.section-maniqui-nav .mnav__mobile-close {
   position: absolute;
   top: 24px; right: 24px;
   width: 44px; height: 44px;
@@ -290,14 +290,15 @@
   align-items: center;
   justify-content: center;
   background: transparent;
+  border: none;
   cursor: pointer;
 }
-.mnav-{{ section.id }}__mobile-links {
+.section-maniqui-nav .mnav__mobile-links {
   list-style: none;
   padding: 0; margin: 0;
   flex: 1;
 }
-.mnav-{{ section.id }}__mobile-link {
+.section-maniqui-nav .mnav__mobile-link {
   display: block;
   font-family: var(--font-display);
   font-size: 32px;
@@ -307,8 +308,8 @@
   text-decoration: none;
   transition: color var(--tr-fast);
 }
-.mnav-{{ section.id }}__mobile-link:hover { color: var(--sage-dark); }
-.mnav-{{ section.id }}__mobile-wa {
+.section-maniqui-nav .mnav__mobile-link:hover { color: var(--sage-dark); }
+.section-maniqui-nav .mnav__mobile-wa {
   width: 100%;
   justify-content: center;
   margin-top: 32px;
@@ -316,28 +317,27 @@
 
 /* ─── Responsive ─── */
 @media (max-width: 1024px) {
-  .mnav-{{ section.id }} {
+  .section-maniqui-nav .mnav {
     padding: 12px 24px;
     grid-template-columns: 1fr auto;
   }
-  .mnav-{{ section.id }}__links { display: none; }
-  .mnav-{{ section.id }}__wa { display: none; }
-  .mnav-{{ section.id }}__burger { display: flex; }
+  .section-maniqui-nav .mnav__links { display: none; }
+  .section-maniqui-nav .mnav__wa { display: none; }
+  .section-maniqui-nav .mnav__burger { display: flex; }
 }
 {% endstylesheet %}
 
 {% javascript %}
 (function() {
-  const nav = document.getElementById('maniquiNavSticky');
-  const openBtn = document.getElementById('maniquiMenuOpen');
-  const closeBtn = document.getElementById('maniquiMenuClose');
-  const mobileMenu = document.getElementById('maniquiMobileMenu');
+  var nav = document.getElementById('maniquiNavSticky');
+  var openBtn = document.getElementById('maniquiMenuOpen');
+  var closeBtn = document.getElementById('maniquiMenuClose');
+  var mobileMenu = document.getElementById('maniquiMobileMenu');
 
   if (!nav) return;
 
-  // Mostrar nav al pasar el 60% del viewport
   function onScroll() {
-    const threshold = window.innerHeight * 0.6;
+    var threshold = window.innerHeight * 0.6;
     if (window.scrollY > threshold) {
       nav.classList.add('is-visible');
     } else {
@@ -346,7 +346,7 @@
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll(); // check on load (en caso de refresh mid-page)
+  onScroll();
 
   if (!openBtn || !closeBtn || !mobileMenu) return;
 
@@ -369,12 +369,10 @@
   openBtn.addEventListener('click', openMenu);
   closeBtn.addEventListener('click', closeMenu);
 
-  // Cerrar al hacer clic en un link del menú
   mobileMenu.querySelectorAll('a').forEach(function(link) {
     link.addEventListener('click', closeMenu);
   });
 
-  // Cerrar con Escape
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape' && mobileMenu.getAttribute('aria-hidden') === 'false') {
       closeMenu();

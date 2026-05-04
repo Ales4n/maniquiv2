@@ -8,10 +8,10 @@
   assign hero_alt   = section.settings.image_alt | default: 'Modistas de Maniquí trabajando en el taller de Marxalenes'
 -%}
 
-<header class="mhero-{{ section.id }}" id="maniquiHero">
+<header class="mhero" id="maniquiHero">
 
   {%- comment %} Imagen fondo {%- endcomment %}
-  <div class="mhero-{{ section.id }}__img">
+  <div class="mhero__img">
     {%- if section.settings.image -%}
       {{
         section.settings.image
@@ -27,8 +27,8 @@
   </div>
 
   {%- comment %} Nav transparente sobre el hero {%- endcomment %}
-  <nav class="mhero-{{ section.id }}__nav" aria-label="Navegación principal">
-    <ul class="mhero-{{ section.id }}__nav-links" role="list">
+  <nav class="mhero__nav" aria-label="Navegación principal">
+    <ul class="mhero__nav-links" role="list">
       {%- for link in menu.links -%}
         <li>
           <a
@@ -40,7 +40,7 @@
     </ul>
 
     <a
-      class="mhero-{{ section.id }}__nav-logo"
+      class="mhero__nav-logo"
       href="{{ routes.root_url }}"
       aria-label="Maniquí · Inicio"
     >
@@ -55,13 +55,13 @@
             alt: ''
         }}
       {%- else -%}
-        <span class="mhero-{{ section.id }}__wordmark">Maniquí</span>
+        <span class="mhero__wordmark">Maniquí</span>
       {%- endif -%}
     </a>
 
-    <div class="mhero-{{ section.id }}__nav-right">
+    <div class="mhero__nav-right">
       <a
-        class="maniqui-btn maniqui-btn--outline-cream mhero-{{ section.id }}__nav-cta"
+        class="maniqui-btn maniqui-btn--outline-cream mhero__nav-cta"
         href="{{ wa_url }}"
         target="_blank"
         rel="noopener noreferrer"
@@ -69,28 +69,28 @@
       >{{ section.settings.nav_cta_label }}</a>
 
       <button
-        class="mhero-{{ section.id }}__burger"
+        class="mhero__burger"
         id="maniquiHeroBurger"
         aria-label="Abrir menú"
         aria-controls="maniquiMobileMenu"
         aria-expanded="false"
       >
-        <span class="mhero-{{ section.id }}__burger-line"></span>
+        <span class="mhero__burger-line"></span>
       </button>
     </div>
   </nav>
 
   {%- comment %} Contenido principal (parte inferior del hero) {%- endcomment %}
-  <div class="mhero-{{ section.id }}__content">
-    <div class="mhero-{{ section.id }}__inner">
+  <div class="mhero__content">
+    <div class="mhero__inner">
 
       {%- if section.settings.eyebrow != blank -%}
-        <p class="maniqui-eyebrow mhero-{{ section.id }}__eyebrow">
+        <p class="maniqui-eyebrow mhero__eyebrow">
           {{- section.settings.eyebrow -}}
         </p>
       {%- endif -%}
 
-      <h1 class="mhero-{{ section.id }}__headline">
+      <h1 class="mhero__headline">
         {{- section.settings.headline -}}
         {%- if section.settings.headline_em != blank -%}
           <em>{{ section.settings.headline_em }}</em>
@@ -98,10 +98,10 @@
       </h1>
 
       {%- if section.settings.subheadline != blank -%}
-        <p class="mhero-{{ section.id }}__sub">{{ section.settings.subheadline }}</p>
+        <p class="mhero__sub">{{ section.settings.subheadline }}</p>
       {%- endif -%}
 
-      <div class="mhero-{{ section.id }}__ctas">
+      <div class="mhero__ctas">
         <a
           class="maniqui-btn maniqui-btn--wa"
           href="{{ wa_url }}"
@@ -122,10 +122,10 @@
       </div>
 
       {%- if section.settings.cta_online_label != blank -%}
-        <p class="mhero-{{ section.id }}__tertiary">
+        <p class="mhero__tertiary">
           {{- section.settings.cta_online_prefix -}}
           <a
-            class="mhero-{{ section.id }}__tertiary-link"
+            class="mhero__tertiary-link"
             href="{{ section.settings.cta_online_url }}"
           >{{ section.settings.cta_online_label }} →</a>
         </p>
@@ -253,8 +253,8 @@
 {% endschema %}
 
 {% stylesheet %}
-/* ─── Hero — 02 ─── */
-.mhero-{{ section.id }} {
+/* ─── Hero ─── */
+.section-maniqui-hero .mhero {
   position: relative;
   min-height: 100vh;
   overflow: hidden;
@@ -263,18 +263,18 @@
 }
 
 /* Imagen fondo */
-.mhero-{{ section.id }}__img {
+.section-maniqui-hero .mhero__img {
   position: absolute;
   inset: 0;
   z-index: 0;
 }
-.mhero-{{ section.id }}__img img {
+.section-maniqui-hero .mhero__img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
 }
-.mhero-{{ section.id }}__img::after {
+.section-maniqui-hero .mhero__img::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -287,7 +287,7 @@
 }
 
 /* Nav transparente */
-.mhero-{{ section.id }}__nav {
+.section-maniqui-hero .mhero__nav {
   position: absolute;
   top: 0; left: 0; right: 0;
   z-index: 10;
@@ -297,7 +297,7 @@
   align-items: center;
   color: var(--cream);
 }
-.mhero-{{ section.id }}__nav-links {
+.section-maniqui-hero .mhero__nav-links {
   display: flex;
   gap: 36px;
   list-style: none;
@@ -305,14 +305,14 @@
   font-size: 14px;
   letter-spacing: 0.02em;
 }
-.mhero-{{ section.id }}__nav-links a {
+.section-maniqui-hero .mhero__nav-links a {
   color: var(--cream);
   opacity: 0.9;
   text-decoration: none;
   transition: opacity 200ms ease;
 }
-.mhero-{{ section.id }}__nav-links a:hover { opacity: 0.65; }
-.mhero-{{ section.id }}__nav-logo {
+.section-maniqui-hero .mhero__nav-links a:hover { opacity: 0.65; }
+.section-maniqui-hero .mhero__nav-logo {
   display: flex;
   justify-content: center;
   text-decoration: none;
@@ -323,27 +323,27 @@
   filter: brightness(0) invert(1);
   opacity: 0.92;
 }
-.mhero-{{ section.id }}__wordmark {
+.section-maniqui-hero .mhero__wordmark {
   font-family: var(--font-display);
   font-size: 24px;
   color: var(--cream);
   letter-spacing: 0.01em;
   line-height: 1;
 }
-.mhero-{{ section.id }}__nav-right {
+.section-maniqui-hero .mhero__nav-right {
   display: flex;
   align-items: center;
   gap: 12px;
   justify-self: end;
 }
-.mhero-{{ section.id }}__nav-cta {
+.section-maniqui-hero .mhero__nav-cta {
   border-radius: 999px;
   padding: 10px 20px;
   font-size: 13px;
 }
 
 /* Burger (mobile) */
-.mhero-{{ section.id }}__burger {
+.section-maniqui-hero .mhero__burger {
   display: none;
   width: 44px; height: 44px;
   align-items: center;
@@ -354,25 +354,25 @@
   cursor: pointer;
   flex-shrink: 0;
 }
-.mhero-{{ section.id }}__burger-line {
+.section-maniqui-hero .mhero__burger-line {
   display: block;
   width: 18px; height: 1px;
   background: var(--cream);
   position: relative;
 }
-.mhero-{{ section.id }}__burger-line::before,
-.mhero-{{ section.id }}__burger-line::after {
+.section-maniqui-hero .mhero__burger-line::before,
+.section-maniqui-hero .mhero__burger-line::after {
   content: '';
   position: absolute;
   left: 0; right: 0;
   height: 1px;
   background: var(--cream);
 }
-.mhero-{{ section.id }}__burger-line::before { top: -6px; }
-.mhero-{{ section.id }}__burger-line::after  { top:  6px; }
+.section-maniqui-hero .mhero__burger-line::before { top: -6px; }
+.section-maniqui-hero .mhero__burger-line::after  { top:  6px; }
 
 /* Contenido principal */
-.mhero-{{ section.id }}__content {
+.section-maniqui-hero .mhero__content {
   position: relative;
   z-index: 2;
   min-height: 100vh;
@@ -381,16 +381,16 @@
   justify-content: flex-end;
   padding-bottom: 96px;
 }
-.mhero-{{ section.id }}__inner {
+.section-maniqui-hero .mhero__inner {
   max-width: 1280px;
   width: 100%;
   margin: 0 auto;
   padding: 0 48px;
 }
-.mhero-{{ section.id }}__eyebrow {
+.section-maniqui-hero .mhero__eyebrow {
   margin-bottom: 20px;
 }
-.mhero-{{ section.id }}__headline {
+.section-maniqui-hero .mhero__headline {
   font-family: var(--font-display);
   font-weight: 300;
   font-size: clamp(48px, 7.2vw, 96px);
@@ -400,12 +400,12 @@
   margin-bottom: 28px;
   max-width: 1000px;
 }
-.mhero-{{ section.id }}__headline em {
+.section-maniqui-hero .mhero__headline em {
   color: var(--sage);
   font-style: italic;
   font-weight: 300;
 }
-.mhero-{{ section.id }}__sub {
+.section-maniqui-hero .mhero__sub {
   font-size: 17px;
   line-height: 1.55;
   color: rgba(253,251,247,0.85);
@@ -413,56 +413,56 @@
   margin-bottom: 36px;
   font-weight: 400;
 }
-.mhero-{{ section.id }}__ctas {
+.section-maniqui-hero .mhero__ctas {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
   align-items: center;
   margin-bottom: 16px;
 }
-.mhero-{{ section.id }}__tertiary {
+.section-maniqui-hero .mhero__tertiary {
   font-size: 13px;
   color: rgba(253,251,247,0.70);
   margin-top: 4px;
 }
-.mhero-{{ section.id }}__tertiary-link {
+.section-maniqui-hero .mhero__tertiary-link {
   color: var(--terracotta);
   text-decoration: underline;
   text-underline-offset: 2px;
   transition: opacity 200ms ease;
 }
-.mhero-{{ section.id }}__tertiary-link:hover { opacity: 0.75; }
+.section-maniqui-hero .mhero__tertiary-link:hover { opacity: 0.75; }
 
 /* ─── Responsive ─── */
 @media (max-width: 1024px) {
-  .mhero-{{ section.id }}__nav {
+  .section-maniqui-hero .mhero__nav {
     padding: 24px 32px;
     grid-template-columns: auto 1fr auto;
   }
-  .mhero-{{ section.id }}__nav-links { display: none; }
-  .mhero-{{ section.id }}__nav-logo { justify-content: center; }
-  .mhero-{{ section.id }}__nav-cta { display: none; }
-  .mhero-{{ section.id }}__burger { display: flex; }
-  .mhero-{{ section.id }}__content { padding-bottom: 72px; }
-  .mhero-{{ section.id }}__inner { padding: 0 32px; }
+  .section-maniqui-hero .mhero__nav-links { display: none; }
+  .section-maniqui-hero .mhero__nav-logo { justify-content: center; }
+  .section-maniqui-hero .mhero__nav-cta { display: none; }
+  .section-maniqui-hero .mhero__burger { display: flex; }
+  .section-maniqui-hero .mhero__content { padding-bottom: 72px; }
+  .section-maniqui-hero .mhero__inner { padding: 0 32px; }
 }
 @media (max-width: 600px) {
-  .mhero-{{ section.id }}__nav { padding: 20px; }
-  .mhero-{{ section.id }}__content { padding-bottom: 56px; }
-  .mhero-{{ section.id }}__inner { padding: 0 24px; }
-  .mhero-{{ section.id }}__headline {
+  .section-maniqui-hero .mhero__nav { padding: 20px; }
+  .section-maniqui-hero .mhero__content { padding-bottom: 56px; }
+  .section-maniqui-hero .mhero__inner { padding: 0 24px; }
+  .section-maniqui-hero .mhero__headline {
     font-size: clamp(40px, 12vw, 56px);
     margin-bottom: 20px;
   }
-  .mhero-{{ section.id }}__sub {
+  .section-maniqui-hero .mhero__sub {
     font-size: 15px;
     margin-bottom: 28px;
   }
-  .mhero-{{ section.id }}__ctas {
+  .section-maniqui-hero .mhero__ctas {
     flex-direction: column;
     align-items: stretch;
   }
-  .mhero-{{ section.id }}__ctas .maniqui-btn {
+  .section-maniqui-hero .mhero__ctas .maniqui-btn {
     justify-content: center;
   }
 }
@@ -473,7 +473,6 @@
   var heroBurger = document.getElementById('maniquiHeroBurger');
   if (!heroBurger) return;
 
-  // Delegar la apertura del menú al botón del nav-sticky, que tiene la lógica completa
   heroBurger.addEventListener('click', function() {
     var stickyBurger = document.getElementById('maniquiMenuOpen');
     if (stickyBurger) {
