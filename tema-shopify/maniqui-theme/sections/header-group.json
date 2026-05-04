@@ -1,6 +1,14 @@
 {
   "type": "header",
   "name": "Cabecera",
-  "sections": {},
-  "order": []
+  "sections": {
+    "nav-sticky": {
+      "type": "section-maniqui-nav-sticky",
+      "settings": {
+        "menu": "main-menu",
+        "cta_label": "WhatsApp"
+      }
+    }
+  },
+  "order": ["nav-sticky"]
 }
