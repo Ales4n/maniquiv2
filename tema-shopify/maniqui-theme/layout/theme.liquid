@@ -2,21 +2,33 @@
 <!doctype html>
 <html lang="{{ request.locale.iso_code }}">
   <head>
-    {% comment %} Variables CSS Maniquí — inline en critical path {% endcomment %}
+    {%- comment %} charset y viewport — obligatorio ser los primeros tags en <head> por spec HTML {%- endcomment %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {%- comment %} Variables CSS Maniquí — inline en critical path, antes de cualquier hoja externa {%- endcomment %}
     {% render 'css-variables' %}
 
-    {% comment %} Preconnect Google Fonts {% endcomment %}
+    {%- comment %}
+      CSS crítico — carga bloqueante INTENCIONAL.
+      Contiene reset + sistema de botones + layout base.
+      No usar preload-only trick aquí: necesitamos que esté disponible antes del primer paint.
+    {%- endcomment %}
+    <link rel="preload" href="{{ 'critical.css' | asset_url }}" as="style">
+    {{ 'critical.css' | asset_url | stylesheet_tag }}
+
+    {%- comment %}
+      Fuentes Google — carga no bloqueante (media=print → onload swap).
+      crossorigin en preload necesario para recursos cross-origin con CORS.
+      Cormorant Garamond 300 es la fuente del LCP (hero headline).
+    {%- endcomment %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    {% comment %}
-      Carga no bloqueante de fuentes.
-      Cormorant Garamond 400 es la fuente del LCP (hero headline).
-      Estrategia: preload del stylesheet + media=print swap trick.
-    {% endcomment %}
     <link
       rel="preload"
       as="style"
+      crossorigin
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Red+Hat+Text:wght@400;500;600&display=swap"
     >
     <link
@@ -32,13 +44,10 @@
       >
     </noscript>
 
-    {% comment %} CSS crítico — reset + tokens globales — preloaded {% endcomment %}
-    {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
-
-    {% comment %} Meta tags, OG, canonical, title {% endcomment %}
+    {%- comment %} Meta tags, OG, canonical, title — SIN charset/viewport (ya están arriba) {%- endcomment %}
     {% render 'meta-tags' %}
 
-    {% comment %} MANIQUI: Schema LocalBusiness — solo home — 2026-05-04 {% endcomment %}
+    {%- comment %} MANIQUI: Schema LocalBusiness — solo home — 2026-05-04 {%- endcomment %}
     {%- if request.page_type == 'index' -%}
       <script type="application/ld+json">
         {
@@ -91,6 +100,6 @@
 
     {% sections 'footer-group' %}
 
-    {% comment %} MANIQUI: Botón sticky WhatsApp — se implementa en sprint 1 — 2026-05-04 {% endcomment %}
+    {%- comment %} MANIQUI: Botón sticky WhatsApp — se implementa en sprint 1 — 2026-05-04 {%- endcomment %}
   </body>
 </html>

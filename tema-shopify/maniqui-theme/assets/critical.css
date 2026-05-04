@@ -52,6 +52,11 @@ p:empty { display: none; }
 }
 .skip-to-content:focus { top: 0; }
 
+/* ─── Layout base ─── */
+#MainContent {
+  flex: 1;
+}
+
 /* ─── Container ─── */
 .maniqui-container {
   max-width: var(--container-max);

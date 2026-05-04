@@ -1,7 +1,5 @@
 {% comment %} MANIQUI: Meta tags, OG, canonical, title — adaptado de Dawn — 2026-05-04 {% endcomment %}
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+{%- comment %} charset, viewport y X-UA-Compatible se gestionan en theme.liquid {%- endcomment %}
 
 {%- liquid
   assign og_title = page_title | default: shop.name
