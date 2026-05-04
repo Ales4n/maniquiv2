@@ -14,7 +14,39 @@
         "cta_online_prefix": "¿Fuera de Valencia?",
         "cta_online_label": "Contrata el arreglo online"
       }
+    },
+    "problema": {
+      "type": "section-maniqui-problema",
+      "blocks": {
+        "tag-bajos": {
+          "type": "tag",
+          "settings": { "label": "Bajos" }
+        },
+        "tag-cintura": {
+          "type": "tag",
+          "settings": { "label": "Cintura" }
+        },
+        "tag-mangas": {
+          "type": "tag",
+          "settings": { "label": "Mangas" }
+        },
+        "tag-hombros": {
+          "type": "tag",
+          "settings": { "label": "Hombros" }
+        },
+        "tag-camisas": {
+          "type": "tag",
+          "settings": { "label": "Camisas" }
+        }
+      },
+      "block_order": ["tag-bajos", "tag-cintura", "tag-mangas", "tag-hombros", "tag-camisas"],
+      "settings": {
+        "eyebrow": "Lo que más nos pedís",
+        "headline": "Compraste online y la prenda no te queda como esperabas.",
+        "body": "Bajos largos, mangas que sobran, una cintura que pide ajuste. No hace falta devolver — un arreglo bien hecho lo cambia todo.",
+        "cta_label": "Cuéntanos tu caso"
+      }
     }
   },
-  "order": ["hero"]
+  "order": ["hero", "problema"]
 }
