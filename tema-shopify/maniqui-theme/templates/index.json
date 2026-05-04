@@ -1,4 +1,20 @@
 {
-  "sections": {},
-  "order": []
+  "sections": {
+    "hero": {
+      "type": "section-maniqui-hero",
+      "settings": {
+        "menu": "main-menu",
+        "nav_cta_label": "WhatsApp",
+        "eyebrow": "Arreglos de ropa · Valencia",
+        "headline": "Tu ropa nueva merece",
+        "headline_em": "quedar perfecta",
+        "subheadline": "Tres modistas con taller propio en Marxalenes. Cuéntanos qué necesitas por WhatsApp, pásate sin cita, o contrátalo online.",
+        "cta_wa_label": "Pregúntanos por WhatsApp",
+        "cta_taller_label": "Ven al taller",
+        "cta_online_prefix": "¿Fuera de Valencia?",
+        "cta_online_label": "Contrata el arreglo online"
+      }
+    }
+  },
+  "order": ["hero"]
 }

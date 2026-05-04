@@ -1,0 +1,484 @@
+{% comment %} MANIQUI: Hero — full-bleed, nav transparente, CTAs WA + Taller + link online — 2026-05-04 {% endcomment %}
+
+{%- liquid
+  assign wa_number  = settings.whatsapp_number  | remove: '+' | remove: ' ' | remove: '-'
+  assign wa_message = settings.whatsapp_message | url_encode
+  assign wa_url     = 'https://wa.me/' | append: wa_number | append: '?text=' | append: wa_message
+  assign menu       = linklists[section.settings.menu]
+  assign hero_alt   = section.settings.image_alt | default: 'Modistas de Maniquí trabajando en el taller de Marxalenes'
+-%}
+
+<header class="mhero-{{ section.id }}" id="maniquiHero">
+
+  {%- comment %} Imagen fondo {%- endcomment %}
+  <div class="mhero-{{ section.id }}__img">
+    {%- if section.settings.image -%}
+      {{
+        section.settings.image
+        | image_url: width: 1920
+        | image_tag:
+          loading: 'eager',
+          fetchpriority: 'high',
+          sizes: '100vw',
+          widths: '750, 1080, 1440, 1920',
+          alt: hero_alt
+      }}
+    {%- endif -%}
+  </div>
+
+  {%- comment %} Nav transparente sobre el hero {%- endcomment %}
+  <nav class="mhero-{{ section.id }}__nav" aria-label="Navegación principal">
+    <ul class="mhero-{{ section.id }}__nav-links" role="list">
+      {%- for link in menu.links -%}
+        <li>
+          <a
+            href="{{ link.url }}"
+            {% if link.active %}aria-current="page"{% endif %}
+          >{{ link.title }}</a>
+        </li>
+      {%- endfor -%}
+    </ul>
+
+    <a
+      class="mhero-{{ section.id }}__nav-logo"
+      href="{{ routes.root_url }}"
+      aria-label="Maniquí · Inicio"
+    >
+      {%- if section.settings.logo -%}
+        {{
+          section.settings.logo
+          | image_url: height: 44
+          | image_tag:
+            loading: 'eager',
+            fetchpriority: 'high',
+            class: 'mhero-logo-img',
+            alt: ''
+        }}
+      {%- else -%}
+        <span class="mhero-{{ section.id }}__wordmark">Maniquí</span>
+      {%- endif -%}
+    </a>
+
+    <div class="mhero-{{ section.id }}__nav-right">
+      <a
+        class="maniqui-btn maniqui-btn--outline-cream mhero-{{ section.id }}__nav-cta"
+        href="{{ wa_url }}"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="{{ section.settings.nav_cta_label | escape }} (abre WhatsApp)"
+      >{{ section.settings.nav_cta_label }}</a>
+
+      <button
+        class="mhero-{{ section.id }}__burger"
+        id="maniquiHeroBurger"
+        aria-label="Abrir menú"
+        aria-controls="maniquiMobileMenu"
+        aria-expanded="false"
+      >
+        <span class="mhero-{{ section.id }}__burger-line"></span>
+      </button>
+    </div>
+  </nav>
+
+  {%- comment %} Contenido principal (parte inferior del hero) {%- endcomment %}
+  <div class="mhero-{{ section.id }}__content">
+    <div class="mhero-{{ section.id }}__inner">
+
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="maniqui-eyebrow mhero-{{ section.id }}__eyebrow">
+          {{- section.settings.eyebrow -}}
+        </p>
+      {%- endif -%}
+
+      <h1 class="mhero-{{ section.id }}__headline">
+        {{- section.settings.headline -}}
+        {%- if section.settings.headline_em != blank -%}
+          <em>{{ section.settings.headline_em }}</em>
+        {%- endif -%}
+      </h1>
+
+      {%- if section.settings.subheadline != blank -%}
+        <p class="mhero-{{ section.id }}__sub">{{ section.settings.subheadline }}</p>
+      {%- endif -%}
+
+      <div class="mhero-{{ section.id }}__ctas">
+        <a
+          class="maniqui-btn maniqui-btn--wa"
+          href="{{ wa_url }}"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="{{ section.settings.cta_wa_label | escape }} (abre WhatsApp)"
+        >
+          <svg class="maniqui-icon-wa" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M17.6 6.32A8 8 0 0 0 4.45 16.4L4 20l3.74-1A8 8 0 1 0 17.6 6.32Zm-5.6 12a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.22.58.6-2.16-.16-.25a6.64 6.64 0 1 1 5.38 2.9Zm3.62-4.96c-.2-.1-1.18-.58-1.36-.65s-.32-.1-.45.1-.5.65-.62.78-.23.15-.43.05a5.42 5.42 0 0 1-1.6-1 6 6 0 0 1-1.1-1.38c-.12-.2 0-.3.08-.4s.2-.23.3-.34a1.34 1.34 0 0 0 .2-.34.37.37 0 0 0 0-.35c-.05-.1-.45-1.08-.62-1.48s-.33-.34-.45-.34h-.38a.74.74 0 0 0-.54.25 2.25 2.25 0 0 0-.7 1.67 3.9 3.9 0 0 0 .82 2.08 8.94 8.94 0 0 0 3.42 3.02c.48.2.85.32 1.14.41a2.76 2.76 0 0 0 1.26.08 2.06 2.06 0 0 0 1.36-.96 1.69 1.69 0 0 0 .12-.96c-.05-.08-.18-.13-.38-.23Z"/>
+          </svg>
+          {{ section.settings.cta_wa_label }}
+        </a>
+
+        <a
+          class="maniqui-btn maniqui-btn--outline-cream"
+          href="{{ section.settings.cta_taller_url }}"
+        >{{ section.settings.cta_taller_label }}</a>
+      </div>
+
+      {%- if section.settings.cta_online_label != blank -%}
+        <p class="mhero-{{ section.id }}__tertiary">
+          {{- section.settings.cta_online_prefix -}}
+          <a
+            class="mhero-{{ section.id }}__tertiary-link"
+            href="{{ section.settings.cta_online_url }}"
+          >{{ section.settings.cta_online_label }} →</a>
+        </p>
+      {%- endif -%}
+
+    </div>
+  </div>
+
+</header>
+
+{% schema %}
+{
+  "name": "Maniquí — Hero",
+  "tag": "div",
+  "class": "section-maniqui-hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Imagen de fondo"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Texto alternativo imagen",
+      "default": "Modistas de Maniquí trabajando en el taller de Marxalenes"
+    },
+    {
+      "type": "header",
+      "content": "Navegación hero"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo (versión blanca para fondo oscuro)"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menú de navegación",
+      "default": "main-menu"
+    },
+    {
+      "type": "text",
+      "id": "nav_cta_label",
+      "label": "Etiqueta CTA nav (desktop)",
+      "default": "WhatsApp"
+    },
+    {
+      "type": "header",
+      "content": "Contenido principal"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Arreglos de ropa · Valencia"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Titular"
+    },
+    {
+      "type": "text",
+      "id": "headline_em",
+      "label": "Titular — parte en itálica sage (opcional)",
+      "default": "quedar perfecta"
+    },
+    {
+      "type": "textarea",
+      "id": "subheadline",
+      "label": "Subtítulo",
+      "default": "Tres modistas con taller propio en Marxalenes. Cuéntanos qué necesitas por WhatsApp, pásate sin cita, o contrátalo online."
+    },
+    {
+      "type": "header",
+      "content": "CTAs"
+    },
+    {
+      "type": "text",
+      "id": "cta_wa_label",
+      "label": "CTA primario — WhatsApp",
+      "default": "Pregúntanos por WhatsApp"
+    },
+    {
+      "type": "text",
+      "id": "cta_taller_label",
+      "label": "CTA secundario — Taller",
+      "default": "Ven al taller"
+    },
+    {
+      "type": "url",
+      "id": "cta_taller_url",
+      "label": "URL CTA Taller"
+    },
+    {
+      "type": "header",
+      "content": "Enlace online (terciario)"
+    },
+    {
+      "type": "text",
+      "id": "cta_online_prefix",
+      "label": "Texto previo al enlace",
+      "default": "¿Fuera de Valencia?"
+    },
+    {
+      "type": "text",
+      "id": "cta_online_label",
+      "label": "Texto enlace online (dejar vacío para ocultar)",
+      "default": "Contrata el arreglo online"
+    },
+    {
+      "type": "url",
+      "id": "cta_online_url",
+      "label": "URL arreglos online"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Maniquí — Hero"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+/* ─── Hero — 02 ─── */
+.mhero-{{ section.id }} {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  color: var(--cream);
+  background: var(--warm-dark);
+}
+
+/* Imagen fondo */
+.mhero-{{ section.id }}__img {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.mhero-{{ section.id }}__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.mhero-{{ section.id }}__img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(42,37,32,0.20) 0%,
+    rgba(42,37,32,0.05) 35%,
+    rgba(42,37,32,0.65) 100%
+  );
+}
+
+/* Nav transparente */
+.mhero-{{ section.id }}__nav {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 10;
+  padding: 28px 48px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  color: var(--cream);
+}
+.mhero-{{ section.id }}__nav-links {
+  display: flex;
+  gap: 36px;
+  list-style: none;
+  padding: 0; margin: 0;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+}
+.mhero-{{ section.id }}__nav-links a {
+  color: var(--cream);
+  opacity: 0.9;
+  text-decoration: none;
+  transition: opacity 200ms ease;
+}
+.mhero-{{ section.id }}__nav-links a:hover { opacity: 0.65; }
+.mhero-{{ section.id }}__nav-logo {
+  display: flex;
+  justify-content: center;
+  text-decoration: none;
+}
+.mhero-logo-img {
+  height: 44px;
+  width: auto;
+  filter: brightness(0) invert(1);
+  opacity: 0.92;
+}
+.mhero-{{ section.id }}__wordmark {
+  font-family: var(--font-display);
+  font-size: 24px;
+  color: var(--cream);
+  letter-spacing: 0.01em;
+  line-height: 1;
+}
+.mhero-{{ section.id }}__nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-self: end;
+}
+.mhero-{{ section.id }}__nav-cta {
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-size: 13px;
+}
+
+/* Burger (mobile) */
+.mhero-{{ section.id }}__burger {
+  display: none;
+  width: 44px; height: 44px;
+  align-items: center;
+  justify-content: center;
+  background: rgba(253,251,247,0.12);
+  border: 1px solid rgba(253,251,247,0.30);
+  border-radius: 999px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.mhero-{{ section.id }}__burger-line {
+  display: block;
+  width: 18px; height: 1px;
+  background: var(--cream);
+  position: relative;
+}
+.mhero-{{ section.id }}__burger-line::before,
+.mhero-{{ section.id }}__burger-line::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  height: 1px;
+  background: var(--cream);
+}
+.mhero-{{ section.id }}__burger-line::before { top: -6px; }
+.mhero-{{ section.id }}__burger-line::after  { top:  6px; }
+
+/* Contenido principal */
+.mhero-{{ section.id }}__content {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: 96px;
+}
+.mhero-{{ section.id }}__inner {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+.mhero-{{ section.id }}__eyebrow {
+  margin-bottom: 20px;
+}
+.mhero-{{ section.id }}__headline {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(48px, 7.2vw, 96px);
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+  color: var(--cream);
+  margin-bottom: 28px;
+  max-width: 1000px;
+}
+.mhero-{{ section.id }}__headline em {
+  color: var(--sage);
+  font-style: italic;
+  font-weight: 300;
+}
+.mhero-{{ section.id }}__sub {
+  font-size: 17px;
+  line-height: 1.55;
+  color: rgba(253,251,247,0.85);
+  max-width: 540px;
+  margin-bottom: 36px;
+  font-weight: 400;
+}
+.mhero-{{ section.id }}__ctas {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.mhero-{{ section.id }}__tertiary {
+  font-size: 13px;
+  color: rgba(253,251,247,0.70);
+  margin-top: 4px;
+}
+.mhero-{{ section.id }}__tertiary-link {
+  color: var(--terracotta);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: opacity 200ms ease;
+}
+.mhero-{{ section.id }}__tertiary-link:hover { opacity: 0.75; }
+
+/* ─── Responsive ─── */
+@media (max-width: 1024px) {
+  .mhero-{{ section.id }}__nav {
+    padding: 24px 32px;
+    grid-template-columns: auto 1fr auto;
+  }
+  .mhero-{{ section.id }}__nav-links { display: none; }
+  .mhero-{{ section.id }}__nav-logo { justify-content: center; }
+  .mhero-{{ section.id }}__nav-cta { display: none; }
+  .mhero-{{ section.id }}__burger { display: flex; }
+  .mhero-{{ section.id }}__content { padding-bottom: 72px; }
+  .mhero-{{ section.id }}__inner { padding: 0 32px; }
+}
+@media (max-width: 600px) {
+  .mhero-{{ section.id }}__nav { padding: 20px; }
+  .mhero-{{ section.id }}__content { padding-bottom: 56px; }
+  .mhero-{{ section.id }}__inner { padding: 0 24px; }
+  .mhero-{{ section.id }}__headline {
+    font-size: clamp(40px, 12vw, 56px);
+    margin-bottom: 20px;
+  }
+  .mhero-{{ section.id }}__sub {
+    font-size: 15px;
+    margin-bottom: 28px;
+  }
+  .mhero-{{ section.id }}__ctas {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .mhero-{{ section.id }}__ctas .maniqui-btn {
+    justify-content: center;
+  }
+}
+{% endstylesheet %}
+
+{% javascript %}
+(function() {
+  var heroBurger = document.getElementById('maniquiHeroBurger');
+  if (!heroBurger) return;
+
+  // Delegar la apertura del menú al botón del nav-sticky, que tiene la lógica completa
+  heroBurger.addEventListener('click', function() {
+    var stickyBurger = document.getElementById('maniquiMenuOpen');
+    if (stickyBurger) {
+      stickyBurger.click();
+    }
+  });
+})();
+{% endjavascript %}
