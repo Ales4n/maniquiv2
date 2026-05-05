@@ -18,7 +18,7 @@
     "banda": {
       "type": "section-maniqui-banda",
       "blocks": {
-        "item-años": {
+        "item-anos": {
           "type": "item",
           "settings": { "text": "3 años en Marxalenes" }
         },
@@ -35,7 +35,7 @@
           "settings": { "text": "Presupuesto al momento" }
         }
       },
-      "block_order": ["item-años", "item-google", "item-cita", "item-presupuesto"],
+      "block_order": ["item-anos", "item-google", "item-cita", "item-presupuesto"],
       "settings": {}
     },
     "problema": {
