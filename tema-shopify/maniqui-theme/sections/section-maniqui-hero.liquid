@@ -23,6 +23,15 @@
           widths: '750, 1080, 1440, 1920',
           alt: hero_alt
       }}
+    {%- else -%}
+      <img
+        src="{{ 'hero-image.png' | asset_url }}"
+        alt="{{ hero_alt }}"
+        loading="eager"
+        fetchpriority="high"
+        width="1920"
+        height="1280"
+      >
     {%- endif -%}
   </div>
 
