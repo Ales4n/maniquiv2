@@ -1,0 +1,458 @@
+{% comment %} MANIQUI: Footer global — NAP, navegación, redes + JSON-LD LocalBusiness — 2026-05-10 {% endcomment %}
+
+{%- assign wa_phone = '34603305566' -%}
+{%- assign wa_msg = 'Hola, necesito arreglar una prenda. ¿Me podéis dar precio?' | url_encode -%}
+{%- assign wa_url = 'https://wa.me/' | append: wa_phone | append: '?text=' | append: wa_msg -%}
+{%- assign current_year = 'now' | date: '%Y' -%}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Maniquí Creaciones",
+  "url": {{ shop.url | json }},
+  "telephone": "+34603305566",
+  "email": "hola@maniquicreaciones.com",
+  "image": {{ shop.url | append: '/assets/og-maniqui.jpg' | json }},
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Avinguda de la Constitució, 94",
+    "addressLocality": "Valencia",
+    "addressRegion": "Comunitat Valenciana",
+    "postalCode": "46009",
+    "addressCountry": "ES"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 39.4832,
+    "longitude": -0.3854
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+      "opens": "10:00",
+      "closes": "14:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+      "opens": "17:00",
+      "closes": "20:00"
+    }
+  ],
+  "priceRange": "€€",
+  "currenciesAccepted": "EUR",
+  "areaServed": "Valencia, España"
+}
+</script>
+
+<footer class="mfoot" id="maniquiFooter" role="contentinfo">
+  <div class="mfoot__inner maniqui-container">
+
+    <div class="mfoot__grid">
+
+      <!-- Columna 1: Empresa + NAP -->
+      <div class="mfoot__col mfoot__col--brand">
+        <p class="mfoot__brand-name">{{ section.settings.brand_name }}</p>
+        {%- if section.settings.brand_tagline != blank -%}
+          <p class="mfoot__brand-tagline">{{ section.settings.brand_tagline }}</p>
+        {%- endif -%}
+
+        <address class="mfoot__address">
+          {%- if section.settings.address_street != blank -%}
+            <span class="mfoot__address-line">{{ section.settings.address_street }}</span>
+          {%- endif -%}
+          {%- if section.settings.address_city != blank -%}
+            <span class="mfoot__address-line">{{ section.settings.address_city }}</span>
+          {%- endif -%}
+          {%- if section.settings.phone != blank -%}
+            {%- assign phone_href = section.settings.phone | remove: ' ' -%}
+            <a href="tel:{{ phone_href }}" class="mfoot__phone">{{ section.settings.phone }}</a>
+          {%- endif -%}
+          {%- if section.settings.email != blank -%}
+            <a href="mailto:{{ section.settings.email }}" class="mfoot__email">{{ section.settings.email }}</a>
+          {%- endif -%}
+        </address>
+      </div>
+
+      <!-- Columna 2: Servicios -->
+      <div class="mfoot__col">
+        <p class="mfoot__col-title">{{ section.settings.col_servicios_title }}</p>
+        {%- if section.settings.menu_servicios != blank -%}
+          <ul class="mfoot__nav-list">
+            {%- for link in linklists[section.settings.menu_servicios].links -%}
+              <li><a href="{{ link.url }}" class="mfoot__nav-link">{{ link.title }}</a></li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+
+      <!-- Columna 3: Información -->
+      <div class="mfoot__col">
+        <p class="mfoot__col-title">{{ section.settings.col_info_title }}</p>
+        {%- if section.settings.menu_info != blank -%}
+          <ul class="mfoot__nav-list">
+            {%- for link in linklists[section.settings.menu_info].links -%}
+              <li><a href="{{ link.url }}" class="mfoot__nav-link">{{ link.title }}</a></li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+
+      <!-- Columna 4: Síguenos -->
+      <div class="mfoot__col">
+        <p class="mfoot__col-title">{{ section.settings.col_social_title }}</p>
+        <ul class="mfoot__nav-list">
+          {%- if section.settings.instagram_url != blank -%}
+            <li>
+              <a href="{{ section.settings.instagram_url }}" class="mfoot__nav-link" target="_blank" rel="noopener">
+                Instagram
+              </a>
+            </li>
+          {%- endif -%}
+          <li>
+            <a href="{{ wa_url }}" class="mfoot__nav-link mfoot__nav-link--wa" target="_blank" rel="noopener">
+              WhatsApp
+            </a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="mfoot__bottom">
+      <p class="mfoot__legal">
+        &copy; {{ current_year }} {{ section.settings.brand_name }}.
+        {%- if section.settings.legal_tagline != blank -%}
+          {{ section.settings.legal_tagline }}
+        {%- endif -%}
+      </p>
+      <nav class="mfoot__legal-nav" aria-label="Legal">
+        {%- if section.settings.privacy_url != blank -%}
+          <a href="{{ section.settings.privacy_url }}" class="mfoot__legal-link">Política de privacidad</a>
+        {%- endif -%}
+        {%- if section.settings.cookies_url != blank -%}
+          <a href="{{ section.settings.cookies_url }}" class="mfoot__legal-link">Cookies</a>
+        {%- endif -%}
+      </nav>
+    </div>
+
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "tag": "div",
+  "class": "section-maniqui-footer",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Empresa"
+    },
+    {
+      "type": "text",
+      "id": "brand_name",
+      "label": "Nombre de marca",
+      "default": "Maniquí"
+    },
+    {
+      "type": "text",
+      "id": "brand_tagline",
+      "label": "Tagline",
+      "default": "Arreglos de ropa en Valencia."
+    },
+    {
+      "type": "header",
+      "content": "Dirección y contacto (NAP)"
+    },
+    {
+      "type": "text",
+      "id": "address_street",
+      "label": "Dirección",
+      "default": "Avda. Constitució 94, 46009"
+    },
+    {
+      "type": "text",
+      "id": "address_city",
+      "label": "Barrio / ciudad",
+      "default": "Marxalenes, Valencia"
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "Teléfono",
+      "default": "+34 603 30 55 66"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email",
+      "default": "hola@maniquicreaciones.com"
+    },
+    {
+      "type": "header",
+      "content": "Columna Servicios"
+    },
+    {
+      "type": "text",
+      "id": "col_servicios_title",
+      "label": "Título columna",
+      "default": "Servicios"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_servicios",
+      "label": "Menú de servicios"
+    },
+    {
+      "type": "header",
+      "content": "Columna Información"
+    },
+    {
+      "type": "text",
+      "id": "col_info_title",
+      "label": "Título columna",
+      "default": "Información"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_info",
+      "label": "Menú de información"
+    },
+    {
+      "type": "header",
+      "content": "Columna Síguenos"
+    },
+    {
+      "type": "text",
+      "id": "col_social_title",
+      "label": "Título columna",
+      "default": "Síguenos"
+    },
+    {
+      "type": "text",
+      "id": "instagram_url",
+      "label": "URL Instagram"
+    },
+    {
+      "type": "header",
+      "content": "Legal"
+    },
+    {
+      "type": "text",
+      "id": "legal_tagline",
+      "label": "Texto legal adicional",
+      "default": "Todos los derechos reservados."
+    },
+    {
+      "type": "text",
+      "id": "privacy_url",
+      "label": "URL Política de privacidad",
+      "default": "/pages/privacidad"
+    },
+    {
+      "type": "text",
+      "id": "cookies_url",
+      "label": "URL Política de cookies"
+    }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "Footer",
+      "settings": {
+        "brand_name": "Maniquí",
+        "brand_tagline": "Arreglos de ropa en Valencia.",
+        "address_street": "Avda. Constitució 94, 46009",
+        "address_city": "Marxalenes, Valencia",
+        "phone": "+34 603 30 55 66",
+        "email": "hola@maniquicreaciones.com",
+        "col_servicios_title": "Servicios",
+        "col_info_title": "Información",
+        "col_social_title": "Síguenos",
+        "legal_tagline": "Todos los derechos reservados.",
+        "privacy_url": "/pages/privacidad"
+      }
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+/* ─── Footer ─── */
+.section-maniqui-footer .mfoot {
+  background: var(--warm-dark-2);
+  padding: 80px 0 40px;
+  color: var(--cream-warm);
+}
+
+/* Grid 4 columnas */
+.section-maniqui-footer .mfoot__grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 48px;
+  padding-bottom: 64px;
+  border-bottom: 1px solid rgba(253, 251, 247, 0.1);
+}
+
+/* Columna brand */
+.section-maniqui-footer .mfoot__brand-name {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--cream);
+  letter-spacing: 0.02em;
+  margin-bottom: 8px;
+}
+
+.section-maniqui-footer .mfoot__brand-tagline {
+  font-size: 13px;
+  color: rgba(253, 251, 247, 0.55);
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+/* Address (NAP) */
+.section-maniqui-footer .mfoot__address {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-style: normal;
+}
+
+.section-maniqui-footer .mfoot__address-line {
+  font-size: 13px;
+  color: rgba(253, 251, 247, 0.55);
+  line-height: 1.5;
+}
+
+.section-maniqui-footer .mfoot__phone {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--terracotta);
+  text-decoration: none;
+  margin-top: 8px;
+  display: block;
+  transition: opacity 200ms ease;
+}
+
+.section-maniqui-footer .mfoot__phone:hover {
+  opacity: 0.8;
+}
+
+.section-maniqui-footer .mfoot__email {
+  font-size: 12px;
+  color: rgba(253, 251, 247, 0.4);
+  text-decoration: none;
+  margin-top: 2px;
+  display: block;
+  transition: color 200ms ease;
+}
+
+.section-maniqui-footer .mfoot__email:hover {
+  color: rgba(253, 251, 247, 0.7);
+}
+
+/* Columnas de navegación */
+.section-maniqui-footer .mfoot__col-title {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(253, 251, 247, 0.35);
+  margin-bottom: 20px;
+}
+
+.section-maniqui-footer .mfoot__nav-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.section-maniqui-footer .mfoot__nav-link {
+  font-size: 14px;
+  color: rgba(253, 251, 247, 0.65);
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.section-maniqui-footer .mfoot__nav-link:hover {
+  color: var(--cream);
+}
+
+.section-maniqui-footer .mfoot__nav-link--wa {
+  color: var(--whatsapp);
+}
+
+.section-maniqui-footer .mfoot__nav-link--wa:hover {
+  color: #4de882;
+}
+
+/* Bottom bar */
+.section-maniqui-footer .mfoot__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding-top: 32px;
+  flex-wrap: wrap;
+}
+
+.section-maniqui-footer .mfoot__legal {
+  font-size: 12px;
+  color: rgba(253, 251, 247, 0.3);
+}
+
+.section-maniqui-footer .mfoot__legal-nav {
+  display: flex;
+  gap: 24px;
+}
+
+.section-maniqui-footer .mfoot__legal-link {
+  font-size: 12px;
+  color: rgba(253, 251, 247, 0.3);
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.section-maniqui-footer .mfoot__legal-link:hover {
+  color: rgba(253, 251, 247, 0.6);
+}
+
+/* ─── Tablet ─── */
+@media (max-width: 1024px) {
+  .section-maniqui-footer .mfoot__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+  }
+  .section-maniqui-footer .mfoot__col--brand {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 600px) {
+  .section-maniqui-footer .mfoot {
+    padding: 64px 0 32px;
+  }
+  .section-maniqui-footer .mfoot__grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding-bottom: 48px;
+  }
+  .section-maniqui-footer .mfoot__col--brand {
+    grid-column: auto;
+  }
+  .section-maniqui-footer .mfoot__bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}
+{% endstylesheet %}

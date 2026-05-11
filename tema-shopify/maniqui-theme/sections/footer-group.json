@@ -1,6 +1,23 @@
 {
   "type": "footer",
   "name": "Pie de página",
-  "sections": {},
-  "order": []
+  "sections": {
+    "footer": {
+      "type": "section-maniqui-footer",
+      "settings": {
+        "brand_name": "Maniquí",
+        "brand_tagline": "Arreglos de ropa en Valencia.",
+        "address_street": "Avda. Constitució 94, 46009",
+        "address_city": "Marxalenes, Valencia",
+        "phone": "+34 603 30 55 66",
+        "email": "hola@maniquicreaciones.com",
+        "col_servicios_title": "Servicios",
+        "col_info_title": "Información",
+        "col_social_title": "Síguenos",
+        "legal_tagline": "Todos los derechos reservados.",
+        "privacy_url": "/pages/privacidad"
+      }
+    }
+  },
+  "order": ["footer"]
 }
