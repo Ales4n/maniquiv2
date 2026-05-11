@@ -1,0 +1,447 @@
+{% comment %} MANIQUI: Arreglos más pedidos — 4 cols desktop, 2x2 tablet, snap mobile — 2026-05-05 {% endcomment %}
+
+<section class="marr" id="maniquiArreglos">
+  <div class="marr__inner maniqui-container">
+
+    <header class="marr__header">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="maniqui-eyebrow marr__eyebrow">{{ section.settings.eyebrow }}</p>
+        <span class="maniqui-sep-line marr__sep"></span>
+      {%- endif -%}
+      <h2 class="marr__headline">
+        {{ section.settings.headline }}
+        {%- if section.settings.headline_em != blank -%}
+          <em class="marr__headline-em">{{ section.settings.headline_em }}</em>
+        {%- endif -%}
+      </h2>
+      {%- if section.settings.subheadline != blank -%}
+        <p class="marr__sub">{{ section.settings.subheadline }}</p>
+      {%- endif -%}
+    </header>
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="marr__grid-wrap">
+        <div class="marr__grid">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'arreglo' -%}
+              <article class="marr__card" {{ block.shopify_attributes }}>
+
+                <div class="marr__card-img-wrap">
+                  {%- if block.settings.image -%}
+                    {{
+                      block.settings.image
+                      | image_url: width: 600
+                      | image_tag:
+                        loading: 'lazy',
+                        widths: '300, 400, 600',
+                        sizes: '(max-width: 600px) 72vw, (max-width: 1024px) 45vw, 280px',
+                        class: 'marr__card-img',
+                        alt: block.settings.headline | escape
+                    }}
+                  {%- else -%}
+                    <div class="marr__card-img-placeholder" aria-hidden="true"></div>
+                  {%- endif -%}
+                  <span class="marr__card-tag" aria-hidden="true">{{ block.settings.headline }}</span>
+                </div>
+
+                <div class="marr__card-content">
+                  <div class="marr__card-top">
+                    <h3 class="marr__card-title">{{ block.settings.headline }}</h3>
+                    {%- if block.settings.price != blank -%}
+                      <p class="marr__card-price">{{ block.settings.price }}</p>
+                    {%- endif -%}
+                  </div>
+                  {%- if block.settings.body != blank -%}
+                    <p class="marr__card-body">{{ block.settings.body }}</p>
+                  {%- endif -%}
+                  {%- if block.settings.url != blank -%}
+                    <a class="marr__card-link" href="{{ block.settings.url }}" aria-label="Ver arreglo: {{ block.settings.headline | escape }}">
+                      Ver arreglo
+                      <svg class="marr__card-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M3 8h10M9 4l4 4-4 4"/>
+                      </svg>
+                    </a>
+                  {%- endif -%}
+                </div>
+
+              </article>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.cta_label != blank and section.settings.cta_url != blank -%}
+      <div class="marr__footer">
+        <a class="maniqui-btn maniqui-btn--outline-dark marr__cta" href="{{ section.settings.cta_url }}">
+          {{ section.settings.cta_label }}
+        </a>
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Arreglos más pedidos",
+  "tag": "div",
+  "class": "section-maniqui-arreglos",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Servicios"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Titular",
+      "default": "Los arreglos que"
+    },
+    {
+      "type": "text",
+      "id": "headline_em",
+      "label": "Titular énfasis (cursiva sage)",
+      "default": "más nos pedís"
+    },
+    {
+      "type": "text",
+      "id": "subheadline",
+      "label": "Subtítulo",
+      "default": "Precio orientativo. El presupuesto exacto lo damos por WhatsApp o en el taller."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Etiqueta botón catálogo completo",
+      "default": "Ver todos los arreglos"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "URL catálogo completo"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "arreglo",
+      "name": "Arreglo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Imagen del arreglo"
+        },
+        {
+          "type": "text",
+          "id": "headline",
+          "label": "Nombre del arreglo",
+          "default": "Bajo de pantalón"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Precio (ej: desde 12€)",
+          "default": "desde 12€"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Descripción breve",
+          "default": "Ajustamos el largo exacto que necesitas, a mano o con máquina de dobladillo."
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Enlace a la página del servicio"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Arreglos más pedidos",
+      "settings": {
+        "eyebrow": "Servicios",
+        "headline": "Los arreglos que",
+        "headline_em": "más nos pedís",
+        "subheadline": "Precio orientativo. El presupuesto exacto lo damos por WhatsApp o en el taller.",
+        "cta_label": "Ver todos los arreglos"
+      },
+      "blocks": [
+        {
+          "type": "arreglo",
+          "settings": {
+            "headline": "Bajo de pantalón",
+            "price": "desde 12€",
+            "body": "Ajustamos el largo exacto que necesitas, a mano o con máquina de dobladillo."
+          }
+        },
+        {
+          "type": "arreglo",
+          "settings": {
+            "headline": "Ajuste de cintura",
+            "price": "desde 18€",
+            "body": "Pantalones, faldas y vestidos que quedan justos donde deben."
+          }
+        },
+        {
+          "type": "arreglo",
+          "settings": {
+            "headline": "Mangas",
+            "price": "desde 14€",
+            "body": "Camisas, chaquetas y jerseys con la manga en su sitio."
+          }
+        },
+        {
+          "type": "arreglo",
+          "settings": {
+            "headline": "Hombros y caída",
+            "price": "desde 25€",
+            "body": "El arreglo más técnico — cambia cómo cae toda la prenda."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+/* ─── Arreglos más pedidos ─── */
+.section-maniqui-arreglos .marr {
+  background: var(--cream);
+  padding: 120px 0;
+}
+
+.section-maniqui-arreglos .marr__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+/* Header */
+.section-maniqui-arreglos .marr__header {
+  max-width: 560px;
+}
+
+.section-maniqui-arreglos .marr__eyebrow {
+  margin-bottom: 16px;
+}
+
+.section-maniqui-arreglos .marr__sep {
+  margin-bottom: 24px;
+}
+
+.section-maniqui-arreglos .marr__headline {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(32px, 4vw, 52px);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--warm-dark);
+  margin-bottom: 16px;
+}
+
+.section-maniqui-arreglos .marr__headline-em {
+  font-style: italic;
+  color: var(--sage);
+}
+
+.section-maniqui-arreglos .marr__sub {
+  font-size: 15px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* Grid wrapper — maneja overflow en mobile */
+.section-maniqui-arreglos .marr__grid-wrap {
+  /* desktop y tablet: sin overflow */
+}
+
+/* Grid: 4 columnas en desktop */
+.section-maniqui-arreglos .marr__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* Card */
+.section-maniqui-arreglos .marr__card {
+  display: flex;
+  flex-direction: column;
+  background: var(--cream-warm);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color var(--tr-fast);
+}
+
+.section-maniqui-arreglos .marr__card:hover {
+  border-color: var(--sage-line);
+}
+
+/* Imagen cuadrada */
+.section-maniqui-arreglos .marr__card-img-wrap {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.section-maniqui-arreglos .marr__card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.section-maniqui-arreglos .marr__card:hover .marr__card-img {
+  transform: scale(1.04);
+}
+
+.section-maniqui-arreglos .marr__card-img-placeholder {
+  width: 100%;
+  height: 100%;
+  background: var(--border);
+}
+
+/* Tag sobre la imagen */
+.section-maniqui-arreglos .marr__card-tag {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--warm-dark);
+  background: rgba(253, 251, 247, 0.92);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+/* Contenido bajo imagen */
+.section-maniqui-arreglos .marr__card-content {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 20px 18px;
+  flex: 1;
+}
+
+/* Nombre + precio */
+.section-maniqui-arreglos .marr__card-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.section-maniqui-arreglos .marr__card-title {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--warm-dark);
+}
+
+.section-maniqui-arreglos .marr__card-price {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 16px;
+  color: var(--sage);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Body */
+.section-maniqui-arreglos .marr__card-body {
+  font-size: 13px;
+  color: var(--text-2);
+  line-height: 1.65;
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+/* Link */
+.section-maniqui-arreglos .marr__card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--warm-dark);
+  text-decoration: none;
+  transition: gap var(--tr-fast), color var(--tr-fast);
+}
+
+.section-maniqui-arreglos .marr__card-link:hover {
+  color: var(--sage-dark);
+  gap: 9px;
+}
+
+.section-maniqui-arreglos .marr__card-arrow {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* Footer CTA */
+.section-maniqui-arreglos .marr__footer {
+  display: flex;
+  justify-content: center;
+}
+
+.section-maniqui-arreglos .marr__cta {
+  border-radius: 999px;
+}
+
+/* ─── Tablet: 2x2 ─── */
+@media (max-width: 1024px) {
+  .section-maniqui-arreglos .marr {
+    padding: 80px 0;
+  }
+  .section-maniqui-arreglos .marr__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+/* ─── Mobile: scroll horizontal con snap ─── */
+@media (max-width: 600px) {
+  .section-maniqui-arreglos .marr {
+    padding: 64px 0;
+  }
+  .section-maniqui-arreglos .marr__inner {
+    gap: 48px;
+  }
+  .section-maniqui-arreglos .marr__grid-wrap {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    margin: 0 -24px;
+    padding: 0 24px 16px;
+  }
+  .section-maniqui-arreglos .marr__grid {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 12px;
+    width: max-content;
+  }
+  .section-maniqui-arreglos .marr__card {
+    width: 72vw;
+    min-width: 220px;
+    max-width: 280px;
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+}
+{% endstylesheet %}

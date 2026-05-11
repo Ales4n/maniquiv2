@@ -52,22 +52,26 @@
 /* ─── Banda de confianza ─── */
 .section-maniqui-banda .mbanda {
   background: var(--warm-dark);
-  padding: 20px 0;
-  border-bottom: 1px solid rgba(253,251,247,0.06);
+  padding: 24px 0;
+  border-top: 1px solid rgba(196, 164, 107, 0.5);
+  border-bottom: 1px solid rgba(196, 164, 107, 0.5);
 }
 
 .section-maniqui-banda .mbanda__inner {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   flex-wrap: wrap;
-  gap: 8px 40px;
+  gap: 12px 24px;
+  max-width: 100%;
 }
 
 .section-maniqui-banda .mbanda__item {
   display: flex;
   align-items: center;
   gap: 10px;
+  flex: 1;
+  justify-content: center;
 }
 
 .section-maniqui-banda .mbanda__dot {
@@ -88,6 +92,10 @@
 @media (max-width: 600px) {
   .section-maniqui-banda .mbanda__inner {
     gap: 10px 24px;
+    justify-content: flex-start;
+  }
+  .section-maniqui-banda .mbanda__item {
+    flex: 0 1 auto;
     justify-content: flex-start;
   }
   .section-maniqui-banda .mbanda__text {

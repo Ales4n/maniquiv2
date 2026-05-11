@@ -1,0 +1,325 @@
+{% comment %} MANIQUI: FAQ acordeón — 6 preguntas frecuentes + JSON-LD FAQPage — 2026-05-10 {% endcomment %}
+
+{%- assign wa_phone = '34603305566' -%}
+{%- assign wa_msg = 'Hola, tengo una duda sobre vuestros arreglos.' | url_encode -%}
+{%- assign wa_url = 'https://wa.me/' | append: wa_phone | append: '?text=' | append: wa_msg -%}
+
+{%- if section.blocks.size > 0 -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'item' and block.settings.question != blank -%}
+          {
+            "@type": "Question",
+            "name": {{ block.settings.question | json }},
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": {{ block.settings.answer | json }}
+            }
+          }{% unless forloop.last %},{% endunless %}
+        {%- endif -%}
+      {%- endfor -%}
+    ]
+  }
+  </script>
+{%- endif -%}
+
+<section class="mfaq" id="maniquiFaq">
+  <div class="mfaq__inner maniqui-container">
+
+    <div class="mfaq__layout">
+
+      <header class="mfaq__header">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="maniqui-eyebrow mfaq__eyebrow">{{ section.settings.eyebrow }}</p>
+          <span class="maniqui-sep-line mfaq__sep"></span>
+        {%- endif -%}
+        <h2 class="mfaq__headline">
+          {{ section.settings.headline }}
+          {%- if section.settings.headline_em != blank -%}
+            <em class="mfaq__headline-em">{{ section.settings.headline_em }}</em>
+          {%- endif -%}
+        </h2>
+        {%- if section.settings.subheadline != blank -%}
+          <p class="mfaq__sub">{{ section.settings.subheadline }}</p>
+        {%- endif -%}
+        <a
+          href="{{ wa_url }}"
+          class="maniqui-btn maniqui-btn--wa mfaq__header-cta"
+          target="_blank"
+          rel="noopener"
+        >Escríbenos por WhatsApp</a>
+      </header>
+
+      {%- if section.blocks.size > 0 -%}
+        <div class="mfaq__accordion">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'item' -%}
+              <details class="mfaq__item" {{ block.shopify_attributes }}>
+                <summary class="mfaq__question">
+                  <span class="mfaq__question-text">{{ block.settings.question }}</span>
+                  <svg class="mfaq__icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <line x1="8" y1="2" x2="8" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    <line x1="2" y1="8" x2="14" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                </summary>
+                <div class="mfaq__answer">
+                  <p>{{ block.settings.answer | newline_to_br }}</p>
+                </div>
+              </details>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "tag": "div",
+  "class": "section-maniqui-faq",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Dudas frecuentes"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Titular",
+      "default": "Las dudas"
+    },
+    {
+      "type": "text",
+      "id": "headline_em",
+      "label": "Titular énfasis (sage cursiva)",
+      "default": "más frecuentes"
+    },
+    {
+      "type": "text",
+      "id": "subheadline",
+      "label": "Subtítulo",
+      "default": "Si tu pregunta no está aquí, escríbenos por WhatsApp."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Pregunta",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Pregunta"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "Respuesta"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "FAQ",
+      "settings": {
+        "eyebrow": "Dudas frecuentes",
+        "headline": "Las dudas",
+        "headline_em": "más frecuentes",
+        "subheadline": "Si tu pregunta no está aquí, escríbenos por WhatsApp."
+      },
+      "blocks": [
+        {
+          "type": "item",
+          "settings": {
+            "question": "¿Cuánto cuesta arreglar una prenda?",
+            "answer": "Los precios dependen del arreglo y la prenda. Orientativamente: bajos desde 12€, ajuste de cintura desde 18€, mangas desde 14€, hombros desde 25€. Para el precio exacto de tu prenda te damos presupuesto al momento — por WhatsApp o en el taller."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "question": "¿Cuánto tardáis en hacer el arreglo?",
+            "answer": "La mayoría de arreglos habituales (bajos, cintura, mangas) los entregamos en 24-48h. En semanas de mucho trabajo puede subir a 3-4 días. Si tienes prisa, dínoslo al traer la prenda."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "question": "¿Necesito pedir cita previa?",
+            "answer": "No. Puedes pasarte cuando quieras en horario de taller — lunes a viernes de 10:00 a 14:00 y de 17:00 a 20:00. Si tienes varios arreglos o un proyecto complejo, puedes reservar una franja online para que podamos dedicarte más tiempo."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "question": "¿Hacéis arreglos para clientes de fuera de Valencia?",
+            "answer": "Sí. Para quienes no pueden venir al taller tenemos servicio online: contratas el arreglo, nos envías la prenda por correo, y te la devolvemos arreglada. Escríbenos antes para confirmar viabilidad y coste de envío."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "question": "¿Trabajáis con todo tipo de prendas?",
+            "answer": "Trabajamos con la mayoría de prendas del día a día: pantalones, faldas, vestidos, camisas, chaquetas, jerseys. Algunos tejidos muy delicados pueden requerir valoración presencial. Si tienes dudas sobre tu prenda, mándanos una foto antes de venir."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "question": "¿Hay arreglos que no podáis hacer?",
+            "answer": "Trabajamos con la mayoría de prendas y tejidos convencionales. Lo que no solemos aceptar son arreglos en piel auténtica, cuero o materiales técnicos especiales (neopreno, Gore-Tex), ya que requieren maquinaria y técnicas específicas. Si tienes dudas sobre tu prenda, mándanos una foto antes de venir."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+/* ─── FAQ acordeón ─── */
+.section-maniqui-faq .mfaq {
+  background: var(--cream-warm);
+  padding: 120px 0;
+}
+
+.section-maniqui-faq .mfaq__inner {
+  /* hereda de maniqui-container */
+}
+
+/* Layout 2 columnas */
+.section-maniqui-faq .mfaq__layout {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 80px;
+  align-items: start;
+}
+
+/* Header (columna izq) */
+.section-maniqui-faq .mfaq__eyebrow {
+  margin-bottom: 16px;
+}
+
+.section-maniqui-faq .mfaq__sep {
+  margin-bottom: 24px;
+}
+
+.section-maniqui-faq .mfaq__headline {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(28px, 3.2vw, 44px);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--warm-dark);
+  margin-bottom: 16px;
+}
+
+.section-maniqui-faq .mfaq__headline-em {
+  font-style: italic;
+  color: var(--sage);
+}
+
+.section-maniqui-faq .mfaq__sub {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+/* Acordeón (columna dcha) */
+.section-maniqui-faq .mfaq__accordion {
+  border-top: 1px solid var(--border);
+}
+
+.section-maniqui-faq .mfaq__item {
+  border-bottom: 1px solid var(--border);
+}
+
+.section-maniqui-faq .mfaq__question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 0;
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--warm-dark);
+  transition: color 200ms ease;
+}
+
+.section-maniqui-faq .mfaq__question::-webkit-details-marker {
+  display: none;
+}
+
+.section-maniqui-faq .mfaq__question:hover {
+  color: var(--sage);
+}
+
+.section-maniqui-faq .mfaq__question-text {
+  flex: 1;
+}
+
+/* Icono + → × al abrir */
+.section-maniqui-faq .mfaq__icon {
+  flex-shrink: 0;
+  color: var(--sage);
+  transition: transform 280ms ease;
+}
+
+.section-maniqui-faq .mfaq__item[open] .mfaq__icon {
+  transform: rotate(45deg);
+}
+
+.section-maniqui-faq .mfaq__item[open] .mfaq__question {
+  color: var(--sage);
+}
+
+/* Respuesta */
+.section-maniqui-faq .mfaq__answer {
+  padding-bottom: 20px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.75;
+}
+
+/* ─── Tablet ─── */
+@media (max-width: 1024px) {
+  .section-maniqui-faq .mfaq {
+    padding: 80px 0;
+  }
+  .section-maniqui-faq .mfaq__layout {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 600px) {
+  .section-maniqui-faq .mfaq {
+    padding: 64px 0;
+  }
+  .section-maniqui-faq .mfaq__headline {
+    font-size: clamp(26px, 7vw, 36px);
+  }
+  .section-maniqui-faq .mfaq__question {
+    font-size: 14px;
+    padding: 16px 0;
+  }
+}
+{% endstylesheet %}

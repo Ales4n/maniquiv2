@@ -7,7 +7,7 @@
         "nav_cta_label": "WhatsApp",
         "eyebrow": "Arreglos de ropa · Valencia",
         "headline": "Tu ropa nueva merece",
-        "headline_em": "quedar perfecta",
+        "headline_em": " quedar perfecta",
         "subheadline": "Tres modistas con taller propio en Marxalenes. Cuéntanos qué necesitas por WhatsApp, pásate sin cita, o contrátalo online.",
         "cta_wa_label": "Pregúntanos por WhatsApp",
         "cta_taller_label": "Ven al taller",
@@ -37,6 +37,229 @@
       },
       "block_order": ["item-anos", "item-google", "item-cita", "item-presupuesto"],
       "settings": {}
+    },
+    "canales": {
+      "type": "section-maniqui-canales",
+      "blocks": {
+        "canal-wa": {
+          "type": "canal",
+          "settings": {
+            "canal_type": "wa",
+            "featured": true,
+            "headline": "Por WhatsApp",
+            "body": "Cuéntanos qué necesitas. Te respondemos en minutos con precio y plazo.",
+            "cta_label": "Pregúntanos ahora"
+          }
+        },
+        "canal-taller": {
+          "type": "canal",
+          "settings": {
+            "canal_type": "taller",
+            "featured": false,
+            "headline": "En el taller",
+            "body": "Sin cita previa. Valoramos la prenda contigo y te damos precio en mano.",
+            "cta_label": "Cómo llegar",
+            "cta_url": "/pages/el-taller"
+          }
+        },
+        "canal-online": {
+          "type": "canal",
+          "settings": {
+            "canal_type": "online",
+            "featured": false,
+            "headline": "Online",
+            "body": "¿Fuera de Valencia? Contrátalo online, envíanos la prenda y te la devolvemos arreglada.",
+            "cta_label": "Contratar online",
+            "cta_url": "/collections/arreglos"
+          }
+        }
+      },
+      "block_order": ["canal-wa", "canal-taller", "canal-online"],
+      "settings": {
+        "eyebrow": "Cómo trabajamos",
+        "headline": "Tres formas de",
+        "headline_em": "empezar",
+        "subheadline": "Tú eliges la que más te encaje."
+      }
+    },
+    "modistas": {
+      "type": "section-maniqui-modistas",
+      "settings": {
+        "eyebrow": "El equipo",
+        "headline": "Tres amigas. Un taller.",
+        "headline_em": "Cosen ellas mismas tu prenda.",
+        "body": "Sin intermediarios, sin protocolos. Tres años en Marxalenes cosiendo ellas mismas cada arreglo — y se nota.",
+        "cta_label": "Conoce su historia →",
+        "cta_url": "/pages/sobre-nosotras"
+      }
+    },
+    "arreglos": {
+      "type": "section-maniqui-arreglos",
+      "blocks": {
+        "arreglo-bajos": {
+          "type": "arreglo",
+          "settings": {
+            "headline": "Bajo de pantalón",
+            "price": "desde 12€",
+            "body": "Ajustamos el largo exacto que necesitas, a mano o con máquina de dobladillo."
+          }
+        },
+        "arreglo-cintura": {
+          "type": "arreglo",
+          "settings": {
+            "headline": "Ajuste de cintura",
+            "price": "desde 18€",
+            "body": "Pantalones, faldas y vestidos que quedan justos donde deben."
+          }
+        },
+        "arreglo-mangas": {
+          "type": "arreglo",
+          "settings": {
+            "headline": "Mangas",
+            "price": "desde 14€",
+            "body": "Camisas, chaquetas y jerseys con la manga en su sitio."
+          }
+        },
+        "arreglo-hombros": {
+          "type": "arreglo",
+          "settings": {
+            "headline": "Hombros y caída",
+            "price": "desde 25€",
+            "body": "El arreglo más técnico — cambia cómo cae toda la prenda."
+          }
+        }
+      },
+      "block_order": ["arreglo-bajos", "arreglo-cintura", "arreglo-mangas", "arreglo-hombros"],
+      "settings": {
+        "eyebrow": "Servicios",
+        "headline": "Los arreglos que",
+        "headline_em": "más nos pedís",
+        "subheadline": "Precio orientativo. El presupuesto exacto lo damos por WhatsApp o en el taller.",
+        "cta_label": "Ver todos los arreglos",
+        "cta_url": "/collections/arreglos"
+      }
+    },
+    "testimonios": {
+      "type": "section-maniqui-testimonios",
+      "blocks": {
+        "caso-1": {
+          "type": "caso",
+          "settings": {
+            "caption": "Pantalón Zara — bajo en 48h",
+            "quote": "[Testimonio pendiente de añadir]",
+            "attribution": "M.G. · Valencia"
+          }
+        },
+        "caso-2": {
+          "type": "caso",
+          "settings": {
+            "caption": "Chaqueta Mango — ajuste de hombros",
+            "quote": "[Testimonio pendiente de añadir]",
+            "attribution": "L.P. · Marxalenes"
+          }
+        },
+        "caso-3": {
+          "type": "caso",
+          "settings": {
+            "caption": "Vestido COS — cintura y mangas",
+            "quote": "[Testimonio pendiente de añadir]",
+            "attribution": "A.R. · Valencia"
+          }
+        }
+      },
+      "block_order": ["caso-1", "caso-2", "caso-3"],
+      "settings": {
+        "eyebrow": "Lo que dicen",
+        "headline": "Prendas que vuelven a",
+        "headline_em": "quedar perfectas",
+        "subheadline": "5 estrellas en Google. Aquí van algunos de los casos que más nos alegran."
+      }
+    },
+    "taller": {
+      "type": "section-maniqui-taller",
+      "settings": {
+        "headline": "Te esperamos en",
+        "headline_em": "Marxalenes",
+        "subheadline": "Atención sin cita previa en horario de taller. Llega cuando puedas.",
+        "maps_embed_url": "https://maps.google.com/maps?q=Avinguda+de+la+Constituci%C3%B3+94%2C+46009+Valencia&output=embed&hl=es",
+        "address_line1": "Avinguda de la Constitució 94",
+        "address_line2": "46009 Valencia · La Saïdia",
+        "schedule_days": "Lunes a Viernes",
+        "schedule_hours": "10:00–14:00 · 17:00–20:00",
+        "contact_phone": "+34 603 30 55 66",
+        "contact_email": "atencionmaniqui@gmail.com",
+        "cta_taller_label": "Cómo llegar",
+        "cta_taller_url": "https://www.google.com/maps/dir/?api=1&destination=Avinguda+de+la+Constituci%C3%B3+94%2C+46009+Valencia",
+        "cta_wa_label": "Escríbenos por WhatsApp",
+        "callout_text": "¿Varios arreglos o un proyecto complejo? Reserva una franja y te atendemos sin prisa.",
+        "callout_cta_label": "Agendar consulta →"
+      }
+    },
+    "faq": {
+      "type": "section-maniqui-faq",
+      "blocks": {
+        "faq-1": {
+          "type": "item",
+          "settings": {
+            "question": "¿Cuánto cuesta arreglar una prenda?",
+            "answer": "Los precios dependen del arreglo y la prenda. Orientativamente: bajos desde 12€, ajuste de cintura desde 18€, mangas desde 14€, hombros desde 25€. Para el precio exacto de tu prenda te damos presupuesto al momento — por WhatsApp o en el taller."
+          }
+        },
+        "faq-2": {
+          "type": "item",
+          "settings": {
+            "question": "¿Cuánto tardáis en hacer el arreglo?",
+            "answer": "La mayoría de arreglos habituales (bajos, cintura, mangas) los entregamos en 24-48h. En semanas de mucho trabajo puede subir a 3-4 días. Si tienes prisa, dínoslo al traer la prenda."
+          }
+        },
+        "faq-3": {
+          "type": "item",
+          "settings": {
+            "question": "¿Necesito pedir cita previa?",
+            "answer": "No. Puedes pasarte cuando quieras en horario de taller — lunes a viernes de 10:00 a 14:00 y de 17:00 a 20:00. Si tienes varios arreglos o un proyecto complejo, puedes reservar una franja online para que podamos dedicarte más tiempo."
+          }
+        },
+        "faq-4": {
+          "type": "item",
+          "settings": {
+            "question": "¿Hacéis arreglos para clientes de fuera de Valencia?",
+            "answer": "Sí. Para quienes no pueden venir al taller tenemos servicio online: contratas el arreglo, nos envías la prenda por correo, y te la devolvemos arreglada. Escríbenos antes para confirmar viabilidad y coste de envío."
+          }
+        },
+        "faq-5": {
+          "type": "item",
+          "settings": {
+            "question": "¿Trabajáis con todo tipo de prendas?",
+            "answer": "Trabajamos con la mayoría de prendas del día a día: pantalones, faldas, vestidos, camisas, chaquetas, jerseys. Algunos tejidos muy delicados pueden requerir valoración presencial. Si tienes dudas sobre tu prenda, mándanos una foto antes de venir."
+          }
+        },
+        "faq-6": {
+          "type": "item",
+          "settings": {
+            "question": "¿Hay arreglos que no podáis hacer?",
+            "answer": "Trabajamos con la mayoría de prendas y tejidos convencionales. Lo que no solemos aceptar son arreglos en piel auténtica, cuero o materiales técnicos especiales (neopreno, Gore-Tex), ya que requieren maquinaria y técnicas específicas. Si tienes dudas sobre tu prenda, mándanos una foto antes de venir."
+          }
+        }
+      },
+      "block_order": ["faq-1", "faq-2", "faq-3", "faq-4", "faq-5", "faq-6"],
+      "settings": {
+        "eyebrow": "Dudas frecuentes",
+        "headline": "Las dudas",
+        "headline_em": "más frecuentes",
+        "subheadline": "Si tu pregunta no está aquí, escríbenos por WhatsApp."
+      }
+    },
+    "cta-final": {
+      "type": "section-maniqui-cta-final",
+      "settings": {
+        "eyebrow": "¿Lista para empezar?",
+        "headline": "¿Tienes una prenda que necesita",
+        "headline_em": "un retoque?",
+        "subheadline": "Cuéntanoslo o pásate. Lo demás lo hacemos nosotras.",
+        "cta_wa_label": "Escribir por WhatsApp",
+        "cta_taller_label": "Ven al taller",
+        "cta_taller_url": "/pages/el-taller"
+      }
     },
     "problema": {
       "type": "section-maniqui-problema",
@@ -71,5 +294,5 @@
       }
     }
   },
-  "order": ["hero", "banda", "problema"]
+  "order": ["hero", "banda", "problema", "canales", "modistas", "arreglos", "testimonios", "taller", "faq", "cta-final"]
 }

@@ -1,0 +1,464 @@
+{% comment %} MANIQUI: Visita el taller — mapa, dirección, horario, callout Calendly — 2026-05-10 {% endcomment %}
+
+{%- assign wa_phone = '34603305566' -%}
+{%- assign wa_msg = 'Hola, necesito arreglar una prenda. ¿Me podéis dar precio?' | url_encode -%}
+{%- assign wa_url = 'https://wa.me/' | append: wa_phone | append: '?text=' | append: wa_msg -%}
+
+<section class="mtaller" id="maniquiTaller">
+  <div class="mtaller__inner maniqui-container">
+
+    <header class="mtaller__header">
+      <h2 class="mtaller__headline">
+        {{ section.settings.headline }}
+        {%- if section.settings.headline_em != blank -%}
+          <em class="mtaller__headline-em">{{ section.settings.headline_em }}</em>
+        {%- endif -%}
+      </h2>
+      {%- if section.settings.subheadline != blank -%}
+        <p class="mtaller__sub">{{ section.settings.subheadline }}</p>
+      {%- endif -%}
+    </header>
+
+    <div class="mtaller__grid">
+
+      <div class="mtaller__map-wrap">
+        {%- if section.settings.maps_embed_url != blank -%}
+          <iframe
+            class="mtaller__map"
+            src="{{ section.settings.maps_embed_url }}"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Mapa — Taller Maniquí, Avinguda de la Constitució 94, Valencia"
+            allowfullscreen
+          ></iframe>
+        {%- else -%}
+          <div class="mtaller__map-placeholder" aria-hidden="true"></div>
+        {%- endif -%}
+      </div>
+
+      <div class="mtaller__info">
+
+        <div class="mtaller__info-row">
+          <p class="mtaller__label">Dirección</p>
+          <p class="mtaller__value">{{ section.settings.address_line1 }}</p>
+          {%- if section.settings.address_line2 != blank -%}
+            <p class="mtaller__detail">{{ section.settings.address_line2 }}</p>
+          {%- endif -%}
+        </div>
+
+        <div class="mtaller__info-row">
+          <p class="mtaller__label">Horario</p>
+          <p class="mtaller__value">{{ section.settings.schedule_days }}</p>
+          {%- if section.settings.schedule_hours != blank -%}
+            <p class="mtaller__detail">{{ section.settings.schedule_hours }}</p>
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.contact_phone != blank or section.settings.contact_email != blank -%}
+          <div class="mtaller__info-row">
+            <p class="mtaller__label">Contacto directo</p>
+            {%- if section.settings.contact_phone != blank -%}
+              {%- assign phone_href = section.settings.contact_phone | remove: ' ' -%}
+              <a href="tel:{{ phone_href }}" class="mtaller__value mtaller__contact-link">
+                {{- section.settings.contact_phone -}}
+              </a>
+            {%- endif -%}
+            {%- if section.settings.contact_email != blank -%}
+              <a href="mailto:{{ section.settings.contact_email }}" class="mtaller__detail mtaller__contact-link">
+                {{- section.settings.contact_email -}}
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        <div class="mtaller__ctas">
+          <a
+            href="{{ section.settings.cta_taller_url }}"
+            class="maniqui-btn mtaller__btn-taller"
+            target="_blank"
+            rel="noopener"
+          >{{ section.settings.cta_taller_label }}</a>
+          <a
+            href="{{ wa_url }}"
+            class="maniqui-btn maniqui-btn--wa"
+            target="_blank"
+            rel="noopener"
+          >{{ section.settings.cta_wa_label }}</a>
+        </div>
+
+      </div>
+    </div>
+
+    {%- if section.settings.callout_text != blank -%}
+      <div class="mtaller__callout">
+        <p class="mtaller__callout-text">{{ section.settings.callout_text }}</p>
+        {%- assign calendly_url = section.settings.callout_cta_url | default: '#' -%}
+        <a
+          href="{{ calendly_url }}"
+          class="mtaller__callout-cta"
+          {% unless section.settings.callout_cta_url == blank %}target="_blank" rel="noopener"{% endunless %}
+        >{{ section.settings.callout_cta_label }}</a>
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Visita el taller",
+  "tag": "div",
+  "class": "section-maniqui-taller",
+  "settings": [
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Titular",
+      "default": "Te esperamos en"
+    },
+    {
+      "type": "text",
+      "id": "headline_em",
+      "label": "Titular énfasis (sage cursiva)",
+      "default": "Marxalenes"
+    },
+    {
+      "type": "text",
+      "id": "subheadline",
+      "label": "Subtítulo",
+      "default": "Atención sin cita previa en horario de taller. Llega cuando puedas."
+    },
+    {
+      "type": "header",
+      "content": "Mapa"
+    },
+    {
+      "type": "text",
+      "id": "maps_embed_url",
+      "label": "URL embed Google Maps",
+      "info": "Google Maps → Compartir → Insertar mapa → copia solo la URL del src=",
+      "default": "https://maps.google.com/maps?q=Avinguda+de+la+Constituci%C3%B3+94%2C+46009+Valencia&output=embed&hl=es"
+    },
+    {
+      "type": "header",
+      "content": "Dirección"
+    },
+    {
+      "type": "text",
+      "id": "address_line1",
+      "label": "Dirección (línea 1)",
+      "default": "Avinguda de la Constitució 94"
+    },
+    {
+      "type": "text",
+      "id": "address_line2",
+      "label": "Dirección (línea 2)",
+      "default": "46009 Valencia · La Saïdia"
+    },
+    {
+      "type": "header",
+      "content": "Horario"
+    },
+    {
+      "type": "text",
+      "id": "schedule_days",
+      "label": "Días",
+      "default": "Lunes a Viernes"
+    },
+    {
+      "type": "text",
+      "id": "schedule_hours",
+      "label": "Horas",
+      "default": "10:00–14:00 · 17:00–20:00"
+    },
+    {
+      "type": "header",
+      "content": "Contacto directo"
+    },
+    {
+      "type": "text",
+      "id": "contact_phone",
+      "label": "Teléfono",
+      "default": "+34 603 30 55 66"
+    },
+    {
+      "type": "text",
+      "id": "contact_email",
+      "label": "Email",
+      "default": "atencionmaniqui@gmail.com"
+    },
+    {
+      "type": "header",
+      "content": "CTAs"
+    },
+    {
+      "type": "text",
+      "id": "cta_taller_label",
+      "label": "CTA Cómo llegar (etiqueta)",
+      "default": "Cómo llegar"
+    },
+    {
+      "type": "text",
+      "id": "cta_taller_url",
+      "label": "CTA Cómo llegar (URL Google Maps)",
+      "default": "https://www.google.com/maps/dir/?api=1&destination=Avinguda+de+la+Constituci%C3%B3+94%2C+46009+Valencia"
+    },
+    {
+      "type": "text",
+      "id": "cta_wa_label",
+      "label": "CTA WhatsApp (etiqueta)",
+      "default": "Escríbenos por WhatsApp"
+    },
+    {
+      "type": "header",
+      "content": "Callout Calendly"
+    },
+    {
+      "type": "textarea",
+      "id": "callout_text",
+      "label": "Texto del callout",
+      "default": "¿Varios arreglos o un proyecto complejo? Reserva una franja y te atendemos sin prisa."
+    },
+    {
+      "type": "text",
+      "id": "callout_cta_label",
+      "label": "Enlace callout (etiqueta)",
+      "default": "Agendar consulta →"
+    },
+    {
+      "type": "text",
+      "id": "callout_cta_url",
+      "label": "Enlace callout (URL Calendly)"
+    }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "Visita el taller",
+      "settings": {
+        "headline": "Te esperamos en",
+        "headline_em": "Marxalenes",
+        "subheadline": "Atención sin cita previa en horario de taller. Llega cuando puedas.",
+        "address_line1": "Avinguda de la Constitució 94",
+        "address_line2": "46009 Valencia · La Saïdia",
+        "schedule_days": "Lunes a Viernes",
+        "schedule_hours": "10:00–14:00 · 17:00–20:00",
+        "contact_phone": "+34 603 30 55 66",
+        "contact_email": "atencionmaniqui@gmail.com",
+        "cta_taller_label": "Cómo llegar",
+        "cta_wa_label": "Escríbenos por WhatsApp",
+        "callout_text": "¿Varios arreglos o un proyecto complejo? Reserva una franja y te atendemos sin prisa.",
+        "callout_cta_label": "Agendar consulta →"
+      }
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+/* ─── Visita el taller ─── */
+.section-maniqui-taller .mtaller {
+  background: var(--cream);
+  padding: 120px 0;
+}
+
+.section-maniqui-taller .mtaller__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+
+/* Header */
+.section-maniqui-taller .mtaller__header {
+  max-width: 600px;
+}
+
+.section-maniqui-taller .mtaller__headline {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(32px, 4vw, 52px);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--warm-dark);
+  margin-bottom: 16px;
+}
+
+.section-maniqui-taller .mtaller__headline-em {
+  font-style: italic;
+  color: var(--sage);
+}
+
+.section-maniqui-taller .mtaller__sub {
+  font-size: 15px;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+
+/* Grid: mapa izq + info dcha */
+.section-maniqui-taller .mtaller__grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+
+/* Mapa */
+.section-maniqui-taller .mtaller__map-wrap {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+
+.section-maniqui-taller .mtaller__map {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+.section-maniqui-taller .mtaller__map-placeholder {
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    45deg,
+    var(--cream-warm) 0px,
+    var(--cream-warm) 10px,
+    var(--border) 10px,
+    var(--border) 11px
+  );
+}
+
+/* Info */
+.section-maniqui-taller .mtaller__info {
+  display: flex;
+  flex-direction: column;
+}
+
+.section-maniqui-taller .mtaller__info-row {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-maniqui-taller .mtaller__info-row:first-child {
+  padding-top: 0;
+}
+
+.section-maniqui-taller .mtaller__label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.section-maniqui-taller .mtaller__value {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--warm-dark);
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.section-maniqui-taller .mtaller__detail {
+  font-size: 13px;
+  color: var(--text-2);
+  line-height: 1.5;
+}
+
+/* CTAs */
+.section-maniqui-taller .mtaller__ctas {
+  display: flex;
+  gap: 12px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+
+.section-maniqui-taller .mtaller__btn-taller {
+  background: var(--warm-dark);
+  color: var(--cream);
+  border-color: var(--warm-dark);
+}
+
+.section-maniqui-taller .mtaller__btn-taller:hover {
+  background: var(--warm-dark-2);
+  border-color: var(--warm-dark-2);
+  transform: translateY(-2px);
+}
+
+/* Contacto directo */
+.section-maniqui-taller .mtaller__contact-link {
+  display: block;
+  text-decoration: none;
+}
+
+.section-maniqui-taller .mtaller__contact-link:hover {
+  color: var(--sage);
+}
+
+/* Callout Calendly */
+.section-maniqui-taller .mtaller__callout {
+  margin-top: 8px; /* añade a gap:56px → ~64px de separación visual con el grid */
+  padding: 20px 24px;
+  background: var(--cream-warm);
+  border-left: 2px solid var(--terracotta);
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.65;
+}
+
+.section-maniqui-taller .mtaller__callout-text {
+  margin-bottom: 12px;
+}
+
+.section-maniqui-taller .mtaller__callout-cta {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--terracotta);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  letter-spacing: 0.01em;
+  transition: opacity 200ms ease;
+}
+
+.section-maniqui-taller .mtaller__callout-cta:hover {
+  opacity: 0.75;
+}
+
+/* ─── Tablet ─── */
+@media (max-width: 1024px) {
+  .section-maniqui-taller .mtaller {
+    padding: 80px 0;
+  }
+  .section-maniqui-taller .mtaller__grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 600px) {
+  .section-maniqui-taller .mtaller {
+    padding: 64px 0;
+  }
+  .section-maniqui-taller .mtaller__inner {
+    gap: 40px;
+  }
+  .section-maniqui-taller .mtaller__ctas {
+    flex-direction: column;
+  }
+  .section-maniqui-taller .mtaller__ctas .maniqui-btn,
+  .section-maniqui-taller .mtaller__ctas .mtaller__btn-taller {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+}
+{% endstylesheet %}
