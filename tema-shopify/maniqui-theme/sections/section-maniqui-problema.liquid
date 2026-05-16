@@ -1,10 +1,5 @@
 {% comment %} MANIQUI: Problema·Solución — gancho emocional, conexión campaña Meta — 2026-05-04 {% endcomment %}
-
-{%- liquid
-  assign wa_number = settings.whatsapp_number | remove: '+' | remove: ' ' | remove: '-'
-  assign wa_message = settings.whatsapp_message | url_encode
-  assign wa_url = 'https://wa.me/' | append: wa_number | append: '?text=' | append: wa_message
--%}
+{% comment %} MANIQUI: Auditoría WA — botón verde eliminado, tags pasan a anchors — 2026-05-16 {% endcomment %}
 
 <section class="mprob" id="maniquiProblema">
   <div class="mprob__inner maniqui-container">
@@ -38,24 +33,15 @@
         <ul class="mprob__tags" role="list" aria-label="Tipos de arreglo">
           {%- for block in section.blocks -%}
             {%- if block.type == 'tag' -%}
-              <li class="mprob__tag" {{ block.shopify_attributes }}>{{ block.settings.label }}</li>
+              {%- assign tag_url = block.settings.url | default: '#maniquiCanales' -%}
+              <li class="mprob__tag" {{ block.shopify_attributes }}>
+                <a class="mprob__tag-link" href="{{ tag_url }}">{{ block.settings.label }}</a>
+              </li>
             {%- endif -%}
           {%- endfor -%}
         </ul>
       {%- endif -%}
 
-      <a
-        class="maniqui-btn maniqui-btn--wa mprob__cta"
-        href="{{ wa_url }}"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="{{ section.settings.cta_label | escape }} (abre WhatsApp)"
-      >
-        <svg class="maniqui-icon-wa" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M17.6 6.32A8 8 0 0 0 4.45 16.4L4 20l3.74-1A8 8 0 1 0 17.6 6.32Zm-5.6 12a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.22.58.6-2.16-.16-.25a6.64 6.64 0 1 1 5.38 2.9Zm3.62-4.96c-.2-.1-1.18-.58-1.36-.65s-.32-.1-.45.1-.5.65-.62.78-.23.15-.43.05a5.42 5.42 0 0 1-1.6-1 6 6 0 0 1-1.1-1.38c-.12-.2 0-.3.08-.4s.2-.23.3-.34a1.34 1.34 0 0 0 .2-.34.37.37 0 0 0 0-.35c-.05-.1-.45-1.08-.62-1.48s-.33-.34-.45-.34h-.38a.74.74 0 0 0-.54.25 2.25 2.25 0 0 0-.7 1.67 3.9 3.9 0 0 0 .82 2.08 8.94 8.94 0 0 0 3.42 3.02c.48.2.85.32 1.14.41a2.76 2.76 0 0 0 1.26.08 2.06 2.06 0 0 0 1.36-.96 1.69 1.69 0 0 0 .12-.96c-.05-.08-.18-.13-.38-.23Z"/>
-        </svg>
-        {{ section.settings.cta_label }}
-      </a>
     </div>
 
   </div>
@@ -89,12 +75,6 @@
       "id": "body",
       "label": "Texto",
       "default": "Bajos largos, mangas que sobran, una cintura que pide ajuste. No hace falta devolver — un arreglo bien hecho lo cambia todo."
-    },
-    {
-      "type": "text",
-      "id": "cta_label",
-      "label": "Etiqueta botón WhatsApp",
-      "default": "Cuéntanos tu caso"
     }
   ],
   "blocks": [
@@ -107,6 +87,12 @@
           "id": "label",
           "label": "Texto",
           "default": "Bajos"
+        },
+        {
+          "type": "text",
+          "id": "url",
+          "label": "URL (vacío → ancla a sección Canales)",
+          "info": "Ej: /collections/bajos-pantalon o #maniquiCanales"
         }
       ]
     }
@@ -194,15 +180,16 @@
   max-width: 42ch;
 }
 
-/* Tags */
+/* Tags clicables */
 .section-maniqui-prob .mprob__tags {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   list-style: none;
   padding: 0;
-  margin: 0 0 40px;
+  margin: 0;
 }
+
 .section-maniqui-prob .mprob__tag {
   font-family: var(--font-body);
   font-size: 12px;
@@ -216,9 +203,17 @@
   transition: background var(--tr-fast), border-color var(--tr-fast);
 }
 
-/* CTA — hereda padding de .maniqui-btn (14px 28px) */
-.section-maniqui-prob .mprob__cta {
-  border-radius: 999px;
+.section-maniqui-prob .mprob__tag:hover {
+  background: var(--sage-soft);
+  border-color: var(--sage);
+  cursor: pointer;
+}
+
+.section-maniqui-prob .mprob__tag-link {
+  display: block;
+  color: inherit;
+  font: inherit;
+  text-decoration: none;
 }
 
 /* ─── Tablet ─── */
@@ -250,10 +245,6 @@
   }
   .section-maniqui-prob .mprob__body {
     max-width: 100%;
-  }
-  .section-maniqui-prob .mprob__cta {
-    width: 100%;
-    justify-content: center;
   }
 }
 {% endstylesheet %}

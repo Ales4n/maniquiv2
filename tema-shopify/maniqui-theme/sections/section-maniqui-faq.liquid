@@ -48,10 +48,10 @@
         {%- endif -%}
         <a
           href="{{ wa_url }}"
-          class="maniqui-btn maniqui-btn--wa mfaq__header-cta"
+          class="mfaq__wa-link"
           target="_blank"
           rel="noopener"
-        >Escríbenos por WhatsApp</a>
+        >Si tu pregunta no está aquí, escríbenos por WhatsApp →</a>
       </header>
 
       {%- if section.blocks.size > 0 -%}
@@ -235,7 +235,22 @@
   color: var(--text-muted);
   line-height: 1.6;
   margin-top: 24px;
+  margin-bottom: 12px;
+}
+
+.section-maniqui-faq .mfaq__wa-link {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--sage);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--tr-fast);
   margin-bottom: 24px;
+}
+
+.section-maniqui-faq .mfaq__wa-link:hover {
+  color: var(--sage-dark);
 }
 
 /* Acordeón (columna dcha) */

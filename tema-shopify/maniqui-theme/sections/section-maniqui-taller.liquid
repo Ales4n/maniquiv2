@@ -80,7 +80,7 @@
           >{{ section.settings.cta_taller_label }}</a>
           <a
             href="{{ wa_url }}"
-            class="maniqui-btn maniqui-btn--wa"
+            class="maniqui-btn mtaller__btn-wa-soft"
             target="_blank"
             rel="noopener"
           >{{ section.settings.cta_wa_label }}</a>
@@ -387,6 +387,18 @@
 .section-maniqui-taller .mtaller__btn-taller:hover {
   background: var(--warm-dark-2);
   border-color: var(--warm-dark-2);
+  transform: translateY(-2px);
+}
+
+.section-maniqui-taller .mtaller__btn-wa-soft {
+  background: transparent;
+  color: var(--warm-dark);
+  border-color: var(--sage-line);
+}
+
+.section-maniqui-taller .mtaller__btn-wa-soft:hover {
+  border-color: var(--sage);
+  color: var(--sage-dark);
   transform: translateY(-2px);
 }
 
