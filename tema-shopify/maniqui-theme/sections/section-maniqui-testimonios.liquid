@@ -1,4 +1,6 @@
-{% comment %} MANIQUI: Antes/Después + Testimonios — 2 imgs por caso, scroll snap mobile — 2026-05-05 {% endcomment %}
+{% comment %} MANIQUI: Validación social — 3 reseñas Google + bloque estadística — 2026-05-16 {% endcomment %}
+
+{%- assign google_url = section.settings.google_url | default: '#' -%}
 
 <section class="mtesti" id="maniquiTestimonios">
   <div class="mtesti__inner maniqui-container">
@@ -9,185 +11,182 @@
         <span class="maniqui-sep-line mtesti__sep"></span>
       {%- endif -%}
       <h2 class="mtesti__headline">
-        {{ section.settings.headline }}
-        {%- if section.settings.headline_em != blank -%}
-          <em class="mtesti__headline-em">{{ section.settings.headline_em }}</em>
-        {%- endif -%}
+        {{- section.settings.headline -}}{% if section.settings.headline_em != blank %} <em class="mtesti__headline-em">{{ section.settings.headline_em }}</em>{% endif %}{% if section.settings.headline_post != blank %} {{ section.settings.headline_post }}{% endif %}
       </h2>
       {%- if section.settings.subheadline != blank -%}
         <p class="mtesti__sub">{{ section.settings.subheadline }}</p>
       {%- endif -%}
     </header>
 
-    {%- if section.blocks.size > 0 -%}
-      <div class="mtesti__grid-wrap">
-        <div class="mtesti__grid">
-          {%- for block in section.blocks -%}
-            {%- if block.type == 'caso' -%}
-              <article class="mtesti__card" {{ block.shopify_attributes }}>
+    <div class="mtesti__grid">
 
-                <div class="mtesti__imgs">
-                  <div class="mtesti__img-wrap">
-                    {%- if block.settings.image_before -%}
-                      {{
-                        block.settings.image_before
-                        | image_url: width: 600
-                        | image_tag:
-                          loading: 'lazy',
-                          widths: '300, 500, 600',
-                          sizes: '(max-width: 600px) 40vw, 200px',
-                          class: 'mtesti__img',
-                          alt: 'Antes — ' | append: block.settings.caption | escape
-                      }}
-                    {%- else -%}
-                      <div class="mtesti__img-placeholder" aria-hidden="true"></div>
-                    {%- endif -%}
-                    <span class="mtesti__img-label">Antes</span>
-                  </div>
-                  <div class="mtesti__img-wrap">
-                    {%- if block.settings.image_after -%}
-                      {{
-                        block.settings.image_after
-                        | image_url: width: 600
-                        | image_tag:
-                          loading: 'lazy',
-                          widths: '300, 500, 600',
-                          sizes: '(max-width: 600px) 40vw, 200px',
-                          class: 'mtesti__img',
-                          alt: 'Después — ' | append: block.settings.caption | escape
-                      }}
-                    {%- else -%}
-                      <div class="mtesti__img-placeholder" aria-hidden="true"></div>
-                    {%- endif -%}
-                    <span class="mtesti__img-label mtesti__img-label--after">Después</span>
-                  </div>
-                </div>
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'testimonio' -%}
+          <article class="mtesti__card" {{ block.shopify_attributes }}>
 
-                <div class="mtesti__body">
-                  {%- if block.settings.caption != blank -%}
-                    <p class="mtesti__caption">{{ block.settings.caption }}</p>
-                  {%- endif -%}
-                  {%- if block.settings.quote != blank -%}
-                    <blockquote class="mtesti__quote">
-                      <p>{{ block.settings.quote }}</p>
-                    </blockquote>
-                  {%- endif -%}
-                  {%- if block.settings.attribution != blank -%}
-                    <p class="mtesti__attribution">{{ block.settings.attribution }}</p>
-                  {%- endif -%}
-                </div>
+            <div class="mtesti__stars" role="img" aria-label="5 de 5 estrellas">
+              <span aria-hidden="true">★★★★★</span>
+            </div>
 
-              </article>
-            {%- endif -%}
-          {%- endfor -%}
+            <div class="mtesti__quote-wrap">
+              <span class="mtesti__quote-mark" aria-hidden="true">&ldquo;</span>
+              <blockquote class="mtesti__quote">
+                <p>{{ block.settings.quote }}</p>
+              </blockquote>
+            </div>
+
+            <footer class="mtesti__attribution">
+              <p class="mtesti__author">{{ block.settings.attribution }}</p>
+              {%- if block.settings.service != blank -%}
+                <p class="mtesti__service">{{ block.settings.service }}</p>
+              {%- endif -%}
+              <p class="mtesti__verified">Reseña verificada en Google</p>
+            </footer>
+
+          </article>
+        {%- endif -%}
+      {%- endfor -%}
+
+      <aside class="mtesti__stats">
+        <svg class="mtesti__google-g" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M12.545 10.239v3.821h5.445c-.712 2.315-2.647 3.972-5.445 3.972-3.332 0-6.033-2.701-6.033-6.032s2.701-6.032 6.033-6.032c1.498 0 2.866.549 3.921 1.453l2.814-2.814C17.503 2.988 15.139 2 12.545 2 7.021 2 2.543 6.477 2.543 12s4.478 10 10.002 10c8.396 0 10.249-7.85 9.426-11.748L12.545 10.239z" fill="currentColor"/>
+        </svg>
+
+        <p class="mtesti__rating-number">{{ section.settings.rating }}</p>
+
+        <div class="mtesti__stars mtesti__stars--lg" role="img" aria-label="4,9 de 5 estrellas">
+          <span aria-hidden="true">★★★★★</span>
         </div>
-      </div>
-    {%- endif -%}
+
+        <p class="mtesti__review-count">
+          Basado en {{ section.settings.review_count }} reseñas verificadas
+        </p>
+
+        <a
+          href="{{ google_url }}"
+          class="mtesti__google-cta maniqui-btn"
+          {% unless section.settings.google_url == blank %}target="_blank" rel="noopener"{% endunless %}
+        >{{ section.settings.cta_label }}</a>
+      </aside>
+
+    </div>
 
   </div>
 </section>
 
 {% schema %}
 {
-  "name": "Testimonios y resultados",
+  "name": "Validación social",
   "tag": "div",
   "class": "section-maniqui-testimonios",
   "settings": [
     {
+      "type": "header",
+      "content": "Encabezado"
+    },
+    {
       "type": "text",
       "id": "eyebrow",
       "label": "Eyebrow",
-      "default": "Lo que dicen"
+      "default": "Validación"
     },
     {
       "type": "text",
       "id": "headline",
       "label": "Titular",
-      "default": "Prendas que vuelven a"
+      "default": "79 clientas."
     },
     {
       "type": "text",
       "id": "headline_em",
-      "label": "Titular énfasis (cursiva sage)",
-      "default": "quedar perfectas"
+      "label": "Titular énfasis (sage cursiva)",
+      "default": "4,9 estrellas."
     },
     {
       "type": "text",
+      "id": "headline_post",
+      "label": "Titular cierre",
+      "default": "Y subiendo."
+    },
+    {
+      "type": "textarea",
       "id": "subheadline",
       "label": "Subtítulo",
-      "default": "5 estrellas en Google. Aquí van algunos de los casos que más nos alegran."
+      "default": "Estas son algunas de las reseñas que recibimos en Google. Todas verificadas, todas reales."
+    },
+    {
+      "type": "header",
+      "content": "Bloque de estadística"
+    },
+    {
+      "type": "text",
+      "id": "rating",
+      "label": "Puntuación media",
+      "default": "4,9"
+    },
+    {
+      "type": "text",
+      "id": "review_count",
+      "label": "Número de reseñas",
+      "default": "79"
+    },
+    {
+      "type": "text",
+      "id": "google_url",
+      "label": "URL perfil Google Business",
+      "info": "Dejar vacío hasta tener la URL definitiva"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Texto botón Google",
+      "default": "Leer todas en Google →"
     }
   ],
   "blocks": [
     {
-      "type": "caso",
-      "name": "Caso antes/después",
+      "type": "testimonio",
+      "name": "Reseña",
       "settings": [
-        {
-          "type": "image_picker",
-          "id": "image_before",
-          "label": "Foto ANTES"
-        },
-        {
-          "type": "image_picker",
-          "id": "image_after",
-          "label": "Foto DESPUÉS"
-        },
-        {
-          "type": "text",
-          "id": "caption",
-          "label": "Caption del caso",
-          "default": "Pantalón Zara — bajo en 48h"
-        },
         {
           "type": "textarea",
           "id": "quote",
-          "label": "Quote del cliente",
+          "label": "Cita (texto de la reseña)",
           "default": "[Testimonio pendiente de añadir]"
         },
         {
           "type": "text",
           "id": "attribution",
-          "label": "Atribución (inicial + barrio)",
-          "default": "M.G. · Valencia"
+          "label": "Nombre / inicial",
+          "default": "M.G."
+        },
+        {
+          "type": "text",
+          "id": "service",
+          "label": "Servicio + plazo (MAYÚSCULAS)",
+          "default": "BAJO DE PANTALÓN · 48H"
         }
       ]
     }
   ],
+  "max_blocks": 6,
   "presets": [
     {
-      "name": "Testimonios y resultados",
+      "name": "Validación social",
       "settings": {
-        "eyebrow": "Lo que dicen",
-        "headline": "Prendas que vuelven a",
-        "headline_em": "quedar perfectas",
-        "subheadline": "5 estrellas en Google. Aquí van algunos de los casos que más nos alegran."
+        "eyebrow": "Validación",
+        "headline": "79 clientas.",
+        "headline_em": "4,9 estrellas.",
+        "headline_post": "Y subiendo.",
+        "subheadline": "Estas son algunas de las reseñas que recibimos en Google. Todas verificadas, todas reales.",
+        "rating": "4,9",
+        "review_count": "79",
+        "cta_label": "Leer todas en Google →"
       },
       "blocks": [
-        {
-          "type": "caso",
-          "settings": {
-            "caption": "Pantalón Zara — bajo en 48h",
-            "quote": "[Testimonio pendiente de añadir]",
-            "attribution": "M.G. · Valencia"
-          }
-        },
-        {
-          "type": "caso",
-          "settings": {
-            "caption": "Chaqueta Mango — ajuste de hombros",
-            "quote": "[Testimonio pendiente de añadir]",
-            "attribution": "L.P. · Marxalenes"
-          }
-        },
-        {
-          "type": "caso",
-          "settings": {
-            "caption": "Vestido COS — cintura y mangas",
-            "quote": "[Testimonio pendiente de añadir]",
-            "attribution": "A.R. · Valencia"
-          }
-        }
+        { "type": "testimonio", "settings": { "quote": "[Testimonio pendiente de añadir]", "attribution": "M.G.", "service": "BAJO DE PANTALÓN · 48H" } },
+        { "type": "testimonio", "settings": { "quote": "[Testimonio pendiente de añadir]", "attribution": "L.P.", "service": "AJUSTE DE HOMBROS · 3 DÍAS" } },
+        { "type": "testimonio", "settings": { "quote": "[Testimonio pendiente de añadir]", "attribution": "A.F.", "service": "AJUSTE DE CINTURA · 48H" } }
       ]
     }
   ]
@@ -195,9 +194,9 @@
 {% endschema %}
 
 {% stylesheet %}
-/* ─── Antes/Después + Testimonios ─── */
+/* ─── Validación social ─── */
 .section-maniqui-testimonios .mtesti {
-  background: var(--cream-warm);
+  background: var(--cream);
   padding: 120px 0;
 }
 
@@ -207,9 +206,11 @@
   gap: 72px;
 }
 
-/* Header */
+/* Header centrado */
 .section-maniqui-testimonios .mtesti__header {
-  max-width: 560px;
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto;
 }
 
 .section-maniqui-testimonios .mtesti__eyebrow {
@@ -217,17 +218,17 @@
 }
 
 .section-maniqui-testimonios .mtesti__sep {
-  margin-bottom: 24px;
+  margin: 0 auto 24px;
 }
 
 .section-maniqui-testimonios .mtesti__headline {
   font-family: var(--font-display);
   font-weight: 300;
-  font-size: clamp(32px, 4vw, 52px);
-  line-height: 1.1;
+  font-size: clamp(36px, 4.2vw, 52px);
+  line-height: 1.12;
   letter-spacing: -0.01em;
   color: var(--warm-dark);
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .section-maniqui-testimonios .mtesti__headline-em {
@@ -238,139 +239,176 @@
 .section-maniqui-testimonios .mtesti__sub {
   font-size: 15px;
   color: var(--text-muted);
-  line-height: 1.6;
+  line-height: 1.65;
+  max-width: 540px;
+  margin: 0 auto;
 }
 
-/* Grid wrapper */
-.section-maniqui-testimonios .mtesti__grid-wrap {
-  /* desktop: sin overflow */
-}
-
-/* Grid: 3 columnas */
+/* Grid 4 columnas */
 .section-maniqui-testimonios .mtesti__grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr) 1fr;
   gap: 24px;
   align-items: start;
 }
 
-/* Card */
+/* Card reseña */
 .section-maniqui-testimonios .mtesti__card {
+  background: var(--cream-warm);
+  border-top: 2px solid var(--sage);
+  padding: 28px 24px;
   display: flex;
   flex-direction: column;
-  background: var(--cream);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  overflow: hidden;
+  min-height: 320px;
 }
 
-/* Par de imágenes antes/después */
-.section-maniqui-testimonios .mtesti__imgs {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2px;
-  background: var(--border);
-}
-
-.section-maniqui-testimonios .mtesti__img-wrap {
-  position: relative;
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-}
-
-.section-maniqui-testimonios .mtesti__img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+/* Estrellas */
+.section-maniqui-testimonios .mtesti__stars {
+  color: var(--sage);
+  font-size: 15px;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
   display: block;
 }
 
-.section-maniqui-testimonios .mtesti__img-placeholder {
-  width: 100%;
-  height: 100%;
-  background: var(--border);
+/* Comillas decorativas + cita */
+.section-maniqui-testimonios .mtesti__quote-wrap {
+  position: relative;
+  flex: 1;
+  margin-bottom: 24px;
+  padding-top: 8px;
 }
 
-/* Labels ANTES / DESPUÉS */
-.section-maniqui-testimonios .mtesti__img-label {
+.section-maniqui-testimonios .mtesti__quote-mark {
   position: absolute;
-  top: 8px;
-  left: 8px;
-  font-family: var(--font-body);
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--warm-dark);
-  background: rgba(253, 251, 247, 0.9);
-  padding: 3px 8px;
-  border-radius: 999px;
-}
-
-.section-maniqui-testimonios .mtesti__img-label--after {
-  background: var(--warm-dark);
-  color: var(--cream-warm);
-}
-
-/* Contenido */
-.section-maniqui-testimonios .mtesti__body {
-  padding: 20px 20px 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-/* Caption del caso */
-.section-maniqui-testimonios .mtesti__caption {
+  top: -14px;
+  left: -6px;
   font-family: var(--font-display);
   font-style: italic;
-  font-size: 15px;
-  font-weight: 300;
-  color: var(--warm-dark);
-  margin-bottom: 20px;
-  line-height: 1.4;
+  font-size: 72px;
+  line-height: 1;
+  color: var(--sage);
+  opacity: 0.22;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
 }
 
-/* Quote */
 .section-maniqui-testimonios .mtesti__quote {
-  font-family: var(--font-body);
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display);
   font-style: italic;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.65;
-  color: var(--text-2);
-  margin-bottom: 12px;
-}
-
-.section-maniqui-testimonios .mtesti__quote p::before {
-  content: '\201C';
-}
-
-.section-maniqui-testimonios .mtesti__quote p::after {
-  content: '\201D';
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.55;
+  color: var(--warm-dark);
 }
 
 /* Atribución */
 .section-maniqui-testimonios .mtesti__attribution {
-  font-family: var(--font-body);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.03em;
-  color: var(--text-muted);
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-/* ─── Tablet ─── */
+.section-maniqui-testimonios .mtesti__author {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--warm-dark);
+}
+
+.section-maniqui-testimonios .mtesti__service {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--sage);
+}
+
+.section-maniqui-testimonios .mtesti__verified {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Bloque estadística */
+.section-maniqui-testimonios .mtesti__stats {
+  background: var(--cream-warm);
+  border: 1px solid var(--sage-line);
+  padding: 32px 24px 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.section-maniqui-testimonios .mtesti__google-g {
+  width: 20px;
+  height: 20px;
+  color: var(--text-muted);
+  margin-bottom: 28px;
+  flex-shrink: 0;
+}
+
+.section-maniqui-testimonios .mtesti__rating-number {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(72px, 7vw, 96px);
+  line-height: 1;
+  color: var(--warm-dark);
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+
+.section-maniqui-testimonios .mtesti__stars--lg {
+  font-size: 20px;
+  letter-spacing: 3px;
+  margin-bottom: 16px;
+}
+
+.section-maniqui-testimonios .mtesti__review-count {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+
+.section-maniqui-testimonios .mtesti__google-cta {
+  background: transparent;
+  color: var(--warm-dark);
+  border-color: var(--sage-line);
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-size: 13px;
+  min-height: auto;
+}
+
+.section-maniqui-testimonios .mtesti__google-cta:hover {
+  border-color: var(--sage);
+  color: var(--sage-dark);
+  transform: translateY(-2px);
+}
+
+/* ─── Tablet: 2×2 ─── */
 @media (max-width: 1024px) {
   .section-maniqui-testimonios .mtesti {
     padding: 80px 0;
   }
   .section-maniqui-testimonios .mtesti__grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    gap: 20px;
   }
 }
 
-/* ─── Mobile: scroll horizontal con snap ─── */
+/* ─── Mobile: stack ─── */
 @media (max-width: 600px) {
   .section-maniqui-testimonios .mtesti {
     padding: 64px 0;
@@ -378,25 +416,15 @@
   .section-maniqui-testimonios .mtesti__inner {
     gap: 48px;
   }
-  .section-maniqui-testimonios .mtesti__grid-wrap {
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    margin: 0 -24px;
-    padding: 0 24px 16px;
-  }
   .section-maniqui-testimonios .mtesti__grid {
-    display: flex;
-    flex-wrap: nowrap;
+    grid-template-columns: 1fr;
     gap: 16px;
-    width: max-content;
   }
   .section-maniqui-testimonios .mtesti__card {
-    width: calc(100vw - 48px);
-    min-width: 280px;
-    max-width: 360px;
-    flex-shrink: 0;
-    scroll-snap-align: start;
+    min-height: auto;
+  }
+  .section-maniqui-testimonios .mtesti__stats {
+    margin-top: 8px;
   }
 }
 {% endstylesheet %}

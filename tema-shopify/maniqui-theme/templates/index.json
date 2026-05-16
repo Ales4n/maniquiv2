@@ -24,7 +24,7 @@
         },
         "item-google": {
           "type": "item",
-          "settings": { "text": "5 estrellas en Google" }
+          "settings": { "text": "4,9★ en Google · más de 75 reseñas" }
         },
         "item-cita": {
           "type": "item",
@@ -143,36 +143,40 @@
       "type": "section-maniqui-testimonios",
       "blocks": {
         "caso-1": {
-          "type": "caso",
+          "type": "testimonio",
           "settings": {
-            "caption": "Pantalón Zara — bajo en 48h",
             "quote": "[Testimonio pendiente de añadir]",
-            "attribution": "M.G. · Valencia"
+            "attribution": "M.G.",
+            "service": "BAJO DE PANTALÓN · 48H"
           }
         },
         "caso-2": {
-          "type": "caso",
+          "type": "testimonio",
           "settings": {
-            "caption": "Chaqueta Mango — ajuste de hombros",
             "quote": "[Testimonio pendiente de añadir]",
-            "attribution": "L.P. · Marxalenes"
+            "attribution": "L.P.",
+            "service": "AJUSTE DE HOMBROS · 3 DÍAS"
           }
         },
         "caso-3": {
-          "type": "caso",
+          "type": "testimonio",
           "settings": {
-            "caption": "Vestido COS — cintura y mangas",
             "quote": "[Testimonio pendiente de añadir]",
-            "attribution": "A.R. · Valencia"
+            "attribution": "A.F.",
+            "service": "AJUSTE DE CINTURA · 48H"
           }
         }
       },
       "block_order": ["caso-1", "caso-2", "caso-3"],
       "settings": {
-        "eyebrow": "Lo que dicen",
-        "headline": "Prendas que vuelven a",
-        "headline_em": "quedar perfectas",
-        "subheadline": "5 estrellas en Google. Aquí van algunos de los casos que más nos alegran."
+        "eyebrow": "Validación",
+        "headline": "79 clientas.",
+        "headline_em": "4,9 estrellas.",
+        "headline_post": "Y subiendo.",
+        "subheadline": "Estas son algunas de las reseñas que recibimos en Google. Todas verificadas, todas reales.",
+        "rating": "4,9",
+        "review_count": "79",
+        "cta_label": "Leer todas en Google →"
       }
     },
     "taller": {
