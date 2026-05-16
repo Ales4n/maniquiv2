@@ -4,13 +4,20 @@ import { getCurrentMetafields, updateMetafields } from './_lib/shopify'
 import { sendAlert } from './_lib/alert'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  if (req.method !== 'POST') {
+  // GET: llamada de Vercel Cron (autenticada con CRON_SECRET)
+  // POST: llamada manual o externa (autenticada con SHOPIFY_FLOW_SECRET)
+  if (req.method === 'GET') {
+    const auth = req.headers['authorization']
+    if (auth !== `Bearer ${process.env.CRON_SECRET}`) {
+      return res.status(401).json({ error: 'Unauthorized' })
+    }
+  } else if (req.method === 'POST') {
+    const auth = req.headers['authorization']
+    if (auth !== `Bearer ${process.env.SHOPIFY_FLOW_SECRET}`) {
+      return res.status(401).json({ error: 'Unauthorized' })
+    }
+  } else {
     return res.status(405).json({ error: 'Method not allowed' })
-  }
-
-  const auth = req.headers['authorization']
-  if (auth !== `Bearer ${process.env.SHOPIFY_FLOW_SECRET}`) {
-    return res.status(401).json({ error: 'Unauthorized' })
   }
 
   try {
@@ -34,7 +41,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       await sendAlert(anomalies)
     }
 
-    // Hard stop: no actualizar si rating cae por debajo de 4.0
     if (rating < 4.0) {
       return res.status(200).json({
         updated: false,
@@ -53,7 +59,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   } catch (err) {
     console.error('[sync-reviews]', err)
-    // No actualizar metafields si algo falla — mantener valores anteriores
     return res.status(500).json({ error: 'Internal error — metafields not updated' })
   }
 }
