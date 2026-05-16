@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/sync-reviews.ts": {
+      "maxDuration": 30
+    }
+  }
+}
