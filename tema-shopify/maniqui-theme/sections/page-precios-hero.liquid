@@ -1,0 +1,107 @@
+{% comment %} MANIQUI: Hero página precios — eyebrow + h1 Cormorant + subhead — 2026-05-26 {% endcomment %}
+
+<section class="pph" id="preciosHero" aria-labelledby="pph-headline">
+  <div class="pph__inner maniqui-container">
+
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="maniqui-eyebrow pph__eyebrow">{{ section.settings.eyebrow }}</p>
+      <span class="maniqui-sep-line pph__sep" aria-hidden="true"></span>
+    {%- endif -%}
+
+    <h1 class="pph__headline" id="pph-headline">{{ section.settings.headline }}</h1>
+
+    {%- if section.settings.subhead != blank -%}
+      <p class="pph__sub">{{ section.settings.subhead }}</p>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Maniquí — Precios hero",
+  "tag": "div",
+  "class": "section-page-precios-hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "PRECIOS"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Titular (h1)",
+      "default": "Precios de arreglos."
+    },
+    {
+      "type": "textarea",
+      "id": "subhead",
+      "label": "Subtítulo",
+      "default": "Consulta el precio de cada arreglo según prenda y técnica. Si tu caso es especial, escríbenos por WhatsApp."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Maniquí — Precios hero"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+/* ─── Hero precios ─── */
+.section-page-precios-hero .pph {
+  background: var(--cream);
+  padding: 80px 0;
+}
+.section-page-precios-hero .pph__inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+.section-page-precios-hero .pph__eyebrow {
+  margin-bottom: 16px;
+}
+.section-page-precios-hero .pph__sep {
+  display: block;
+  margin-bottom: 24px;
+}
+.section-page-precios-hero .pph__headline {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  color: var(--warm-dark);
+  margin-bottom: 20px;
+}
+.section-page-precios-hero .pph__sub {
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--text-2);
+  max-width: 600px;
+  margin: 0;
+}
+
+/* ─── Tablet ─── */
+@media (max-width: 1024px) {
+  .section-page-precios-hero .pph {
+    padding: 64px 0;
+  }
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 600px) {
+  .section-page-precios-hero .pph {
+    padding: 40px 0;
+  }
+  .section-page-precios-hero .pph__headline {
+    font-size: clamp(2rem, 8vw, 2.5rem);
+  }
+  .section-page-precios-hero .pph__sub {
+    font-size: 16px;
+  }
+}
+{% endstylesheet %}

@@ -1,0 +1,59 @@
+{
+  "sections": {
+    "hero": {
+      "type": "page-precios-hero",
+      "settings": {
+        "eyebrow": "PRECIOS",
+        "headline": "Precios de arreglos.",
+        "subhead": "Consulta el precio de cada arreglo según prenda y técnica. Si tu caso es especial, escríbenos por WhatsApp."
+      }
+    },
+    "acordeones": {
+      "type": "page-precios-acordeones",
+      "settings": {
+        "first_open": true,
+        "nota_legal": "Precios cerrados. Solo varían si la prenda requiere técnica especial."
+      },
+      "blocks": {
+        "block-bajos": {
+          "type": "collection_item",
+          "settings": { "collection": "bajos-dobladillos" }
+        },
+        "block-crem": {
+          "type": "collection_item",
+          "settings": { "collection": "cremalleras" }
+        },
+        "block-ajus": {
+          "type": "collection_item",
+          "settings": { "collection": "ajustes-anchura" }
+        },
+        "block-mang": {
+          "type": "collection_item",
+          "settings": { "collection": "mangas" }
+        },
+        "block-tira": {
+          "type": "collection_item",
+          "settings": { "collection": "tirantes-vestido" }
+        },
+        "block-otro": {
+          "type": "collection_item",
+          "settings": { "collection": "otros-arreglos" }
+        }
+      },
+      "block_order": ["block-bajos", "block-crem", "block-ajus", "block-mang", "block-tira", "block-otro"]
+    },
+    "cta-final": {
+      "type": "page-precios-cta-final",
+      "settings": {
+        "eyebrow": "EMPIEZA",
+        "headline": "¿Sabes ya qué arreglo necesitas?",
+        "subhead": "Empieza a contratar ahora o cuéntanos por WhatsApp.",
+        "cta_contratar_label": "Contratar ahora →",
+        "cta_contratar_url": "/pages/contratar",
+        "cta_wa_label": "Preguntar por WhatsApp",
+        "wa_message": "Hola, necesito arreglar una prenda. ¿Me podéis dar precio?"
+      }
+    }
+  },
+  "order": ["hero", "acordeones", "cta-final"]
+}

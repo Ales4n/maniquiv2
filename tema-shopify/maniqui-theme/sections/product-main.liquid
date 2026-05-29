@@ -1,0 +1,648 @@
+{% comment %} MANIQUI: Product main — servicio, precio, form con notas, CTAs — 2026-05-27 {% endcomment %}
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+<section class="prm" id="productMain">
+  <div class="prm__inner maniqui-container">
+
+    <nav class="prm__breadcrumb" aria-label="Navegación">
+      <a href="/pages/contratar" class="prm__bc-link">Contratar</a>
+      {%- if product.collections.first -%}
+        <span class="prm__bc-sep" aria-hidden="true">/</span>
+        <a href="{{ product.collections.first.url }}" class="prm__bc-link">{{ product.collections.first.title }}</a>
+      {%- endif -%}
+      <span class="prm__bc-sep" aria-hidden="true">/</span>
+      <span class="prm__bc-current" aria-current="page">{{ product.title }}</span>
+    </nav>
+
+    {%- render 'snippet-maniqui-stepper', current_step: 3 -%}
+
+    <div class="prm__layout">
+      <div class="prm__content">
+
+        <h1 class="prm__title">{{ product.title }}</h1>
+
+        {%- if product.description != blank -%}
+          <div class="prm__desc">{{ product.description }}</div>
+        {%- endif -%}
+
+        <div class="prm__price-block">
+          <span class="maniqui-sep-line prm__price-sep" aria-hidden="true"></span>
+          <p class="prm__price-amount">{{ product.price_min | money_without_trailing_zeros }}</p>
+          <p class="prm__price-caption">{{ section.settings.price_caption }}</p>
+        </div>
+
+        {%- form 'product', product, class: 'prm__form', novalidate: 'novalidate' -%}
+          <input type="hidden" name="id" value="{{ current_variant.id }}">
+
+          {%- if section.settings.upload_endpoint != blank -%}
+          <div class="prm__field prm__field--photo">
+            <label class="prm__label">
+              {{ section.settings.photo_label }}
+              <span class="prm__label-hint">{{ section.settings.photo_hint }}</span>
+            </label>
+            <div class="prm__drop" id="prm-drop-{{ product.id }}" tabindex="0" role="button" aria-label="Zona para subir foto de la prenda">
+              <input
+                type="file"
+                id="prm-photo-{{ product.id }}"
+                accept="image/*"
+                class="prm__file-hidden"
+                aria-hidden="true"
+                tabindex="-1"
+              >
+              <div class="prm__drop-inner">
+                <svg class="prm__drop-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                  <circle cx="8.5" cy="8.5" r="1.5"/>
+                  <polyline points="21 15 16 10 5 21"/>
+                </svg>
+                <span class="prm__drop-text">Arrastra tu foto aquí o</span>
+                <button type="button" id="prm-photo-btn-{{ product.id }}" class="prm__drop-btn">Seleccionar foto</button>
+              </div>
+            </div>
+            <div class="prm__photo-preview" id="prm-preview-{{ product.id }}"></div>
+            <span class="prm__photo-status" id="prm-photo-status-{{ product.id }}" aria-live="polite"></span>
+            <input type="hidden" name="properties[Foto]" id="prm-photo-url-{{ product.id }}" value="">
+          </div>
+          {%- endif -%}
+
+          <div class="prm__field">
+            <label class="prm__label" for="prm-notes-{{ product.id }}">
+              {{ section.settings.notes_label }}
+              <span class="prm__label-hint">{{ section.settings.notes_hint }}</span>
+            </label>
+            <textarea
+              class="prm__textarea"
+              id="prm-notes-{{ product.id }}"
+              name="properties[Instrucciones]"
+              rows="3"
+              placeholder="{{ section.settings.notes_placeholder | escape }}"
+            ></textarea>
+          </div>
+
+          <div class="prm__actions">
+            <button type="submit" name="add" class="maniqui-btn prm__btn-add">
+              {{ section.settings.cta_add_label }}
+            </button>
+            <a
+              href="https://wa.me/34603305566?text={{ 'Hola, quiero preguntar sobre este arreglo: ' | append: product.title | url_encode }}"
+              class="maniqui-btn maniqui-btn--wa prm__btn-wa"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="{{ section.settings.cta_wa_label | escape }} (abre WhatsApp)"
+            >
+              <svg class="prm__wa-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a10.87 10.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a10.86 10.86 0 01-1.184-5.37c.002-5.898 4.803-10.697 10.706-10.697 2.86 0 5.54 1.115 7.552 3.13a10.635 10.635 0 013.126 7.566c-.002 5.897-4.803 10.696-10.7 10.696z"/>
+              </svg>
+              {{ section.settings.cta_wa_label }}
+            </a>
+          </div>
+        {%- endform -%}
+
+        {%- if section.settings.show_trust -%}
+          <ul class="prm__trust" role="list">
+            {%- if section.settings.trust_1 != blank -%}
+              <li class="prm__trust-item">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                {{ section.settings.trust_1 }}
+              </li>
+            {%- endif -%}
+            {%- if section.settings.trust_2 != blank -%}
+              <li class="prm__trust-item">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                {{ section.settings.trust_2 }}
+              </li>
+            {%- endif -%}
+            {%- if section.settings.trust_3 != blank -%}
+              <li class="prm__trust-item">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                {{ section.settings.trust_3 }}
+              </li>
+            {%- endif -%}
+          </ul>
+        {%- endif -%}
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product main",
+  "tag": "div",
+  "class": "section-product-main",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Foto de la prenda"
+    },
+    {
+      "type": "text",
+      "id": "upload_endpoint",
+      "label": "URL del endpoint de subida (Vercel)",
+      "info": "Deja vacío para ocultar la sección de foto. Ej: https://tu-proyecto.vercel.app/api/upload-photo"
+    },
+    {
+      "type": "text",
+      "id": "photo_label",
+      "label": "Label campo foto",
+      "default": "Foto de la prenda"
+    },
+    {
+      "type": "text",
+      "id": "photo_hint",
+      "label": "Hint campo foto",
+      "default": "(recomendado)"
+    },
+    {
+      "type": "text",
+      "id": "price_caption",
+      "label": "Caption bajo el precio",
+      "default": "Precio cerrado · Sin sorpresas"
+    },
+    {
+      "type": "header",
+      "content": "Formulario"
+    },
+    {
+      "type": "text",
+      "id": "notes_label",
+      "label": "Label del campo de instrucciones",
+      "default": "Instrucciones para las modistas"
+    },
+    {
+      "type": "text",
+      "id": "notes_hint",
+      "label": "Hint del campo",
+      "default": "(opcional)"
+    },
+    {
+      "type": "text",
+      "id": "notes_placeholder",
+      "label": "Placeholder del textarea",
+      "default": "Ej: bajar 4 cm, dejar dobladillo visible, conservar el bajo original..."
+    },
+    {
+      "type": "text",
+      "id": "cta_add_label",
+      "label": "CTA añadir al carrito",
+      "default": "Contratar ahora"
+    },
+    {
+      "type": "text",
+      "id": "cta_wa_label",
+      "label": "CTA WhatsApp",
+      "default": "Preguntar por WhatsApp"
+    },
+    {
+      "type": "header",
+      "content": "Garantías"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trust",
+      "label": "Mostrar garantías",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "trust_1",
+      "label": "Garantía 1",
+      "default": "Plazo confirmado al contratar"
+    },
+    {
+      "type": "text",
+      "id": "trust_2",
+      "label": "Garantía 2",
+      "default": "Precio cerrado · sin sorpresas"
+    },
+    {
+      "type": "text",
+      "id": "trust_3",
+      "label": "Garantía 3",
+      "default": "Cosido a mano por las modistas"
+    }
+  ],
+  "presets": [
+    { "name": "Product main" }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+/* ─── Product main ─── */
+.section-product-main .prm {
+  background: var(--cream);
+  padding: 48px 0 80px;
+}
+.section-product-main .prm__inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+/* ─── Breadcrumb ─── */
+.section-product-main .prm__breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 40px;
+}
+.section-product-main .prm__bc-link {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+.section-product-main .prm__bc-link:hover { color: var(--sage); }
+.section-product-main .prm__bc-sep {
+  font-size: 13px;
+  color: var(--border);
+}
+.section-product-main .prm__bc-current {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--text-2);
+}
+
+/* ─── Layout ─── */
+.section-product-main .prm__layout {
+  max-width: 680px;
+}
+
+/* ─── Título ─── */
+.section-product-main .prm__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  color: var(--warm-dark);
+  margin-bottom: 24px;
+}
+
+/* ─── Descripción del producto ─── */
+.section-product-main .prm__desc {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text-2);
+  margin-bottom: 32px;
+}
+
+/* ─── Bloque de precio ─── */
+.section-product-main .prm__price-block {
+  margin-bottom: 32px;
+}
+.section-product-main .prm__price-sep {
+  display: block;
+  margin-bottom: 16px;
+}
+.section-product-main .prm__price-amount {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.5rem, 5vw, 3rem);
+  line-height: 1;
+  color: var(--sage);
+  margin: 0 0 8px;
+}
+.section-product-main .prm__price-caption {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
+}
+.section-product-main .prm__desc p { margin: 0 0 12px; }
+.section-product-main .prm__desc p:last-child { margin-bottom: 0; }
+
+/* ─── Formulario ─── */
+.section-product-main .prm__form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.section-product-main .prm__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.section-product-main .prm__label {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--warm-dark);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.section-product-main .prm__label-hint {
+  font-weight: 400;
+  color: var(--text-muted);
+}
+.section-product-main .prm__textarea {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--warm-dark);
+  background: var(--cream-warm);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 14px;
+  resize: vertical;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+.section-product-main .prm__textarea::placeholder { color: var(--text-muted); }
+.section-product-main .prm__textarea:focus {
+  outline: none;
+  border-color: var(--sage);
+  box-shadow: 0 0 0 3px var(--sage-soft);
+}
+
+/* ─── Acciones ─── */
+.section-product-main .prm__actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.section-product-main .prm__btn-add {
+  background: var(--warm-dark);
+  color: var(--cream);
+  border-color: var(--warm-dark);
+  padding: 16px 32px;
+  font-weight: 500;
+  min-width: 200px;
+}
+.section-product-main .prm__btn-add:hover {
+  background: var(--sage-dark);
+  border-color: var(--sage-dark);
+  color: var(--cream);
+  transform: translateY(-2px);
+}
+.section-product-main .prm__btn-wa {
+  background: transparent;
+  color: var(--whatsapp);
+  border: 1.5px solid var(--whatsapp);
+  padding: 14px 24px;
+}
+.section-product-main .prm__btn-wa:hover {
+  background: var(--whatsapp);
+  color: var(--cream);
+  border-color: var(--whatsapp);
+  transform: translateY(-2px);
+}
+.section-product-main .prm__wa-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* ─── Trust badges ─── */
+.section-product-main .prm__trust {
+  list-style: none;
+  padding: 0;
+  margin: 32px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.section-product-main .prm__trust-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.section-product-main .prm__trust-item svg {
+  color: var(--sage);
+  flex-shrink: 0;
+}
+
+/* ─── Foto upload ─── */
+.section-product-main .prm__file-hidden {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+.section-product-main .prm__drop {
+  border: 1.5px dashed var(--border);
+  border-radius: 8px;
+  padding: 20px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: var(--cream-warm);
+  transition: background 200ms ease, border-color 200ms ease;
+}
+.section-product-main .prm__drop:hover,
+.section-product-main .prm__drop.is-hover {
+  background: var(--sage-soft);
+  border-color: var(--sage-line);
+}
+.section-product-main .prm__drop.is-done {
+  border-color: var(--sage);
+  background: var(--sage-soft);
+}
+.section-product-main .prm__drop-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.section-product-main .prm__drop-icon {
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+.section-product-main .prm__drop-text {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--text-2);
+}
+.section-product-main .prm__drop-btn {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--sage);
+  background: none;
+  border: 1px solid var(--sage-line);
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background 200ms ease, color 200ms ease;
+}
+.section-product-main .prm__drop-btn:hover {
+  background: var(--sage);
+  color: var(--cream);
+  border-color: var(--sage);
+}
+.section-product-main .prm__photo-preview {
+  display: none;
+  margin-top: 10px;
+}
+.section-product-main .prm__photo-preview-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  display: block;
+}
+.section-product-main .prm__photo-status {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 12px;
+  margin-top: 6px;
+  min-height: 16px;
+  color: var(--text-muted);
+}
+.section-product-main .prm__photo-status--error { color: var(--terracotta); }
+.section-product-main .prm__photo-status--ok    { color: var(--sage); }
+
+/* ─── Tablet ─── */
+@media (max-width: 1024px) {
+  .section-product-main .prm {
+    padding: 40px 0 64px;
+  }
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 600px) {
+  .section-product-main .prm {
+    padding: 32px 0 48px;
+  }
+  .section-product-main .prm__title {
+    font-size: clamp(1.75rem, 7vw, 2.25rem);
+  }
+  .section-product-main .prm__actions {
+    flex-direction: column;
+  }
+  .section-product-main .prm__actions .maniqui-btn {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    min-width: 0;
+  }
+}
+{% endstylesheet %}
+
+{% javascript %}
+(function () {
+  var endpoint = {{ section.settings.upload_endpoint | json }};
+  if (!endpoint) return;
+
+  var productId  = {{ product.id | json }};
+  var drop       = document.getElementById('prm-drop-'        + productId);
+  var fileInput  = document.getElementById('prm-photo-'       + productId);
+  var fileBtn    = document.getElementById('prm-photo-btn-'   + productId);
+  var preview    = document.getElementById('prm-preview-'     + productId);
+  var photoUrl   = document.getElementById('prm-photo-url-'   + productId);
+  var statusEl   = document.getElementById('prm-photo-status-'+ productId);
+
+  if (!drop || !fileInput) return;
+
+  fileBtn.addEventListener('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    try { fileInput.showPicker ? fileInput.showPicker() : fileInput.click(); } catch (_) { fileInput.click(); }
+  });
+
+  drop.addEventListener('click', function (e) {
+    if (e.target && e.target.closest('#prm-photo-btn-' + productId)) return;
+    try { fileInput.showPicker ? fileInput.showPicker() : fileInput.click(); } catch (_) { fileInput.click(); }
+  });
+
+  drop.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); }
+  });
+
+  ['dragenter', 'dragover'].forEach(function (ev) {
+    drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('is-hover'); });
+  });
+  ['dragleave', 'dragend'].forEach(function (ev) {
+    drop.addEventListener(ev, function () { drop.classList.remove('is-hover'); });
+  });
+  drop.addEventListener('drop', function (e) {
+    e.preventDefault();
+    drop.classList.remove('is-hover');
+    var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+    if (f && /^image\//.test(f.type)) handleFile(f);
+  });
+
+  fileInput.addEventListener('change', function (e) {
+    var f = e.target.files && e.target.files[0];
+    if (f) handleFile(f);
+  });
+
+  function resizeImage(file, maxWidth) {
+    return new Promise(function (resolve) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        var img = new Image();
+        img.onload = function () {
+          var w = img.width, h = img.height;
+          if (w > maxWidth) { h = Math.round((h * maxWidth) / w); w = maxWidth; }
+          var canvas = document.createElement('canvas');
+          canvas.width = w; canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+          resolve(canvas.toDataURL('image/jpeg', 0.82));
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function showPreview(file) {
+    var url = URL.createObjectURL(file);
+    var img = document.createElement('img');
+    img.src = url; img.className = 'prm__photo-preview-img'; img.alt = 'Vista previa';
+    preview.innerHTML = ''; preview.appendChild(img); preview.style.display = 'block';
+  }
+
+  function setStatus(msg, type) {
+    statusEl.textContent = msg;
+    statusEl.className = 'prm__photo-status' + (type ? ' prm__photo-status--' + type : '');
+  }
+
+  function handleFile(file) {
+    if (!/^image\//.test(file.type)) { setStatus('Solo se admiten imágenes.', 'error'); return; }
+    if (file.size > 10 * 1024 * 1024)  { setStatus('Imagen demasiado grande (máx. 10 MB).', 'error'); return; }
+
+    showPreview(file);
+    setStatus('Subiendo foto…', '');
+    photoUrl.value = '';
+
+    resizeImage(file, 800).then(function (base64) {
+      return fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ file: base64 })
+      });
+    }).then(function (res) {
+      return res.json().then(function (data) {
+        if (!res.ok) throw new Error(data.error || 'Error al subir');
+        return data;
+      });
+    }).then(function (data) {
+      photoUrl.value = data.url;
+      drop.classList.add('is-done');
+      setStatus('Foto lista', 'ok');
+    }).catch(function (err) {
+      preview.innerHTML = ''; preview.style.display = 'none';
+      photoUrl.value = ''; drop.classList.remove('is-done');
+      setStatus(err.message || 'Error al subir. Inténtalo de nuevo.', 'error');
+    });
+  }
+})();
+{% endjavascript %}

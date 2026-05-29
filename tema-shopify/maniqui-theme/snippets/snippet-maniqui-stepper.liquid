@@ -1,0 +1,117 @@
+{% comment %} MANIQUI: Stepper flujo contratación — 3 pasos — 2026-05-27 {% endcomment %}
+
+{%- liquid
+  if current_step == 1
+    assign s1 = 'active'
+    assign s2 = 'pending'
+    assign s3 = 'pending'
+    assign l1 = 'pending'
+    assign l2 = 'pending'
+  elsif current_step == 2
+    assign s1 = 'completed'
+    assign s2 = 'active'
+    assign s3 = 'pending'
+    assign l1 = 'completed'
+    assign l2 = 'pending'
+  else
+    assign s1 = 'completed'
+    assign s2 = 'completed'
+    assign s3 = 'active'
+    assign l1 = 'completed'
+    assign l2 = 'completed'
+  endif
+-%}
+
+<style>
+.maniqui-stepper {
+  display: flex;
+  align-items: flex-start;
+  max-width: 720px;
+  padding: 32px 0 24px;
+}
+.maniqui-stepper-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.maniqui-stepper-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  box-sizing: border-box;
+}
+.maniqui-stepper-step[data-state="active"] .maniqui-stepper-circle {
+  background: var(--sage);
+  color: var(--cream);
+  border: 2px solid var(--sage);
+}
+.maniqui-stepper-step[data-state="completed"] .maniqui-stepper-circle {
+  background: var(--sage-dark);
+  color: var(--cream);
+}
+.maniqui-stepper-step[data-state="pending"] .maniqui-stepper-circle {
+  background: var(--cream-warm);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+.maniqui-stepper-label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+  white-space: nowrap;
+}
+.maniqui-stepper-step[data-state="active"] .maniqui-stepper-label,
+.maniqui-stepper-step[data-state="completed"] .maniqui-stepper-label {
+  color: var(--sage);
+}
+.maniqui-stepper-step[data-state="pending"] .maniqui-stepper-label {
+  color: var(--text-muted);
+}
+.maniqui-stepper-line {
+  flex: 1;
+  height: 1px;
+  min-width: 60px;
+  margin-top: 18px; /* align with circle center: 36px / 2 */
+}
+.maniqui-stepper-line[data-state="completed"] { background: var(--sage); }
+.maniqui-stepper-line[data-state="pending"]   { background: var(--border); }
+
+@media (max-width: 600px) {
+  .maniqui-stepper-circle {
+    width: 32px;
+    height: 32px;
+    font-size: 13px;
+  }
+  .maniqui-stepper-label { font-size: 10px; }
+  .maniqui-stepper-line {
+    min-width: 32px;
+    margin-top: 16px; /* 32px / 2 */
+  }
+}
+</style>
+
+<nav class="maniqui-stepper" aria-label="Progreso de contratación">
+  <div class="maniqui-stepper-step" data-state="{{ s1 }}">
+    <div class="maniqui-stepper-circle" aria-hidden="true">1</div>
+    <span class="maniqui-stepper-label">Categoría</span>
+  </div>
+  <div class="maniqui-stepper-line" data-state="{{ l1 }}" aria-hidden="true"></div>
+  <div class="maniqui-stepper-step" data-state="{{ s2 }}">
+    <div class="maniqui-stepper-circle" aria-hidden="true">2</div>
+    <span class="maniqui-stepper-label">Arreglo</span>
+  </div>
+  <div class="maniqui-stepper-line" data-state="{{ l2 }}" aria-hidden="true"></div>
+  <div class="maniqui-stepper-step" data-state="{{ s3 }}">
+    <div class="maniqui-stepper-circle" aria-hidden="true">3</div>
+    <span class="maniqui-stepper-label">Detalles</span>
+  </div>
+</nav>

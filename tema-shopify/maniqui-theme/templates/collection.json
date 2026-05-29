@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "header": {
+      "type": "collection-header",
+      "settings": {}
+    },
+    "products": {
+      "type": "collection-products",
+      "settings": {
+        "nota_wa": "¿Tu prenda tiene algo especial? Escríbenos por WhatsApp antes de contratar."
+      }
+    }
+  },
+  "order": ["header", "products"]
+}
