@@ -87,6 +87,10 @@
               </div>
             </label>
             <div class="prm__photo-preview" id="prm-preview-{{ product.id }}"></div>
+            <button type="button" class="prm__photo-remove" id="prm-remove-{{ product.id }}" hidden aria-label="Quitar foto">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              Quitar foto
+            </button>
             <span class="prm__photo-status" id="prm-photo-status-{{ product.id }}" aria-live="polite"></span>
             <input type="hidden" name="properties[Foto]" id="prm-photo-url-{{ product.id }}" value="">
           </div>
@@ -169,6 +173,7 @@
   var preview   = document.getElementById('prm-preview-'      + productId);
   var photoUrl  = document.getElementById('prm-photo-url-'    + productId);
   var statusEl  = document.getElementById('prm-photo-status-' + productId);
+  var removeBtn = document.getElementById('prm-remove-'       + productId);
   var submitBtn = document.getElementById('prm-submit-'       + productId);
   var fotoError = document.getElementById('prm-foto-error-'   + productId);
   var form      = document.getElementById('prm-form-'         + productId);
@@ -192,6 +197,21 @@
     fileInput.addEventListener('change', function (e) {
       var f = e.target.files && e.target.files[0];
       if (f) handleFile(f);
+    });
+  }
+
+  if (removeBtn) {
+    removeBtn.addEventListener('click', function () {
+      if (preview) { preview.innerHTML = ''; preview.style.display = 'none'; }
+      if (photoUrl) photoUrl.value = '';
+      if (fileInput) fileInput.value = '';
+      if (drop) drop.classList.remove('is-done', 'is-hover');
+      removeBtn.hidden = true;
+      setStatus('', '');
+      if (submitBtn && photoRequired) {
+        submitBtn.disabled = true;
+        submitBtn.setAttribute('aria-disabled', 'true');
+      }
     });
   }
 
@@ -229,12 +249,14 @@
       if (photoUrl) photoUrl.value = data.url;
       if (drop) drop.classList.add('is-done');
       setStatus('Foto lista', 'ok');
+      if (removeBtn) removeBtn.hidden = false;
       if (submitBtn) { submitBtn.disabled = false; submitBtn.removeAttribute('aria-disabled'); }
       if (fotoError) fotoError.hidden = true;
     }).catch(function (err) {
       if (preview) { preview.innerHTML = ''; preview.style.display = 'none'; }
       if (photoUrl) photoUrl.value = '';
       if (drop) drop.classList.remove('is-done');
+      if (removeBtn) removeBtn.hidden = true;
       setStatus(err.message || 'Error al subir. Inténtalo de nuevo.', 'error');
       if (submitBtn) {
         if (photoRequired) {
@@ -632,8 +654,22 @@
 .section-product-main .prm__photo-preview-img {
   width: 80px; height: 80px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border);
 }
+.section-product-main .prm__photo-remove {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--terracotta);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 0 2px;
+  transition: opacity 200ms ease;
+}
+.section-product-main .prm__photo-remove:hover { opacity: 0.65; }
 .section-product-main .prm__photo-status {
-  display: block; font-size: 12px; margin-top: 6px; min-height: 16px; color: var(--text-muted);
+  display: block; font-size: 12px; margin-top: 4px; min-height: 16px; color: var(--text-muted);
   font-family: var(--font-body);
 }
 .section-product-main .prm__photo-status--error { color: var(--terracotta); }

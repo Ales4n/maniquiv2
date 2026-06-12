@@ -122,6 +122,21 @@
   border-bottom: 1px solid var(--border);
 }
 .mcd__item:last-child { border-bottom: none; }
+.mcd__item-remove {
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 2px;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  transition: color 200ms ease;
+}
+.mcd__item-remove:hover { color: var(--terracotta); }
+.mcd__item-remove:disabled { opacity: 0.4; cursor: not-allowed; }
 
 .mcd__item-thumb {
   width: 72px;
@@ -299,6 +314,9 @@
             + instrHtml
             + '<p class="mcd__item-price">' + formatMoney(item.final_line_price) + '</p>'
             + '</div>'
+            + '<button class="mcd__item-remove" data-key="' + escapeHtml(item.key) + '" type="button" aria-label="Eliminar prenda">'
+            + '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>'
+            + '</button>'
             + '</div>';
         });
 
@@ -308,6 +326,20 @@
       .catch(function () {
         if (body) body.innerHTML = '<p class="mcd__empty">No se pudo cargar el carrito.</p>';
       });
+  }
+
+  /* Eliminar ítem del carrito via event delegation */
+  if (body) {
+    body.addEventListener('click', function (e) {
+      var btn = e.target.closest('.mcd__item-remove');
+      if (!btn) return;
+      btn.disabled = true;
+      fetch('/cart/change.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ id: btn.dataset.key, quantity: 0 })
+      }).then(function () { refreshCart(); }).catch(function () { refreshCart(); });
+    });
   }
 
   /* Exponer globalmente para product-main y cualquier otro add-to-cart */
