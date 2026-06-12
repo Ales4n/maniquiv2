@@ -1,0 +1,567 @@
+{% comment %} MANIQUI: Página de contacto — datos NAP + formulario + CTA WhatsApp — 2026-06-02 {% endcomment %}
+
+{%- assign wa_phone = '34603305566' -%}
+{%- assign wa_msg = 'Hola, necesito arreglar una prenda. ¿Me podéis dar precio?' | url_encode -%}
+{%- assign wa_url = 'https://wa.me/' | append: wa_phone | append: '?text=' | append: wa_msg -%}
+
+<section class="pco" id="paginaContacto" aria-labelledby="pco-headline">
+
+  {%- comment %} Cabecera {%- endcomment %}
+  <div class="pco__header">
+    <div class="pco__header-inner maniqui-container">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="maniqui-eyebrow pco__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h1 class="pco__headline" id="pco-headline">{{ section.settings.headline }}</h1>
+      {%- if section.settings.subhead != blank -%}
+        <p class="pco__subhead">{{ section.settings.subhead }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- comment %} Cuerpo: 2 columnas {%- endcomment %}
+  <div class="pco__body maniqui-container">
+
+    {%- comment %} Columna izquierda — datos de contacto {%- endcomment %}
+    <div class="pco__info">
+
+      <div class="pco__info-block">
+        <p class="pco__info-label">{{ section.settings.address_label }}</p>
+        <p class="pco__info-text">{{ section.settings.address_street }}</p>
+        <p class="pco__info-text">{{ section.settings.address_city }}</p>
+        <a
+          href="https://maps.google.com/?q={{ section.settings.address_street | append: ', ' | append: section.settings.address_city | url_encode }}"
+          class="pco__map-link"
+          target="_blank"
+          rel="noopener"
+        >{{ section.settings.map_link_label }} →</a>
+      </div>
+
+      <div class="pco__info-block">
+        <p class="pco__info-label">{{ section.settings.hours_label }}</p>
+        <p class="pco__info-text">{{ section.settings.hours_text }}</p>
+        <p class="pco__info-subtext">{{ section.settings.hours_note }}</p>
+      </div>
+
+      <a
+        href="{{ wa_url }}"
+        class="pco__wa-btn"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="{{ section.settings.wa_label | escape }} (abre WhatsApp)"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a10.87 10.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a10.86 10.86 0 01-1.184-5.37c.002-5.898 4.803-10.697 10.706-10.697 2.86 0 5.54 1.115 7.552 3.13a10.635 10.635 0 013.126 7.566c-.002 5.897-4.803 10.696-10.7 10.696z"/>
+        </svg>
+        {{- section.settings.wa_label -}}
+      </a>
+
+      <a href="mailto:{{ section.settings.email }}" class="pco__email-link">
+        {{ section.settings.email }}
+      </a>
+
+      <div class="pco__internal-links">
+        <a href="{{ section.settings.link_precios_url }}" class="pco__internal-link">{{ section.settings.link_precios_label }} →</a>
+        <a href="{{ section.settings.link_contratar_url }}" class="pco__internal-link">{{ section.settings.link_contratar_label }} →</a>
+      </div>
+
+    </div>
+
+    {%- comment %} Columna derecha — formulario {%- endcomment %}
+    <div class="pco__form-wrap">
+      <p class="pco__form-title">{{ section.settings.form_title }}</p>
+
+      {%- if form.posted_successfully? -%}
+        <div class="pco__success" role="status">
+          <p>{{ section.settings.form_success }}</p>
+        </div>
+      {%- endif -%}
+
+      {% form 'contact' %}
+        {%- if form.errors -%}
+          <div class="pco__errors" role="alert">
+            {{ form.errors | default_errors }}
+          </div>
+        {%- endif -%}
+
+        <div class="pco__field">
+          <label class="pco__label" for="pco-name">{{ section.settings.field_name_label }}</label>
+          <input
+            class="pco__input"
+            type="text"
+            id="pco-name"
+            name="contact[name]"
+            autocomplete="name"
+            value="{{ form.name }}"
+            required
+          >
+        </div>
+
+        <div class="pco__field">
+          <label class="pco__label" for="pco-email">{{ section.settings.field_email_label }}</label>
+          <input
+            class="pco__input"
+            type="email"
+            id="pco-email"
+            name="contact[email]"
+            autocomplete="email"
+            value="{{ form.email }}"
+            required
+          >
+        </div>
+
+        <div class="pco__field">
+          <label class="pco__label" for="pco-message">{{ section.settings.field_message_label }}</label>
+          <textarea
+            class="pco__input pco__textarea"
+            id="pco-message"
+            name="contact[body]"
+            rows="5"
+            required
+          >{{ form.body }}</textarea>
+        </div>
+
+        <button type="submit" class="pco__submit">
+          {{ section.settings.form_submit_label }}
+        </button>
+      {% endform %}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contacto",
+  "tag": "div",
+  "class": "section-page-contacto",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "CONTACTO"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "H1 — Titular",
+      "default": "Cuéntanos qué necesitas"
+    },
+    {
+      "type": "textarea",
+      "id": "subhead",
+      "label": "Subtítulo",
+      "default": "Escríbenos por WhatsApp para una respuesta inmediata, o usa el formulario si lo prefieres."
+    },
+    {
+      "type": "header",
+      "content": "Datos de contacto"
+    },
+    {
+      "type": "text",
+      "id": "address_label",
+      "label": "Etiqueta dirección",
+      "default": "Dónde estamos"
+    },
+    {
+      "type": "text",
+      "id": "address_street",
+      "label": "Dirección",
+      "default": "Avinguda de la Constitució 94"
+    },
+    {
+      "type": "text",
+      "id": "address_city",
+      "label": "Barrio / ciudad",
+      "default": "46009 Valencia — Marxalenes"
+    },
+    {
+      "type": "text",
+      "id": "map_link_label",
+      "label": "Etiqueta enlace mapa",
+      "default": "Ver en Google Maps"
+    },
+    {
+      "type": "text",
+      "id": "hours_label",
+      "label": "Etiqueta horario",
+      "default": "Horario"
+    },
+    {
+      "type": "text",
+      "id": "hours_text",
+      "label": "Horario",
+      "default": "Lunes a viernes, 10:00–14:00 y 17:00–20:00"
+    },
+    {
+      "type": "text",
+      "id": "hours_note",
+      "label": "Nota horario",
+      "default": "Sin cita previa · Walk-in bienvenido"
+    },
+    {
+      "type": "text",
+      "id": "wa_label",
+      "label": "Etiqueta botón WhatsApp",
+      "default": "Escríbenos por WhatsApp"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email",
+      "default": "hola@maniquicreaciones.com"
+    },
+    {
+      "type": "header",
+      "content": "Enlace interno"
+    },
+    {
+      "type": "text",
+      "id": "link_precios_label",
+      "label": "Etiqueta enlace precios",
+      "default": "Ver precios"
+    },
+    {
+      "type": "url",
+      "id": "link_precios_url",
+      "label": "URL precios"
+    },
+    {
+      "type": "text",
+      "id": "link_contratar_label",
+      "label": "Etiqueta enlace contratar",
+      "default": "Contratar arreglo online"
+    },
+    {
+      "type": "url",
+      "id": "link_contratar_url",
+      "label": "URL contratar"
+    },
+    {
+      "type": "header",
+      "content": "Formulario"
+    },
+    {
+      "type": "text",
+      "id": "form_title",
+      "label": "Título del formulario",
+      "default": "O escríbenos aquí"
+    },
+    {
+      "type": "text",
+      "id": "field_name_label",
+      "label": "Etiqueta campo nombre",
+      "default": "Nombre"
+    },
+    {
+      "type": "text",
+      "id": "field_email_label",
+      "label": "Etiqueta campo email",
+      "default": "Email"
+    },
+    {
+      "type": "text",
+      "id": "field_message_label",
+      "label": "Etiqueta campo mensaje",
+      "default": "Mensaje"
+    },
+    {
+      "type": "text",
+      "id": "form_submit_label",
+      "label": "Etiqueta botón enviar",
+      "default": "Enviar mensaje"
+    },
+    {
+      "type": "text",
+      "id": "form_success",
+      "label": "Mensaje de éxito tras envío",
+      "default": "Mensaje enviado. Te respondemos en menos de 24h."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contacto",
+      "settings": {
+        "eyebrow": "CONTACTO",
+        "headline": "Cuéntanos qué necesitas",
+        "subhead": "Escríbenos por WhatsApp para una respuesta inmediata, o usa el formulario si lo prefieres.",
+        "address_label": "Dónde estamos",
+        "address_street": "Avinguda de la Constitució 94",
+        "address_city": "46009 Valencia — Marxalenes",
+        "map_link_label": "Ver en Google Maps",
+        "hours_label": "Horario",
+        "hours_text": "Lunes a viernes, 10:00–14:00 y 17:00–20:00",
+        "hours_note": "Sin cita previa · Walk-in bienvenido",
+        "wa_label": "Escríbenos por WhatsApp",
+        "email": "hola@maniquicreaciones.com",
+        "link_precios_label": "Ver precios",
+        "link_precios_url": "/pages/precios",
+        "link_contratar_label": "Contratar arreglo online",
+        "link_contratar_url": "/pages/contratar",
+        "form_title": "O escríbenos aquí",
+        "field_name_label": "Nombre",
+        "field_email_label": "Email",
+        "field_message_label": "Mensaje",
+        "form_submit_label": "Enviar mensaje",
+        "form_success": "Mensaje enviado. Te respondemos en menos de 24h."
+      }
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+/* ─── Página de contacto ─── */
+.section-page-contacto .pco__header {
+  background: var(--cream-warm);
+  padding: 80px 0 64px;
+  border-bottom: 1px solid var(--border);
+}
+.section-page-contacto .pco__header-inner {
+  max-width: var(--container-max, 1280px);
+  margin: 0 auto;
+  padding: 0 48px;
+}
+.section-page-contacto .pco__eyebrow {
+  margin-bottom: 16px;
+}
+.section-page-contacto .pco__headline {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(32px, 4.5vw, 60px);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  color: var(--warm-dark);
+  margin: 0 0 16px;
+}
+.section-page-contacto .pco__subhead {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--text-2);
+  max-width: 520px;
+  margin: 0;
+}
+
+/* ─── Body 2 columnas ─── */
+.section-page-contacto .pco__body {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 80px;
+  align-items: start;
+  padding: 80px 48px 120px;
+  max-width: var(--container-max, 1280px);
+  margin: 0 auto;
+  background: var(--cream);
+}
+
+/* ─── Info ─── */
+.section-page-contacto .pco__info {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.section-page-contacto .pco__info-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.section-page-contacto .pco__info-label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--sage);
+  margin: 0 0 8px;
+}
+.section-page-contacto .pco__info-text {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--warm-dark);
+  margin: 0;
+}
+.section-page-contacto .pco__info-subtext {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 4px 0 0;
+}
+.section-page-contacto .pco__map-link {
+  font-size: 14px;
+  color: var(--terracotta);
+  text-decoration: none;
+  margin-top: 8px;
+  display: inline-block;
+  transition: opacity 200ms ease;
+}
+.section-page-contacto .pco__map-link:hover { opacity: 0.75; }
+
+/* Botón WhatsApp */
+.section-page-contacto .pco__wa-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--cream);
+  background: var(--whatsapp);
+  border: 2px solid var(--whatsapp);
+  border-radius: 8px;
+  padding: 14px 28px;
+  text-decoration: none;
+  transition: background 200ms ease, transform 200ms ease;
+  align-self: flex-start;
+}
+.section-page-contacto .pco__wa-btn:hover {
+  background: var(--whatsapp-dark);
+  border-color: var(--whatsapp-dark);
+  transform: translateY(-2px);
+}
+
+/* Email */
+.section-page-contacto .pco__email-link {
+  font-size: 14px;
+  color: var(--text-2);
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+.section-page-contacto .pco__email-link:hover { color: var(--warm-dark); }
+
+/* Internal links */
+.section-page-contacto .pco__internal-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+.section-page-contacto .pco__internal-link {
+  font-size: 14px;
+  color: var(--sage);
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+.section-page-contacto .pco__internal-link:hover { color: var(--sage-dark); }
+
+/* ─── Formulario ─── */
+.section-page-contacto .pco__form-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--warm-dark);
+  margin: 0 0 28px;
+}
+.section-page-contacto .pco__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.section-page-contacto .pco__label {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.section-page-contacto .pco__input {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--warm-dark);
+  background: var(--cream-warm);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 16px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 200ms ease;
+  outline: none;
+  -webkit-appearance: none;
+}
+.section-page-contacto .pco__input:focus {
+  border-color: var(--sage);
+}
+.section-page-contacto .pco__textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+.section-page-contacto .pco__submit {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--cream);
+  background: var(--warm-dark);
+  border: 2px solid var(--warm-dark);
+  border-radius: 8px;
+  padding: 14px 32px;
+  cursor: pointer;
+  transition: background 200ms ease, transform 200ms ease;
+  margin-top: 8px;
+}
+.section-page-contacto .pco__submit:hover {
+  background: var(--warm-dark-2);
+  border-color: var(--warm-dark-2);
+  transform: translateY(-2px);
+}
+
+/* Success / errors */
+.section-page-contacto .pco__success {
+  background: var(--sage-soft);
+  border: 1px solid var(--sage-line);
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  font-size: 15px;
+  color: var(--warm-dark);
+}
+.section-page-contacto .pco__errors {
+  background: rgba(201, 169, 142, 0.12);
+  border: 1px solid var(--terracotta);
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  color: var(--warm-dark);
+}
+
+/* ─── Tablet ─── */
+@media (max-width: 1024px) {
+  .section-page-contacto .pco__header {
+    padding: 64px 0 48px;
+  }
+  .section-page-contacto .pco__header-inner {
+    padding: 0 32px;
+  }
+  .section-page-contacto .pco__body {
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    padding: 64px 32px 80px;
+  }
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 600px) {
+  .section-page-contacto .pco__header {
+    padding: 48px 0 40px;
+  }
+  .section-page-contacto .pco__header-inner {
+    padding: 0 24px;
+  }
+  .section-page-contacto .pco__body {
+    grid-template-columns: 1fr;
+    gap: 48px;
+    padding: 48px 24px 64px;
+  }
+  .section-page-contacto .pco__headline {
+    font-size: clamp(28px, 8vw, 44px);
+  }
+  .section-page-contacto .pco__submit {
+    width: 100%;
+    justify-content: center;
+  }
+}
+{% endstylesheet %}

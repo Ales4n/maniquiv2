@@ -1,0 +1,236 @@
+{% comment %} MANIQUI: Las modistas — Saydith, Ana y Esperanza, 2-col, cream-warm — 2026-06-02 {% endcomment %}
+
+<section class="snm" id="sobreNosotrasModistas">
+  <div class="snm__inner maniqui-container">
+
+    <div class="snm__media">
+      {%- if section.settings.image -%}
+        {% render 'responsive-image',
+            image: section.settings.image,
+            image_mobile: section.settings.image_mobile,
+            alt: section.settings.image_alt | default: 'Las tres modistas de Maniquí cosiendo en su taller de Valencia',
+            class: 'snm__img',
+            loading: 'lazy',
+            sizes: '(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 560px',
+            widths: '600, 900, 1200' %}
+      {%- else -%}
+        <div class="snm__placeholder" role="img" aria-label="Foto del equipo pendiente de subir">
+          <p class="snm__placeholder-text">Foto real de Saydith, Ana y Esperanza pendiente de subir</p>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="snm__text">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="maniqui-eyebrow snm__eyebrow">{{ section.settings.eyebrow }}</p>
+        <span class="maniqui-sep-line snm__sep"></span>
+      {%- endif -%}
+      <h2 class="snm__headline">{{ section.settings.headline }}</h2>
+      {%- if section.settings.lead != blank -%}
+        <p class="snm__lead">{{ section.settings.lead }}</p>
+      {%- endif -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'paragraph' -%}
+          <p class="snm__body" {{ block.shopify_attributes }}>{{ block.settings.text }}</p>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Modistas Sobre Nosotras",
+  "tag": "div",
+  "class": "section-page-sobre-nosotras-modistas",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Foto de las tres modistas"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Imagen para móvil (opcional)",
+      "info": "Si la subes, se muestra solo en móvil (≤749px). Si no, se usa la de escritorio."
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Alt text imagen",
+      "default": "Las tres modistas de Maniquí cosiendo en su taller de Valencia"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "LAS MODISTAS"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "H2 — Titular",
+      "default": "Saydith, Ana y Esperanza"
+    },
+    {
+      "type": "text",
+      "id": "lead",
+      "label": "Lead (frase corta, cursiva sage)",
+      "default": "Tres amigas, un taller en Valencia."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "paragraph",
+      "name": "Párrafo",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Texto del párrafo"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Modistas Sobre Nosotras",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "settings": {
+            "text": "Conocen los tejidos, los cortes y lo que hace falta para que una prenda siente como debe. Pero antes de tocar nada, escuchan: entienden qué quieres conseguir."
+          }
+        },
+        {
+          "type": "paragraph",
+          "settings": {
+            "text": "Maniquí se especializa en ajustar ropa nueva que no acaba de quedar bien — sobre todo prendas compradas por internet que necesitan un retoque para quedar perfectas. Cuando vienes al taller o nos envías la prenda, son ellas quienes la trabajan, de principio a fin."
+          }
+        },
+        {
+          "type": "paragraph",
+          "settings": {
+            "text": "Sin intermediarios. Sin protocolos. Solo tres modistas haciendo bien su trabajo."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+/* ─── Modistas Sobre Nosotras ─── */
+.section-page-sobre-nosotras-modistas .snm {
+  background: var(--cream-warm);
+  padding: 120px 0;
+}
+.section-page-sobre-nosotras-modistas .snm__inner {
+  display: grid;
+  grid-template-columns: 55fr 45fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.section-page-sobre-nosotras-modistas .snm__media {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+}
+.section-page-sobre-nosotras-modistas .snm__media picture { display: block; width: 100%; height: 100%; }
+.section-page-sobre-nosotras-modistas .snm__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+.section-page-sobre-nosotras-modistas .snm__placeholder {
+  width: 100%;
+  height: 100%;
+  background: var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 320px;
+}
+.section-page-sobre-nosotras-modistas .snm__placeholder-text {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 24px;
+}
+
+.section-page-sobre-nosotras-modistas .snm__text {
+  padding-top: 16px;
+}
+.section-page-sobre-nosotras-modistas .snm__eyebrow {
+  margin-bottom: 16px;
+}
+.section-page-sobre-nosotras-modistas .snm__sep {
+  margin-bottom: 24px;
+}
+
+.section-page-sobre-nosotras-modistas .snm__headline {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(28px, 3.5vw, 48px);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  color: var(--warm-dark);
+  margin: 0 0 16px;
+}
+
+.section-page-sobre-nosotras-modistas .snm__lead {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2vw, 22px);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--sage);
+  margin: 0 0 24px;
+  line-height: 1.4;
+}
+
+.section-page-sobre-nosotras-modistas .snm__body {
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--text-2);
+  margin: 0 0 20px;
+}
+.section-page-sobre-nosotras-modistas .snm__body:last-child {
+  margin-bottom: 0;
+}
+
+/* ─── Tablet ─── */
+@media (max-width: 1024px) {
+  .section-page-sobre-nosotras-modistas .snm {
+    padding: 80px 0;
+  }
+  .section-page-sobre-nosotras-modistas .snm__inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 600px) {
+  .section-page-sobre-nosotras-modistas .snm {
+    padding: 64px 0;
+  }
+  .section-page-sobre-nosotras-modistas .snm__inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .section-page-sobre-nosotras-modistas .snm__media {
+    aspect-ratio: 4 / 3;
+  }
+  .section-page-sobre-nosotras-modistas .snm__text {
+    padding-top: 0;
+  }
+}
+{% endstylesheet %}

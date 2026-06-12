@@ -1,0 +1,32 @@
+{
+  "sections": {
+    "main": {
+      "type": "page-contacto",
+      "settings": {
+        "eyebrow": "CONTACTO",
+        "headline": "Cuéntanos qué necesitas",
+        "subhead": "Escríbenos por WhatsApp para una respuesta inmediata, o usa el formulario si lo prefieres.",
+        "address_label": "Dónde estamos",
+        "address_street": "Avinguda de la Constitució 94",
+        "address_city": "46009 Valencia — Marxalenes",
+        "map_link_label": "Ver en Google Maps",
+        "hours_label": "Horario",
+        "hours_text": "Lunes a viernes, 10:00–14:00 y 17:00–20:00",
+        "hours_note": "Sin cita previa · Walk-in bienvenido",
+        "wa_label": "Escríbenos por WhatsApp",
+        "email": "hola@maniquicreaciones.com",
+        "link_precios_label": "Ver precios",
+        "link_precios_url": "/pages/precios",
+        "link_contratar_label": "Contratar arreglo online",
+        "link_contratar_url": "/pages/contratar",
+        "form_title": "O escríbenos aquí",
+        "field_name_label": "Nombre",
+        "field_email_label": "Email",
+        "field_message_label": "Mensaje",
+        "form_submit_label": "Enviar mensaje",
+        "form_success": "Mensaje enviado. Te respondemos en menos de 24h."
+      }
+    }
+  },
+  "order": ["main"]
+}

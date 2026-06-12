@@ -1,32 +1,48 @@
-{% comment %} MANIQUI: Nav sticky — aparece al scroll, WhatsApp siempre visible — 2026-05-04 {% endcomment %}
+{% comment %} MANIQUI: Nav unificada — desktop + móvil, siempre visible, sticky vía CSS en body>header — 2026-06-05 {% endcomment %}
 
 {%- liquid
   assign menu = linklists[section.settings.menu]
   assign wa_number = settings.whatsapp_number | remove: '+' | remove: ' ' | remove: '-'
   assign wa_message = settings.whatsapp_message | url_encode
   assign wa_url = 'https://wa.me/' | append: wa_number | append: '?text=' | append: wa_message
+  if template.name == 'index'
+    assign nav_initial_class = ' is-over-hero'
+  endif
 -%}
 
-<nav
-  class="mnav"
-  id="maniquiNavSticky"
-  aria-label="Navegación principal"
-  data-section-id="{{ section.id }}"
->
+<nav class="mnav{{ nav_initial_class }}" id="maniquiNavSticky" aria-label="Navegación principal">
+
   {%- comment %} Logo / wordmark {%- endcomment %}
   <a class="mnav__logo" href="{{ routes.root_url }}" aria-label="Maniquí · Inicio">
     {%- if section.settings.logo -%}
-      {{
-        section.settings.logo
-        | image_url: height: 36
-        | image_tag:
-          loading: 'eager',
-          fetchpriority: 'high',
-          class: 'mnav-logo-img',
-          alt: ''
-      }}
+      {%- if section.settings.logo_mobile -%}
+        <picture>
+          <source media="(max-width: 749px)"
+                  srcset="{{ section.settings.logo_mobile | image_url: height: 36 }}">
+          {{
+            section.settings.logo
+            | image_url: height: 36
+            | image_tag:
+              loading: 'eager',
+              fetchpriority: 'high',
+              class: 'mnav-logo-img',
+              alt: shop.name
+          }}
+        </picture>
+      {%- else -%}
+        {{
+          section.settings.logo
+          | image_url: height: 36
+          | image_tag:
+            loading: 'eager',
+            fetchpriority: 'high',
+            class: 'mnav-logo-img',
+            alt: shop.name
+        }}
+      {%- endif -%}
+    {%- else -%}
+      <span class="mnav__wordmark">Maniquí</span>
     {%- endif -%}
-    <span class="mnav__wordmark">Maniquí</span>
   </a>
 
   {%- comment %} Links desktop {%- endcomment %}
@@ -56,71 +72,98 @@
       {{ section.settings.cta_label }}
     </a>
 
-    {%- comment %} Botón burger — mobile {%- endcomment %}
-    <button
-      class="mnav__burger"
-      id="maniquiMenuOpen"
-      aria-label="Abrir menú"
-      aria-controls="maniquiMobileMenu"
-      aria-expanded="false"
-    >
-      <span class="mnav__burger-line"></span>
-    </button>
+    {%- comment %} Menú móvil — details/summary nativo, cero JS para el toggle {%- endcomment %}
+    <details class="mnav__details" id="maniquiMobileDetails">
+      <summary class="mnav__burger" aria-label="Abrir menú">
+        <span class="mnav__burger-line"></span>
+      </summary>
+
+      <div class="mnav__mobile-menu" id="maniquiMobileMenu">
+        <button
+          class="mnav__mobile-close"
+          id="maniquiMenuClose"
+          aria-label="Cerrar menú"
+          type="button"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M6 6L18 18M6 18L18 6"/>
+          </svg>
+        </button>
+
+        <ul class="mnav__mobile-links" role="list">
+          {%- for link in menu.links -%}
+            <li>
+              <a href="{{ link.url }}" class="mnav__mobile-link">
+                {{ link.title }}
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+
+        <a
+          class="maniqui-btn maniqui-btn--wa mnav__mobile-wa"
+          href="{{ wa_url }}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <svg class="maniqui-icon-wa" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M17.6 6.32A8 8 0 0 0 4.45 16.4L4 20l3.74-1A8 8 0 1 0 17.6 6.32Zm-5.6 12a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.22.58.6-2.16-.16-.25a6.64 6.64 0 1 1 5.38 2.9Zm3.62-4.96c-.2-.1-1.18-.58-1.36-.65s-.32-.1-.45.1-.5.65-.62.78-.23.15-.43.05a5.42 5.42 0 0 1-1.6-1 6 6 0 0 1-1.1-1.38c-.12-.2 0-.3.08-.4s.2-.23.3-.34a1.34 1.34 0 0 0 .2-.34.37.37 0 0 0 0-.35c-.05-.1-.45-1.08-.62-1.48s-.33-.34-.45-.34h-.38a.74.74 0 0 0-.54.25 2.25 2.25 0 0 0-.7 1.67 3.9 3.9 0 0 0 .82 2.08 8.94 8.94 0 0 0 3.42 3.02c.48.2.85.32 1.14.41a2.76 2.76 0 0 0 1.26.08 2.06 2.06 0 0 0 1.36-.96 1.69 1.69 0 0 0 .12-.96c-.05-.08-.18-.13-.38-.23Z"/>
+          </svg>
+          Escribir por WhatsApp
+        </a>
+      </div>
+    </details>
+
   </div>
 </nav>
 
-{%- comment %} Mobile menu drawer {%- endcomment %}
-<div
-  class="mnav__mobile-menu"
-  id="maniquiMobileMenu"
-  aria-hidden="true"
-  aria-label="Menú de navegación"
-  role="dialog"
->
-  <button
-    class="mnav__mobile-close"
-    id="maniquiMenuClose"
-    aria-label="Cerrar menú"
-  >
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-      <path d="M6 6L18 18M6 18L18 6"/>
-    </svg>
-  </button>
+<script>
+(function() {
+  var nav     = document.getElementById('maniquiNavSticky');
+  var details = document.getElementById('maniquiMobileDetails');
+  var closeBtn= document.getElementById('maniquiMenuClose');
+  var menu    = document.getElementById('maniquiMobileMenu');
 
-  <ul class="mnav__mobile-links" role="list">
-    {%- for link in menu.links -%}
-      <li>
-        <a href="{{ link.url }}" class="mnav__mobile-link">
-          {{ link.title }}
-        </a>
-      </li>
-    {%- endfor -%}
-  </ul>
+  // Transparencia sobre el hero
+  if (nav && nav.classList.contains('is-over-hero')) {
+    function onScroll() {
+      nav.classList.toggle('is-scrolled', window.scrollY > 40);
+    }
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
 
-  <a
-    class="maniqui-btn maniqui-btn--wa mnav__mobile-wa"
-    href="{{ wa_url }}"
-    target="_blank"
-    rel="noopener noreferrer"
-    aria-label="{{ section.settings.cta_label | escape }} (abre WhatsApp)"
-  >
-    <svg class="maniqui-icon-wa" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M17.6 6.32A8 8 0 0 0 4.45 16.4L4 20l3.74-1A8 8 0 1 0 17.6 6.32Zm-5.6 12a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.22.58.6-2.16-.16-.25a6.64 6.64 0 1 1 5.38 2.9Zm3.62-4.96c-.2-.1-1.18-.58-1.36-.65s-.32-.1-.45.1-.5.65-.62.78-.23.15-.43.05a5.42 5.42 0 0 1-1.6-1 6 6 0 0 1-1.1-1.38c-.12-.2 0-.3.08-.4s.2-.23.3-.34a1.34 1.34 0 0 0 .2-.34.37.37 0 0 0 0-.35c-.05-.1-.45-1.08-.62-1.48s-.33-.34-.45-.34h-.38a.74.74 0 0 0-.54.25 2.25 2.25 0 0 0-.7 1.67 3.9 3.9 0 0 0 .82 2.08 8.94 8.94 0 0 0 3.42 3.02c.48.2.85.32 1.14.41a2.76 2.76 0 0 0 1.26.08 2.06 2.06 0 0 0 1.36-.96 1.69 1.69 0 0 0 .12-.96c-.05-.08-.18-.13-.38-.23Z"/>
-    </svg>
-    Escribir por WhatsApp
-  </a>
-</div>
+  // Menu movil: boton X, links y Escape
+  if (!details) return;
+  function closeMenu() { details.removeAttribute('open'); }
+  if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+  if (menu) {
+    menu.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', closeMenu);
+    });
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && details.hasAttribute('open')) closeMenu();
+  });
+})();
+</script>
 
 {% schema %}
 {
-  "name": "Maniquí — Nav sticky",
+  "name": "Maniquí — Nav",
   "tag": "div",
   "class": "section-maniqui-nav",
   "settings": [
     {
       "type": "image_picker",
       "id": "logo",
-      "label": "Logo"
+      "label": "Logo (desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_mobile",
+      "label": "Logo para móvil (opcional)",
+      "info": "Si lo subes, se muestra solo en móvil (≤749px). Si no, se usa el de escritorio."
     },
     {
       "type": "link_list",
@@ -137,18 +180,18 @@
   ],
   "presets": [
     {
-      "name": "Maniquí — Nav sticky"
+      "name": "Maniquí — Nav"
     }
   ]
 }
 {% endschema %}
 
 {% stylesheet %}
-/* ─── Nav sticky ─── */
+/* ─── Nav — position:fixed siempre visible en todos los breakpoints ─── */
 .section-maniqui-nav .mnav {
   position: fixed;
   top: 0; left: 0; right: 0;
-  z-index: 80;
+  z-index: 9001;
   padding: 14px 48px;
   background: var(--cream);
   border-bottom: 1px solid var(--border);
@@ -156,12 +199,62 @@
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 24px;
-  transform: translateY(-100%);
-  transition: transform var(--tr-base);
-  will-change: transform;
+  transition: background 280ms ease, border-color 280ms ease;
 }
-.section-maniqui-nav .mnav.is-visible {
-  transform: translateY(0);
+
+/* ─── Modo transparente sobre el hero ─── */
+.section-maniqui-nav .mnav.is-over-hero {
+  background: transparent;
+  border-bottom-color: transparent;
+}
+.section-maniqui-nav .mnav.is-over-hero .mnav__wordmark {
+  color: var(--cream);
+}
+.section-maniqui-nav .mnav.is-over-hero .mnav__links a {
+  color: rgba(253, 251, 247, 0.85);
+}
+.section-maniqui-nav .mnav.is-over-hero .mnav__links a:hover {
+  color: var(--cream);
+}
+.section-maniqui-nav .mnav.is-over-hero .mnav__links a::after {
+  background: rgba(253, 251, 247, 0.6);
+}
+.section-maniqui-nav .mnav.is-over-hero .mnav-logo-img {
+  filter: brightness(0) invert(1);
+}
+.section-maniqui-nav .mnav.is-over-hero .mnav__burger-line,
+.section-maniqui-nav .mnav.is-over-hero .mnav__burger-line::before,
+.section-maniqui-nav .mnav.is-over-hero .mnav__burger-line::after {
+  background: var(--cream);
+}
+.section-maniqui-nav .mnav.is-over-hero .mnav__burger {
+  border-color: rgba(253, 251, 247, 0.4);
+}
+
+/* ─── Sólido al hacer scroll (gana al estado transparente) ─── */
+.section-maniqui-nav .mnav.is-over-hero.is-scrolled {
+  background: var(--cream);
+  border-bottom-color: var(--border);
+}
+.section-maniqui-nav .mnav.is-over-hero.is-scrolled .mnav__wordmark {
+  color: var(--warm-dark);
+}
+.section-maniqui-nav .mnav.is-over-hero.is-scrolled .mnav__links a {
+  color: var(--text-2);
+}
+.section-maniqui-nav .mnav.is-over-hero.is-scrolled .mnav__links a:hover {
+  color: var(--warm-dark);
+}
+.section-maniqui-nav .mnav.is-over-hero.is-scrolled .mnav-logo-img {
+  filter: none;
+}
+.section-maniqui-nav .mnav.is-over-hero.is-scrolled .mnav__burger-line,
+.section-maniqui-nav .mnav.is-over-hero.is-scrolled .mnav__burger-line::before,
+.section-maniqui-nav .mnav.is-over-hero.is-scrolled .mnav__burger-line::after {
+  background: var(--warm-dark);
+}
+.section-maniqui-nav .mnav.is-over-hero.is-scrolled .mnav__burger {
+  border-color: var(--border);
 }
 
 /* Logo */
@@ -175,8 +268,6 @@
 .mnav-logo-img {
   height: 32px;
   width: auto;
-  filter: brightness(0);
-  opacity: 0.92;
 }
 .section-maniqui-nav .mnav__wordmark {
   font-family: var(--font-display);
@@ -186,7 +277,7 @@
   line-height: 1;
 }
 
-/* Links */
+/* Links desktop */
 .section-maniqui-nav .mnav__links {
   display: flex;
   gap: 32px;
@@ -201,7 +292,7 @@
   padding: 6px 0;
   position: relative;
   text-decoration: none;
-  transition: color var(--tr-fast);
+  transition: color var(--tr-fast, 200ms ease);
 }
 .section-maniqui-nav .mnav__links a::after {
   content: '';
@@ -213,9 +304,7 @@
   transform-origin: left;
   transition: transform 240ms ease;
 }
-.section-maniqui-nav .mnav__links a:hover {
-  color: var(--warm-dark);
-}
+.section-maniqui-nav .mnav__links a:hover { color: var(--warm-dark); }
 .section-maniqui-nav .mnav__links a:hover::after,
 .section-maniqui-nav .mnav__links a[aria-current="page"]::after {
   transform: scaleX(1);
@@ -234,16 +323,25 @@
   font-size: 13px;
 }
 
-/* Burger */
-.section-maniqui-nav .mnav__burger {
+/* ─── Burger — details/summary nativo ─── */
+.section-maniqui-nav .mnav__details {
   display: none;
+}
+.section-maniqui-nav .mnav__details > summary {
+  list-style: none;
+  cursor: pointer;
+}
+.section-maniqui-nav .mnav__details > summary::-webkit-details-marker { display: none; }
+.section-maniqui-nav .mnav__details > summary::marker { display: none; }
+
+.section-maniqui-nav .mnav__burger {
+  display: flex;
   width: 44px; height: 44px;
   align-items: center;
   justify-content: center;
   background: transparent;
-  border: 1px solid var(--border-2);
+  border: 1px solid var(--border);
   border-radius: 999px;
-  cursor: pointer;
   flex-shrink: 0;
 }
 .section-maniqui-nav .mnav__burger-line {
@@ -263,27 +361,33 @@
 .section-maniqui-nav .mnav__burger-line::before { top: -6px; }
 .section-maniqui-nav .mnav__burger-line::after  { top:  6px; }
 
-/* ─── Mobile menu drawer ─── */
+/* ─── Panel móvil ─── */
 .section-maniqui-nav .mnav__mobile-menu {
+  display: none;
+  /*
+    .mnav NO tiene transform → sus hijos position:fixed usan el viewport
+    como containing block. top/width/height en unidades de viewport.
+  */
   position: fixed;
-  inset: 0;
+  top: 56px;
+  left: 0;
+  width: 100vw;
+  height: calc(100vh - 56px);
   background: var(--cream);
-  z-index: 100;
-  padding: 80px 32px 40px;
-  display: flex;
+  padding: 24px 32px 40px;
   flex-direction: column;
   gap: 0;
-  transform: translateX(100%);
-  visibility: hidden;
-  transition: transform 360ms ease, visibility 360ms ease;
+  overflow-y: auto;
+  z-index: 200;
+  box-sizing: border-box;
 }
-.section-maniqui-nav .mnav__mobile-menu.is-open {
-  transform: translateX(0);
-  visibility: visible;
+.section-maniqui-nav .mnav__details[open] > .mnav__mobile-menu {
+  display: flex;
 }
+
 .section-maniqui-nav .mnav__mobile-close {
   position: absolute;
-  top: 24px; right: 24px;
+  top: 16px; right: 16px;
   width: 44px; height: 44px;
   color: var(--warm-dark);
   display: flex;
@@ -292,6 +396,7 @@
   background: transparent;
   border: none;
   cursor: pointer;
+  flex-shrink: 0;
 }
 .section-maniqui-nav .mnav__mobile-links {
   list-style: none;
@@ -306,7 +411,7 @@
   padding: 14px 0;
   border-bottom: 1px solid var(--border);
   text-decoration: none;
-  transition: color var(--tr-fast);
+  transition: color var(--tr-fast, 200ms ease);
 }
 .section-maniqui-nav .mnav__mobile-link:hover { color: var(--sage-dark); }
 .section-maniqui-nav .mnav__mobile-wa {
@@ -315,7 +420,7 @@
   margin-top: 32px;
 }
 
-/* ─── Responsive ─── */
+/* ─── Tablet/Móvil ─── */
 @media (max-width: 1024px) {
   .section-maniqui-nav .mnav {
     padding: 12px 24px;
@@ -323,60 +428,8 @@
   }
   .section-maniqui-nav .mnav__links { display: none; }
   .section-maniqui-nav .mnav__wa { display: none; }
-  .section-maniqui-nav .mnav__burger { display: flex; }
+  .section-maniqui-nav .mnav__details { display: flex; align-items: center; }
 }
 {% endstylesheet %}
 
-{% javascript %}
-(function() {
-  var nav = document.getElementById('maniquiNavSticky');
-  var openBtn = document.getElementById('maniquiMenuOpen');
-  var closeBtn = document.getElementById('maniquiMenuClose');
-  var mobileMenu = document.getElementById('maniquiMobileMenu');
-
-  if (!nav) return;
-
-  function onScroll() {
-    var threshold = window.innerHeight * 0.6;
-    if (window.scrollY > threshold) {
-      nav.classList.add('is-visible');
-    } else {
-      nav.classList.remove('is-visible');
-    }
-  }
-
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
-
-  if (!openBtn || !closeBtn || !mobileMenu) return;
-
-  function openMenu() {
-    mobileMenu.classList.add('is-open');
-    mobileMenu.setAttribute('aria-hidden', 'false');
-    openBtn.setAttribute('aria-expanded', 'true');
-    document.body.style.overflow = 'hidden';
-    closeBtn.focus();
-  }
-
-  function closeMenu() {
-    mobileMenu.classList.remove('is-open');
-    mobileMenu.setAttribute('aria-hidden', 'true');
-    openBtn.setAttribute('aria-expanded', 'false');
-    document.body.style.overflow = '';
-    openBtn.focus();
-  }
-
-  openBtn.addEventListener('click', openMenu);
-  closeBtn.addEventListener('click', closeMenu);
-
-  mobileMenu.querySelectorAll('a').forEach(function(link) {
-    link.addEventListener('click', closeMenu);
-  });
-
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && mobileMenu.getAttribute('aria-hidden') === 'false') {
-      closeMenu();
-    }
-  });
-})();
-{% endjavascript %}
+{% comment %} JS movido al <script> inline — no depende del bundle {% endcomment %}

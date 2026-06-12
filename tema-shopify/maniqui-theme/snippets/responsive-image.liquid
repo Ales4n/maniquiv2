@@ -1,0 +1,25 @@
+{%- comment -%}
+  Render imagen responsive con opción de imagen móvil.
+  Parámetros:
+    image        (obligatorio) imagen de desktop
+    image_mobile (opcional)    si se pasa y no está vacía, se muestra solo en ≤749px
+    alt, class, loading ('lazy' por defecto), sizes ('100vw' por defecto), widths
+{%- endcomment -%}
+{%- liquid
+  assign _loading = loading | default: 'lazy'
+  assign _sizes = sizes | default: '100vw'
+  assign _widths = widths | default: '375, 550, 750, 1100, 1500, 2000'
+  assign _alt = alt | default: image.alt
+-%}
+{%- if image != blank -%}
+  {%- if image_mobile != blank -%}
+    <picture>
+      <source media="(max-width: 749px)"
+              srcset="{{ image_mobile | image_url: width: 375 }} 375w, {{ image_mobile | image_url: width: 550 }} 550w, {{ image_mobile | image_url: width: 750 }} 750w, {{ image_mobile | image_url: width: 1100 }} 1100w"
+              sizes="100vw">
+      {{ image | image_url: width: 1500 | image_tag: loading: _loading, sizes: _sizes, widths: _widths, class: class, alt: _alt }}
+    </picture>
+  {%- else -%}
+    {{ image | image_url: width: 1500 | image_tag: loading: _loading, sizes: _sizes, widths: _widths, class: class, alt: _alt }}
+  {%- endif -%}
+{%- endif -%}

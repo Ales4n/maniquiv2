@@ -1,4 +1,4 @@
-{% comment %} MANIQUI: Stepper flujo contratación — 3 pasos — 2026-05-27 {% endcomment %}
+{% comment %} MANIQUI: Stepper flujo contratación — checkmarks, 28px, labels absolutos — 2026-06-01 {% endcomment %}
 
 {%- liquid
   if current_step == 1
@@ -8,110 +8,113 @@
     assign l1 = 'pending'
     assign l2 = 'pending'
   elsif current_step == 2
-    assign s1 = 'completed'
+    assign s1 = 'done'
     assign s2 = 'active'
     assign s3 = 'pending'
-    assign l1 = 'completed'
+    assign l1 = 'done'
     assign l2 = 'pending'
   else
-    assign s1 = 'completed'
-    assign s2 = 'completed'
+    assign s1 = 'done'
+    assign s2 = 'done'
     assign s3 = 'active'
-    assign l1 = 'completed'
-    assign l2 = 'completed'
+    assign l1 = 'done'
+    assign l2 = 'done'
   endif
 -%}
 
 <style>
 .maniqui-stepper {
   display: flex;
-  align-items: flex-start;
-  max-width: 720px;
-  padding: 32px 0 24px;
+  align-items: center;
+  max-width: 480px;
+  padding: 32px 0 0;
+  margin-bottom: 44px;
 }
 .maniqui-stepper-step {
+  position: relative;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
   flex-shrink: 0;
 }
 .maniqui-stepper-circle {
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-body);
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  background: var(--cream);
   box-sizing: border-box;
 }
+.maniqui-stepper-circle svg { width: 14px; height: 14px; }
+.maniqui-stepper-step[data-state="done"] .maniqui-stepper-circle,
 .maniqui-stepper-step[data-state="active"] .maniqui-stepper-circle {
   background: var(--sage);
+  border-color: var(--sage);
   color: var(--cream);
-  border: 2px solid var(--sage);
-}
-.maniqui-stepper-step[data-state="completed"] .maniqui-stepper-circle {
-  background: var(--sage-dark);
-  color: var(--cream);
-}
-.maniqui-stepper-step[data-state="pending"] .maniqui-stepper-circle {
-  background: var(--cream-warm);
-  color: var(--text-muted);
-  border: 1px solid var(--border);
 }
 .maniqui-stepper-label {
-  font-family: var(--font-body);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.10em;
+  position: absolute;
+  top: 36px;
+  left: 50%;
+  transform: translateX(-50%);
   white-space: nowrap;
-}
-.maniqui-stepper-step[data-state="active"] .maniqui-stepper-label,
-.maniqui-stepper-step[data-state="completed"] .maniqui-stepper-label {
-  color: var(--sage);
-}
-.maniqui-stepper-step[data-state="pending"] .maniqui-stepper-label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
   color: var(--text-muted);
+}
+.maniqui-stepper-step[data-state="done"] .maniqui-stepper-label,
+.maniqui-stepper-step[data-state="active"] .maniqui-stepper-label {
+  color: var(--sage-dark);
 }
 .maniqui-stepper-line {
   flex: 1;
   height: 1px;
-  min-width: 60px;
-  margin-top: 18px; /* align with circle center: 36px / 2 */
+  background: var(--border);
+  margin: 0 10px;
 }
-.maniqui-stepper-line[data-state="completed"] { background: var(--sage); }
-.maniqui-stepper-line[data-state="pending"]   { background: var(--border); }
+.maniqui-stepper-line[data-state="done"] { background: var(--sage); }
+.maniqui-stepper-line[data-state="pending"] { background: var(--border); }
 
 @media (max-width: 600px) {
-  .maniqui-stepper-circle {
-    width: 32px;
-    height: 32px;
-    font-size: 13px;
-  }
-  .maniqui-stepper-label { font-size: 10px; }
-  .maniqui-stepper-line {
-    min-width: 32px;
-    margin-top: 16px; /* 32px / 2 */
-  }
+  .maniqui-stepper { max-width: 100%; }
+  .maniqui-stepper-label { font-size: 9px; letter-spacing: 0.12em; }
 }
 </style>
 
+{%- capture checkmark -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4 4 10-10"/></svg>{%- endcapture -%}
+
 <nav class="maniqui-stepper" aria-label="Progreso de contratación">
   <div class="maniqui-stepper-step" data-state="{{ s1 }}">
-    <div class="maniqui-stepper-circle" aria-hidden="true">1</div>
+    <div class="maniqui-stepper-circle">
+      {%- if s1 == 'done' -%}{{ checkmark }}{%- else -%}1{%- endif -%}
+    </div>
     <span class="maniqui-stepper-label">Categoría</span>
   </div>
+
   <div class="maniqui-stepper-line" data-state="{{ l1 }}" aria-hidden="true"></div>
+
   <div class="maniqui-stepper-step" data-state="{{ s2 }}">
-    <div class="maniqui-stepper-circle" aria-hidden="true">2</div>
+    <div class="maniqui-stepper-circle">
+      {%- if s2 == 'done' -%}{{ checkmark }}{%- else -%}2{%- endif -%}
+    </div>
     <span class="maniqui-stepper-label">Arreglo</span>
   </div>
+
   <div class="maniqui-stepper-line" data-state="{{ l2 }}" aria-hidden="true"></div>
+
   <div class="maniqui-stepper-step" data-state="{{ s3 }}">
-    <div class="maniqui-stepper-circle" aria-hidden="true">3</div>
+    <div class="maniqui-stepper-circle">
+      {%- if s3 == 'done' -%}{{ checkmark }}{%- else -%}3{%- endif -%}
+    </div>
     <span class="maniqui-stepper-label">Detalles</span>
   </div>
 </nav>

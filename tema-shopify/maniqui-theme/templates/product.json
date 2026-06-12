@@ -7,12 +7,18 @@
         "notes_label": "Instrucciones para las modistas",
         "notes_hint": "(opcional)",
         "notes_placeholder": "Ej: bajar 4 cm, dejar dobladillo visible, conservar el bajo original...",
+        "notes_help": "Tras contratar, te escribimos por WhatsApp para que nos envíes una foto y confirmar el arreglo.",
+        "upload_endpoint": "https://sync-reviews.vercel.app/api/upload-photo",
+        "photo_label": "Foto de la prenda",
+        "photo_hint": "(recomendado)",
         "cta_add_label": "Contratar ahora",
-        "cta_wa_label": "Preguntar por WhatsApp",
-        "show_trust": true,
+        "show_illustration": true,
+        "illus_caption": "Línea de corte estimada",
+        "includes_label": "Qué incluye",
         "trust_1": "Plazo confirmado al contratar",
         "trust_2": "Precio cerrado · sin sorpresas",
-        "trust_3": "Cosido a mano por las modistas"
+        "trust_3": "Cosido a mano por las modistas",
+        "modistas_quote": "Cosen ellas mismas tu prenda."
       }
     }
   },

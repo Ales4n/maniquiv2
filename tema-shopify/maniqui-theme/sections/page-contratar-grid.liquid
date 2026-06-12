@@ -15,8 +15,31 @@
           {%- endif -%}
         {%- endfor -%}
 
+        {%- comment %} Determinar key de fallback por colección {%- endcomment -%}
+        {%- case col.handle -%}
+          {%- when 'bajos-dobladillos' -%}{%- assign fallback_key = 'bajo-pantalon' -%}
+          {%- when 'cremalleras' -%}{%- assign fallback_key = 'cremallera' -%}
+          {%- when 'ajustes-anchura' -%}{%- assign fallback_key = 'ajuste-lados' -%}
+          {%- when 'mangas' -%}{%- assign fallback_key = 'manga' -%}
+          {%- when 'tirantes-vestido' -%}{%- assign fallback_key = 'tirantes' -%}
+          {%- else -%}{%- assign fallback_key = 'boton' -%}
+        {%- endcase -%}
+
         <li class="pcg__card" {{ block.shopify_attributes }}>
           <a href="{{ col.url }}" class="pcg__card-link" aria-label="Ver arreglos: {{ col.title | escape }}">
+            <div class="pcg__card-media">
+              {%- if col.image != blank -%}
+                {{ col.image | image_url: width: 600 | image_tag:
+                  loading: 'lazy',
+                  widths: '300, 400, 600',
+                  sizes: '(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw',
+                  alt: col.title }}
+              {%- else -%}
+                <div class="pcg__card-media-fallback">
+                  {%- render 'arreglo-illustration', key: fallback_key, size: 'lg' -%}
+                </div>
+              {%- endif -%}
+            </div>
             <div class="pcg__card-body">
               {%- if col.products.size > 0 -%}
                 <span class="pcg__from-price">Desde {{ min_price | money_without_trailing_zeros }}</span>
@@ -119,21 +142,42 @@
   box-shadow: 0 4px 16px rgba(42, 37, 32, 0.08);
 }
 
+/* ─── Foto o ilustración de categoría ─── */
+.section-page-contratar-grid .pcg__card-media {
+  aspect-ratio: 4 / 3;
+  border-radius: 8px 8px 0 0;
+  overflow: hidden;
+  background: var(--cream-warm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.section-page-contratar-grid .pcg__card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 0;
+}
+.section-page-contratar-grid .pcg__card-media-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* ─── Card link (toda la card es enlace) ─── */
 .section-page-contratar-grid .pcg__card-link {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: 28px 24px 24px;
   text-decoration: none;
-  min-height: 180px;
 }
-
-/* ─── Contenido ─── */
 .section-page-contratar-grid .pcg__card-body {
   flex: 1;
+  padding: 20px 24px 0;
 }
+
+/* (pcg__card-body padding definido en card-link block) */
 .section-page-contratar-grid .pcg__from-price {
   display: block;
   font-family: var(--font-body);
@@ -165,7 +209,7 @@
   display: flex;
   align-items: center;
   color: var(--sage);
-  margin-top: 20px;
+  margin: 16px 24px 20px;
   transition: transform 200ms ease;
   flex-shrink: 0;
 }
@@ -202,9 +246,11 @@
     grid-template-columns: 1fr;
     gap: 12px;
   }
-  .section-page-contratar-grid .pcg__card-link {
-    min-height: 0;
-    padding: 20px 20px 18px;
+  .section-page-contratar-grid .pcg__card-body {
+    padding: 16px 16px 0;
+  }
+  .section-page-contratar-grid .pcg__arrow {
+    margin: 12px 16px 16px;
   }
   .section-page-contratar-grid .pcg__title {
     font-size: 1.25rem;

@@ -1,4 +1,4 @@
-{%- comment %} MANIQUI: Botón flotante WhatsApp — global, aparece tras 300px scroll — 2026-05-11 {%- endcomment %}
+{%- comment %} MANIQUI: Botón flotante WhatsApp — global, siempre visible en móvil, sin JS — 2026-06-05 {% endcomment %}
 
 {%- assign wa_phone = '34603305566' -%}
 {%- assign wa_msg = 'Hola, necesito arreglar una prenda. ¿Me podéis dar precio?' | url_encode -%}
@@ -7,7 +7,6 @@
 <a
   href="{{ wa_url }}"
   class="wa-float"
-  id="waFloat"
   target="_blank"
   rel="noopener"
   aria-label="Contactar por WhatsApp"
@@ -19,84 +18,41 @@
 
 <style>
 .wa-float {
-  position: fixed;
-  bottom: 32px;
-  right: 32px;
-  z-index: 9000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: var(--whatsapp, #25D366);
-  color: #fff;
-  text-decoration: none;
-  box-shadow: 0 4px 16px rgba(37, 211, 102, 0.45);
-  opacity: 0;
-  transform: scale(0.75);
-  pointer-events: none;
-  transition: opacity 350ms ease, transform 350ms ease, background var(--tr-fast, 200ms ease), box-shadow var(--tr-fast, 200ms ease);
-}
-
-.wa-float.is-visible {
-  opacity: 1;
-  transform: scale(1);
-  pointer-events: auto;
-}
-
-.wa-float:hover {
-  background: var(--whatsapp-dark, #128C7E);
-  box-shadow: 0 6px 22px rgba(37, 211, 102, 0.55);
-  transform: scale(1.08);
-}
-
-.wa-float:focus-visible {
-  outline: 3px solid var(--whatsapp, #25D366);
-  outline-offset: 3px;
-}
-
-.wa-float__icon {
-  width: 28px;
-  height: 28px;
-  flex-shrink: 0;
-}
-
-@media (min-width: 601px) {
-  .wa-float {
-    display: none;
-  }
+  display: none; /* hidden on desktop */
 }
 
 @media (max-width: 600px) {
   .wa-float {
+    display: flex;
+    position: fixed;
     bottom: 20px;
     right: 20px;
+    z-index: 9000;
+    align-items: center;
+    justify-content: center;
     width: 52px;
     height: 52px;
+    border-radius: 50%;
+    background: var(--whatsapp, #25D366);
+    color: #fff;
+    text-decoration: none;
+    box-shadow: 0 4px 16px rgba(37, 211, 102, 0.40);
+    transition: background var(--tr-fast, 200ms ease), transform 200ms ease, box-shadow 200ms ease;
+    /* Visible por CSS siempre — sin depender de JS */
+  }
+  .wa-float:hover {
+    background: var(--whatsapp-dark, #128C7E);
+    box-shadow: 0 6px 22px rgba(37, 211, 102, 0.55);
+    transform: scale(1.08);
+  }
+  .wa-float:focus-visible {
+    outline: 3px solid var(--whatsapp, #25D366);
+    outline-offset: 3px;
   }
   .wa-float__icon {
     width: 26px;
     height: 26px;
+    flex-shrink: 0;
   }
 }
 </style>
-
-<script>
-(function () {
-  var btn = document.getElementById('waFloat');
-  if (!btn) return;
-  function show() {
-    btn.classList.add('is-visible');
-    window.removeEventListener('scroll', onScroll);
-  }
-  function onScroll() {
-    if (window.scrollY > 300) show();
-  }
-  if (window.scrollY > 300) {
-    show();
-  } else {
-    window.addEventListener('scroll', onScroll, { passive: true });
-  }
-}());
-</script>

@@ -28,16 +28,14 @@
 
                 <div class="marr__card-img-wrap">
                   {%- if block.settings.image -%}
-                    {{
-                      block.settings.image
-                      | image_url: width: 600
-                      | image_tag:
-                        loading: 'lazy',
-                        widths: '300, 400, 600',
-                        sizes: '(max-width: 600px) 72vw, (max-width: 1024px) 45vw, 280px',
+                    {% render 'responsive-image',
+                        image: block.settings.image,
+                        image_mobile: block.settings.image_mobile,
+                        alt: block.settings.headline | escape,
                         class: 'marr__card-img',
-                        alt: block.settings.headline | escape
-                    }}
+                        loading: 'lazy',
+                        sizes: '(max-width: 600px) 72vw, (max-width: 1024px) 45vw, 280px',
+                        widths: '300, 400, 600' %}
                   {%- else -%}
                     <div class="marr__card-img-placeholder" aria-hidden="true"></div>
                   {%- endif -%}
@@ -133,6 +131,12 @@
           "type": "image_picker",
           "id": "image",
           "label": "Imagen del arreglo"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Imagen para móvil (opcional)",
+          "info": "Si la subes, se muestra solo en móvil (≤749px). Si no, se usa la de escritorio."
         },
         {
           "type": "text",
@@ -291,6 +295,7 @@
   flex-shrink: 0;
 }
 
+.section-maniqui-arreglos .marr__card-img-wrap picture { display: block; width: 100%; height: 100%; }
 .section-maniqui-arreglos .marr__card-img {
   width: 100%;
   height: 100%;

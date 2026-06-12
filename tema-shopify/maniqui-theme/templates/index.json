@@ -11,6 +11,7 @@
         "subheadline": "Tres modistas con taller propio en Marxalenes. Cuéntanos qué necesitas por WhatsApp, pásate sin cita, o contrátalo online.",
         "cta_wa_label": "Pregúntanos por WhatsApp",
         "cta_taller_label": "Ven al taller",
+        "cta_taller_url": "#maniquiTaller",
         "cta_online_prefix": "¿Fuera de Valencia?",
         "cta_online_label": "Contrata el arreglo online"
       }
@@ -59,7 +60,7 @@
             "headline": "En el taller",
             "body": "Sin cita previa. Valoramos la prenda contigo y te damos precio en mano.",
             "cta_label": "Cómo llegar",
-            "cta_url": "/pages/el-taller"
+            "cta_url": "#maniquiTaller"
           }
         },
         "canal-online": {

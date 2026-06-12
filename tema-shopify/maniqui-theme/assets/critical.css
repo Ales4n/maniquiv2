@@ -55,6 +55,11 @@ p:empty { display: none; }
 /* ─── Layout base ─── */
 #MainContent {
   flex: 1;
+  padding-top: 60px; /* compensa nav position:fixed (~60px) en páginas sin hero */
+}
+/* En páginas con hero, el nav flota encima — sin hueco */
+#MainContent:has(.section-maniqui-hero) {
+  padding-top: 0;
 }
 
 /* ─── Container ─── */

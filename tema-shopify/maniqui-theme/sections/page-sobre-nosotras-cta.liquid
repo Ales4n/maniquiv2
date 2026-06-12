@@ -1,0 +1,246 @@
+{% comment %} MANIQUI: CTA final Sobre Nosotras — 3 canales: WA primario > precios secundario > taller enlace — 2026-06-02 {% endcomment %}
+
+{%- assign wa_phone = '34603305566' -%}
+{%- assign wa_msg = 'Hola, necesito arreglar una prenda. ¿Me podéis dar precio?' | url_encode -%}
+{%- assign wa_url = 'https://wa.me/' | append: wa_phone | append: '?text=' | append: wa_msg -%}
+
+<section class="snc" id="sobreNosotrasCtaFinal">
+  <div class="snc__inner maniqui-container">
+    <div class="snc__body">
+
+      <h2 class="snc__headline">{{ section.settings.headline }}</h2>
+
+      {%- if section.settings.subhead != blank -%}
+        <p class="snc__sub">{{ section.settings.subhead }}</p>
+      {%- endif -%}
+
+      <div class="snc__ctas">
+        <a
+          href="{{ wa_url }}"
+          class="snc__btn-wa"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="{{ section.settings.cta_wa_label | escape }} (abre WhatsApp)"
+        >
+          <svg class="snc__wa-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false" width="20" height="20">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a10.87 10.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a10.86 10.86 0 01-1.184-5.37c.002-5.898 4.803-10.697 10.706-10.697 2.86 0 5.54 1.115 7.552 3.13a10.635 10.635 0 013.126 7.566c-.002 5.897-4.803 10.696-10.7 10.696z"/>
+          </svg>
+          {{- section.settings.cta_wa_label -}}
+        </a>
+
+        {%- if section.settings.cta_precios_label != blank -%}
+          <a
+            href="{{ section.settings.cta_precios_url }}"
+            class="snc__btn-precios"
+          >{{- section.settings.cta_precios_label -}}</a>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.cta_taller_label != blank -%}
+        <a
+          href="{{ section.settings.cta_taller_url }}"
+          class="snc__link-taller"
+        >
+          {{- section.settings.cta_taller_label -}}
+          <svg class="snc__link-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="16" height="16">
+            <path d="M3 8h10M9 4l4 4-4 4"/>
+          </svg>
+        </a>
+      {%- endif -%}
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CTA Sobre Nosotras",
+  "tag": "div",
+  "class": "section-page-sobre-nosotras-cta",
+  "settings": [
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "H2 — Titular",
+      "default": "¿Tienes algo que no te queda bien?"
+    },
+    {
+      "type": "textarea",
+      "id": "subhead",
+      "label": "Subtítulo",
+      "default": "Escríbenos por WhatsApp y te damos precio, ven al taller sin cita previa, o contrata online cuando quieras."
+    },
+    {
+      "type": "text",
+      "id": "cta_wa_label",
+      "label": "CTA primario — WhatsApp (etiqueta)",
+      "default": "Escríbenos por WhatsApp"
+    },
+    {
+      "type": "text",
+      "id": "cta_precios_label",
+      "label": "CTA secundario — arreglos (etiqueta)",
+      "default": "Ver arreglos y precios"
+    },
+    {
+      "type": "url",
+      "id": "cta_precios_url",
+      "label": "CTA secundario — URL"
+    },
+    {
+      "type": "text",
+      "id": "cta_taller_label",
+      "label": "Enlace terciario — taller (etiqueta)",
+      "default": "Visítanos en el taller"
+    },
+    {
+      "type": "url",
+      "id": "cta_taller_url",
+      "label": "Enlace terciario — URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "CTA Sobre Nosotras"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+/* ─── CTA Sobre Nosotras ─── */
+.section-page-sobre-nosotras-cta .snc {
+  background: var(--warm-dark);
+  padding: 120px 0;
+}
+.section-page-sobre-nosotras-cta .snc__inner {
+  /* maniqui-container gestiona el padding lateral */
+}
+.section-page-sobre-nosotras-cta .snc__body {
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.section-page-sobre-nosotras-cta .snc__headline {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(32px, 4.5vw, 60px);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  color: var(--cream);
+  margin: 0 0 20px;
+}
+
+.section-page-sobre-nosotras-cta .snc__sub {
+  font-size: 16px;
+  color: rgba(253, 251, 247, 0.6);
+  line-height: 1.65;
+  margin: 0 0 44px;
+  max-width: 480px;
+}
+
+.section-page-sobre-nosotras-cta .snc__ctas {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+/* Botón WhatsApp — verde sólido */
+.section-page-sobre-nosotras-cta .snc__btn-wa {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--cream);
+  background: var(--whatsapp);
+  border: 2px solid var(--whatsapp);
+  border-radius: 8px;
+  padding: 14px 28px;
+  text-decoration: none;
+  transition: background 200ms ease, border-color 200ms ease, transform 200ms ease;
+}
+.section-page-sobre-nosotras-cta .snc__btn-wa:hover {
+  background: var(--whatsapp-dark);
+  border-color: var(--whatsapp-dark);
+  transform: translateY(-2px);
+}
+.section-page-sobre-nosotras-cta .snc__wa-icon {
+  flex-shrink: 0;
+}
+
+/* Botón precios — outline sobre oscuro */
+.section-page-sobre-nosotras-cta .snc__btn-precios {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--cream);
+  background: transparent;
+  border: 2px solid rgba(253, 251, 247, 0.35);
+  border-radius: 8px;
+  padding: 14px 28px;
+  text-decoration: none;
+  transition: border-color 200ms ease, background 200ms ease, transform 200ms ease;
+}
+.section-page-sobre-nosotras-cta .snc__btn-precios:hover {
+  border-color: var(--cream);
+  background: rgba(253, 251, 247, 0.06);
+  transform: translateY(-2px);
+}
+
+/* Enlace terciario — texto */
+.section-page-sobre-nosotras-cta .snc__link-taller {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(253, 251, 247, 0.55);
+  text-decoration: none;
+  transition: color 200ms ease, gap 200ms ease;
+}
+.section-page-sobre-nosotras-cta .snc__link-taller:hover {
+  color: var(--cream);
+  gap: 12px;
+}
+.section-page-sobre-nosotras-cta .snc__link-arrow {
+  flex-shrink: 0;
+}
+
+/* ─── Tablet ─── */
+@media (max-width: 1024px) {
+  .section-page-sobre-nosotras-cta .snc {
+    padding: 80px 0;
+  }
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 600px) {
+  .section-page-sobre-nosotras-cta .snc {
+    padding: 64px 0;
+  }
+  .section-page-sobre-nosotras-cta .snc__headline {
+    font-size: clamp(28px, 8.5vw, 42px);
+  }
+  .section-page-sobre-nosotras-cta .snc__ctas {
+    flex-direction: column;
+    width: 100%;
+  }
+  .section-page-sobre-nosotras-cta .snc__btn-wa,
+  .section-page-sobre-nosotras-cta .snc__btn-precios {
+    width: 100%;
+    justify-content: center;
+  }
+}
+{% endstylesheet %}

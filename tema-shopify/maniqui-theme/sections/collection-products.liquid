@@ -9,6 +9,9 @@
           <li class="colp__card">
             <a href="{{ product.url }}" class="colp__card-link" aria-label="{{ product.title | escape }}">
               <div class="colp__card-body">
+                <div class="colp__illus" aria-hidden="true">
+                  {%- render 'arreglo-illustration', product: product, size: 'sm' -%}
+                </div>
                 <span class="colp__price">{{ product.price_min | money_without_trailing_zeros }}</span>
                 <h2 class="colp__name">{{ product.title }}</h2>
                 {%- if product.description != blank -%}
@@ -102,6 +105,20 @@
 }
 .section-collection-products .colp__card-body {
   flex: 1;
+}
+
+/* ─── Ilustración sm ─── */
+.section-collection-products .colp__illus {
+  width: 44px;
+  height: 58px;
+  background: var(--sage-soft);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
 /* ─── Precio ─── */

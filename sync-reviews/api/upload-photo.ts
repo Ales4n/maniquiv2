@@ -68,14 +68,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (!cloudRes.ok) {
       const errText = await cloudRes.text()
-      console.error('[upload-photo] Cloudinary error:', errText)
-      throw new Error('Cloudinary rechazó la imagen')
+      console.error('[upload-photo] Cloudinary error status:', cloudRes.status)
+      console.error('[upload-photo] Cloudinary error body:', errText)
+      let clientMsg = 'Error al subir la imagen'
+      try {
+        const errJson = JSON.parse(errText) as { error?: { message?: string } }
+        if (errJson.error?.message) clientMsg = `Cloudinary: ${errJson.error.message}`
+      } catch { /* respuesta no era JSON */ }
+      return res.status(500).json({ error: clientMsg })
     }
 
     const data = await cloudRes.json() as { secure_url: string }
     return res.status(200).json({ url: data.secure_url })
   } catch (err) {
-    console.error('[upload-photo]', err)
-    return res.status(500).json({ error: 'Error al subir la imagen. Inténtalo de nuevo.' })
+    const msg = err instanceof Error ? err.message : String(err)
+    console.error('[upload-photo] catch:', msg)
+    return res.status(500).json({ error: msg || 'Error al subir la imagen. Inténtalo de nuevo.' })
   }
 }
