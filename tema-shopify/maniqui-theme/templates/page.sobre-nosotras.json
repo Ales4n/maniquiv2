@@ -1,21 +1,26 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
       "type": "page-sobre-nosotras-hero",
       "settings": {
+        "image": "shopify://shop_images/TU_ROPA_NUEVA_MERECE_QUEDAR_PERFECTA_1.svg",
+        "image_alt": "Saydith, Ana y Esperanza en el taller de Maniquí en Marxalenes, Valencia",
         "eyebrow": "SOBRE NOSOTRAS",
         "headline": "Tres modistas y un taller de arreglos en Valencia",
-        "subhead": "Saydith, Ana y Esperanza llevan tres años cosiendo en su propio taller de Marxalenes. Sin intermediarios: ellas ven tu prenda y ellas la trabajan, de principio a fin.",
-        "image_alt": "Saydith, Ana y Esperanza en el taller de Maniquí en Marxalenes, Valencia"
+        "subhead": "Saydith, Ana y Esperanza llevan tres años cosiendo en su propio taller de Marxalenes. Sin intermediarios: ellas ven tu prenda y ellas la trabajan, de principio a fin."
       }
     },
     "origen": {
       "type": "page-sobre-nosotras-origen",
-      "settings": {
-        "eyebrow": "CÓMO LLEGAMOS AQUÍ",
-        "headline": "Cómo llegamos aquí",
-        "image_alt": "Interior del taller de arreglos de Maniquí en Marxalenes, Valencia"
-      },
       "blocks": {
         "p1": {
           "type": "paragraph",
@@ -36,16 +41,19 @@
           }
         }
       },
-      "block_order": ["p1", "p2", "p3"]
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ],
+      "settings": {
+        "image_alt": "Interior del taller de arreglos de Maniquí en Marxalenes, Valencia",
+        "eyebrow": "CÓMO LLEGAMOS AQUÍ",
+        "headline": "Cómo llegamos aquí"
+      }
     },
     "modistas": {
       "type": "page-sobre-nosotras-modistas",
-      "settings": {
-        "eyebrow": "LAS MODISTAS",
-        "headline": "Saydith, Ana y Esperanza",
-        "lead": "Tres amigas, un taller en Valencia.",
-        "image_alt": "Las tres modistas de Maniquí cosiendo en su taller de Valencia"
-      },
       "blocks": {
         "m1": {
           "type": "paragraph",
@@ -66,29 +74,54 @@
           }
         }
       },
-      "block_order": ["m1", "m2", "m3"]
+      "block_order": [
+        "m1",
+        "m2",
+        "m3"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/Gemini_Generated_Image_6ae0rt6ae0rt6ae05.png",
+        "image_alt": "Las tres modistas de Maniquí cosiendo en su taller de Valencia",
+        "eyebrow": "LAS MODISTAS",
+        "headline": "Saydith, Ana y Esperanza",
+        "lead": "Tres amigas, un taller en Valencia."
+      }
     },
     "banda": {
       "type": "section-maniqui-banda",
       "blocks": {
         "b1": {
           "type": "item",
-          "settings": { "text": "Tres años en Marxalenes" }
+          "settings": {
+            "text": "Tres años en Marxalenes"
+          }
         },
         "b2": {
           "type": "item",
-          "settings": { "text": "4,9★ en Google" }
+          "settings": {
+            "text": "4,9★ en Google"
+          }
         },
         "b3": {
           "type": "item",
-          "settings": { "text": "79 reseñas" }
+          "settings": {
+            "text": "79 reseñas"
+          }
         },
         "b4": {
           "type": "item",
-          "settings": { "text": "Cosido a mano por las modistas" }
+          "settings": {
+            "text": "Cosido a mano por las modistas"
+          }
         }
       },
-      "block_order": ["b1", "b2", "b3", "b4"]
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4"
+      ],
+      "settings": {}
     },
     "cta": {
       "type": "page-sobre-nosotras-cta",
@@ -103,5 +136,11 @@
       }
     }
   },
-  "order": ["hero", "origen", "modistas", "banda", "cta"]
+  "order": [
+    "hero",
+    "origen",
+    "modistas",
+    "banda",
+    "cta"
+  ]
 }

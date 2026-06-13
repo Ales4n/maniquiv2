@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -11,6 +20,7 @@
         "upload_endpoint": "https://sync-reviews.vercel.app/api/upload-photo",
         "photo_label": "Foto de la prenda",
         "photo_hint": "(recomendado)",
+        "photo_required": false,
         "cta_add_label": "Contratar ahora",
         "show_illustration": true,
         "illus_caption": "Línea de corte estimada",
@@ -22,5 +32,7 @@
       }
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }
