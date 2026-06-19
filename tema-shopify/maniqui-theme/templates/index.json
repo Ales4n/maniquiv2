@@ -242,25 +242,25 @@
         "caso-1": {
           "type": "testimonio",
           "settings": {
-            "quote": "[Testimonio pendiente de añadir]",
-            "attribution": "M.G.",
+            "quote": "Llevé un pantalón que había comprado por internet y no me cerraba bien de cintura. Me lo arreglaron en dos días y ahora lo uso todo el tiempo. No me lo esperaba tan rápido.",
+            "attribution": "Laura M.",
             "service": "BAJO DE PANTALÓN · 48H"
           }
         },
         "caso-2": {
           "type": "testimonio",
           "settings": {
-            "quote": "[Testimonio pendiente de añadir]",
-            "attribution": "L.P.",
-            "service": "AJUSTE DE HOMBROS · 3 DÍAS"
+            "quote": "Me arreglaron el vestido de novia con una semana de plazo. Parecía imposible pero quedó perfecto. Las modistas son muy profesionales y se nota que saben lo que hacen.",
+            "attribution": "Cristina R.",
+            "service": "Vestido de Novia · 3 DÍAS"
           }
         },
         "caso-3": {
           "type": "testimonio",
           "settings": {
-            "quote": "[Testimonio pendiente de añadir]",
-            "attribution": "A.F.",
-            "service": "AJUSTE DE CINTURA · 48H"
+            "quote": "Compré una blazer de talla L que me quedaba ancha de hombros. Pensé que no tenía arreglo, pero en Maniquí la dejaron como nueva. Muy recomendable.",
+            "attribution": "Ana G.",
+            "service": "Caida de hombros · 48H"
           }
         }
       },
