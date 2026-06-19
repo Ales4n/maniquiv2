@@ -1,0 +1,203 @@
+{% comment %} MANIQUI: Origen — "Cómo llegamos aquí", 2-col o editorial centrado, cream — 2026-06-02 {% endcomment %}
+
+<section class="sno" id="sobreNosotrasOrigen">
+  <div class="sno__inner maniqui-container">
+
+    {%- if section.settings.image -%}
+      <div class="sno__media">
+        {% render 'responsive-image',
+            image: section.settings.image,
+            image_mobile: section.settings.image_mobile,
+            alt: section.settings.image_alt | default: 'Interior del taller de arreglos de Maniquí en Marxalenes, Valencia',
+            class: 'sno__img',
+            loading: 'lazy',
+            sizes: '(max-width: 600px) 100vw, (max-width: 1024px) 45vw, 480px',
+            widths: '480, 700, 1000' %}
+      </div>
+    {%- endif -%}
+
+    <div class="sno__text{% unless section.settings.image %} sno__text--full{% endunless %}">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="maniqui-eyebrow sno__eyebrow">{{ section.settings.eyebrow }}</p>
+        <span class="maniqui-sep-line sno__sep"></span>
+      {%- endif -%}
+      <h2 class="sno__headline">{{ section.settings.headline }}</h2>
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'paragraph' -%}
+          <p class="sno__body" {{ block.shopify_attributes }}>{{ block.settings.text }}</p>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Origen Sobre Nosotras",
+  "tag": "div",
+  "class": "section-page-sobre-nosotras-origen",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Foto del taller (columna izquierda, opcional)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Imagen para móvil (opcional)",
+      "info": "Si la subes, se muestra solo en móvil (≤749px). Si no, se usa la de escritorio."
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Alt text imagen",
+      "default": "Interior del taller de arreglos de Maniquí en Marxalenes, Valencia"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "CÓMO LLEGAMOS AQUÍ"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "H2 — Titular",
+      "default": "Cómo llegamos aquí"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "paragraph",
+      "name": "Párrafo",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Texto del párrafo"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Origen Sobre Nosotras",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "settings": {
+            "text": "Todo empezó con un taller compartido."
+          }
+        },
+        {
+          "type": "paragraph",
+          "settings": {
+            "text": "Pero los clientes empezaron a llegar con otra cosa: un bajo, un ajuste de cintura, una chaqueta que no sentaba bien. La demanda creció sola. Sin publicidad, sin estrategia. Un arreglo llevó a otro, y las tres lo tuvieron claro."
+          }
+        },
+        {
+          "type": "paragraph",
+          "settings": {
+            "text": "Hoy, Maniquí está formado por tres modistas profesionales que trabajan en su propio taller en Valencia. Tres amigas que se levantan cada día a hacer lo que mejor saben hacer."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+/* ─── Origen ─── */
+.section-page-sobre-nosotras-origen .sno {
+  background: var(--cream);
+  padding: 120px 0;
+}
+.section-page-sobre-nosotras-origen .sno__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.section-page-sobre-nosotras-origen .sno__media {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+}
+.section-page-sobre-nosotras-origen .sno__media picture { display: block; width: 100%; height: 100%; }
+.section-page-sobre-nosotras-origen .sno__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.section-page-sobre-nosotras-origen .sno__text {
+  padding-top: 16px;
+}
+.section-page-sobre-nosotras-origen .sno__text--full {
+  grid-column: 1 / -1;
+  max-width: 640px;
+  margin: 0 auto;
+  padding-top: 0;
+}
+
+.section-page-sobre-nosotras-origen .sno__eyebrow {
+  margin-bottom: 16px;
+}
+.section-page-sobre-nosotras-origen .sno__sep {
+  margin-bottom: 24px;
+}
+
+.section-page-sobre-nosotras-origen .sno__headline {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(28px, 3.5vw, 48px);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  color: var(--warm-dark);
+  margin: 0 0 28px;
+}
+
+.section-page-sobre-nosotras-origen .sno__body {
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--text-2);
+  margin: 0 0 20px;
+}
+.section-page-sobre-nosotras-origen .sno__body:last-child {
+  margin-bottom: 0;
+}
+
+/* ─── Tablet ─── */
+@media (max-width: 1024px) {
+  .section-page-sobre-nosotras-origen .sno {
+    padding: 80px 0;
+  }
+  .section-page-sobre-nosotras-origen .sno__inner {
+    gap: 48px;
+  }
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 600px) {
+  .section-page-sobre-nosotras-origen .sno {
+    padding: 64px 0;
+  }
+  .section-page-sobre-nosotras-origen .sno__inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .section-page-sobre-nosotras-origen .sno__media {
+    aspect-ratio: 4 / 3;
+  }
+  .section-page-sobre-nosotras-origen .sno__text {
+    padding-top: 0;
+  }
+}
+{% endstylesheet %}

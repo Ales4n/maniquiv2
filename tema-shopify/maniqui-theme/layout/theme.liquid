@@ -1,0 +1,106 @@
+{% comment %} MANIQUI: Layout principal — 2026-05-04 {% endcomment %}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    {%- comment %} charset y viewport — obligatorio ser los primeros tags en <head> por spec HTML {%- endcomment %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {%- comment %} Variables CSS Maniquí — inline en critical path, antes de cualquier hoja externa {%- endcomment %}
+    {% render 'css-variables' %}
+
+    {%- comment %}
+      CSS crítico — carga bloqueante INTENCIONAL.
+      Contiene reset + sistema de botones + layout base.
+      No usar preload-only trick aquí: necesitamos que esté disponible antes del primer paint.
+    {%- endcomment %}
+    <link rel="preload" href="{{ 'critical.css' | asset_url }}" as="style">
+    {{ 'critical.css' | asset_url | stylesheet_tag }}
+
+    {%- comment %}
+      Fuentes Google — carga no bloqueante (media=print → onload swap).
+      crossorigin en preload necesario para recursos cross-origin con CORS.
+      Cormorant Garamond 300 es la fuente del LCP (hero headline).
+    {%- endcomment %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      rel="preload"
+      as="style"
+      crossorigin
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Red+Hat+Text:wght@400;500;600&display=swap"
+    >
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Red+Hat+Text:wght@400;500;600&display=swap"
+      media="print"
+      onload="this.media='all'"
+    >
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Red+Hat+Text:wght@400;500;600&display=swap"
+      >
+    </noscript>
+
+    {%- comment %} Meta tags, OG, canonical, title — SIN charset/viewport (ya están arriba) {%- endcomment %}
+    {% render 'meta-tags' %}
+
+    {%- comment %} MANIQUI: Schema LocalBusiness — solo home — 2026-05-04 {%- endcomment %}
+    {%- if request.page_type == 'index' -%}
+      <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "name": "Maniquí Creaciones",
+          "description": "Taller de arreglos de ropa en Valencia. Tres modistas profesionales con taller propio en Marxalenes.",
+          "url": "https://maniquicreaciones.com",
+          "telephone": "+34603305566",
+          "email": "hola@maniquicreaciones.com",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Avinguda de la Constitució, 94",
+            "addressLocality": "Valencia",
+            "postalCode": "46009",
+            "addressRegion": "Comunidad Valenciana",
+            "addressCountry": "ES"
+          },
+          "openingHoursSpecification": [
+            {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+              "opens": "10:00",
+              "closes": "14:00"
+            },
+            {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+              "opens": "17:00",
+              "closes": "20:00"
+            }
+          ],
+          "priceRange": "€€",
+          "currenciesAccepted": "EUR"
+        }
+      </script>
+    {%- endif -%}
+
+    {{ content_for_header }}
+  </head>
+
+  <body>
+    <a class="skip-to-content" href="#MainContent">Saltar al contenido</a>
+
+    {% sections 'header-group' %}
+
+    <main id="MainContent">
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+
+    {% render 'wa-sticky' %}
+    {% section 'maniqui-cart-drawer' %}
+  </body>
+</html>

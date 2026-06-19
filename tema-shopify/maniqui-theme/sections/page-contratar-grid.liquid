@@ -1,0 +1,259 @@
+{% comment %} MANIQUI: Grid categorías contratar — 6 colecciones, min-price, cards enlazadas — 2026-05-27 {% endcomment %}
+
+<section class="pcg" id="contratarGrid">
+  <div class="pcg__inner maniqui-container">
+
+    <ul class="pcg__grid" role="list">
+      {%- for block in section.blocks -%}
+        {%- assign col = block.settings.collection -%}
+        {%- if col == blank -%}{%- continue -%}{%- endif -%}
+
+        {%- assign min_price = 9999999 -%}
+        {%- for product in col.products -%}
+          {%- if product.price < min_price -%}
+            {%- assign min_price = product.price -%}
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- comment %} Determinar key de fallback por colección {%- endcomment -%}
+        {%- case col.handle -%}
+          {%- when 'bajos-dobladillos' -%}{%- assign fallback_key = 'bajo-pantalon' -%}
+          {%- when 'cremalleras' -%}{%- assign fallback_key = 'cremallera' -%}
+          {%- when 'ajustes-anchura' -%}{%- assign fallback_key = 'ajuste-lados' -%}
+          {%- when 'mangas' -%}{%- assign fallback_key = 'manga' -%}
+          {%- when 'tirantes-vestido' -%}{%- assign fallback_key = 'tirantes' -%}
+          {%- else -%}{%- assign fallback_key = 'boton' -%}
+        {%- endcase -%}
+
+        <li class="pcg__card" {{ block.shopify_attributes }}>
+          <a href="{{ col.url }}" class="pcg__card-link" aria-label="Ver arreglos: {{ col.title | escape }}">
+            <div class="pcg__card-media">
+              {%- if col.image != blank -%}
+                {{ col.image | image_url: width: 600 | image_tag:
+                  loading: 'lazy',
+                  widths: '300, 400, 600',
+                  sizes: '(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw',
+                  alt: col.title }}
+              {%- else -%}
+                <div class="pcg__card-media-fallback">
+                  {%- render 'arreglo-illustration', key: fallback_key, size: 'lg' -%}
+                </div>
+              {%- endif -%}
+            </div>
+            <div class="pcg__card-body">
+              {%- if col.products.size > 0 -%}
+                <span class="pcg__from-price">Desde {{ min_price | money_without_trailing_zeros }}</span>
+              {%- endif -%}
+              <h2 class="pcg__title">{{ col.title }}</h2>
+              {%- if block.settings.tagline != blank -%}
+                <p class="pcg__tagline">{{ block.settings.tagline }}</p>
+              {%- endif -%}
+            </div>
+            <span class="pcg__arrow" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </span>
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+
+    {%- if section.settings.nota_wa != blank -%}
+      <p class="pcg__nota">{{ section.settings.nota_wa }}</p>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contratar grid",
+  "tag": "div",
+  "class": "section-page-contratar-grid",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "text",
+      "id": "nota_wa",
+      "label": "Nota inferior (opcional)",
+      "default": "¿No encuentras lo que necesitas? Escríbenos por WhatsApp y te orientamos."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection_item",
+      "name": "Categoría",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Colección"
+        },
+        {
+          "type": "text",
+          "id": "tagline",
+          "label": "Descripción breve"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contratar grid"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+/* ─── Grid contratar ─── */
+.section-page-contratar-grid .pcg {
+  background: var(--cream-warm);
+  padding: 80px 0;
+}
+.section-page-contratar-grid .pcg__inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+/* ─── Grid ─── */
+.section-page-contratar-grid .pcg__grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* ─── Card ─── */
+.section-page-contratar-grid .pcg__card {
+  display: flex;
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: border-color 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+}
+.section-page-contratar-grid .pcg__card:hover {
+  border-color: var(--sage-line);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(42, 37, 32, 0.08);
+}
+
+/* ─── Foto o ilustración de categoría ─── */
+.section-page-contratar-grid .pcg__card-media {
+  aspect-ratio: 4 / 3;
+  border-radius: 8px 8px 0 0;
+  overflow: hidden;
+  background: var(--cream-warm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.section-page-contratar-grid .pcg__card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 0;
+}
+.section-page-contratar-grid .pcg__card-media-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── Card link (toda la card es enlace) ─── */
+.section-page-contratar-grid .pcg__card-link {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+}
+.section-page-contratar-grid .pcg__card-body {
+  flex: 1;
+  padding: 20px 24px 0;
+}
+
+/* (pcg__card-body padding definido en card-link block) */
+.section-page-contratar-grid .pcg__from-price {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--sage);
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.section-page-contratar-grid .pcg__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  line-height: 1.2;
+  color: var(--warm-dark);
+  margin: 0 0 12px;
+}
+.section-page-contratar-grid .pcg__tagline {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-2);
+  margin: 0;
+}
+
+/* ─── Flecha ─── */
+.section-page-contratar-grid .pcg__arrow {
+  display: flex;
+  align-items: center;
+  color: var(--sage);
+  margin: 16px 24px 20px;
+  transition: transform 200ms ease;
+  flex-shrink: 0;
+}
+.section-page-contratar-grid .pcg__card:hover .pcg__arrow {
+  transform: translateX(4px);
+}
+
+/* ─── Nota inferior ─── */
+.section-page-contratar-grid .pcg__nota {
+  margin-top: 40px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* ─── Tablet ─── */
+@media (max-width: 1024px) {
+  .section-page-contratar-grid .pcg {
+    padding: 64px 0;
+  }
+  .section-page-contratar-grid .pcg__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 600px) {
+  .section-page-contratar-grid .pcg {
+    padding: 48px 0;
+  }
+  .section-page-contratar-grid .pcg__grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .section-page-contratar-grid .pcg__card-body {
+    padding: 16px 16px 0;
+  }
+  .section-page-contratar-grid .pcg__arrow {
+    margin: 12px 16px 16px;
+  }
+  .section-page-contratar-grid .pcg__title {
+    font-size: 1.25rem;
+  }
+}
+{% endstylesheet %}

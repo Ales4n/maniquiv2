@@ -1,0 +1,370 @@
+{% comment %} MANIQUI: Hero — full-bleed, nav transparente, CTAs WA + Taller + link online — 2026-05-04 {% endcomment %}
+
+{%- liquid
+  assign wa_number  = settings.whatsapp_number  | remove: '+' | remove: ' ' | remove: '-'
+  assign wa_message = settings.whatsapp_message | url_encode
+  assign wa_url     = 'https://wa.me/' | append: wa_number | append: '?text=' | append: wa_message
+  assign hero_alt   = section.settings.image_alt | default: 'Modistas de Maniquí trabajando en el taller de Marxalenes'
+  assign has_video  = false
+  if section.settings.hero_video != blank
+    assign has_video = true
+  endif
+-%}
+
+<header class="mhero" id="maniquiHero">
+
+  {%- comment %} Imagen y vídeo de fondo {%- endcomment %}
+  <div class="mhero__media">
+    {%- if section.settings.image -%}
+      {% render 'responsive-image',
+          image: section.settings.image,
+          image_mobile: section.settings.image_mobile,
+          alt: hero_alt,
+          class: 'mhero__img',
+          loading: 'eager',
+          sizes: '100vw',
+          widths: '750, 1080, 1440, 1920' %}
+    {%- else -%}
+      <img
+        src="{{ 'hero-image.png' | asset_url }}"
+        alt="{{ hero_alt }}"
+        class="mhero__img"
+        loading="eager"
+        fetchpriority="high"
+        width="1920"
+        height="1280"
+      >
+    {%- endif -%}
+
+    {%- if has_video -%}
+      <video
+        class="mhero__video{% unless section.settings.hero_video_mobile %} mhero__video--desktop-only{% endunless %}"
+        autoplay muted loop playsinline preload="metadata"
+        {%- if section.settings.image -%}
+          poster="{{ section.settings.image | image_url: width: 1500 }}"
+        {%- endif -%}
+      >
+        {%- for source in section.settings.hero_video.sources -%}
+          <source src="{{ source.url }}" type="{{ source.mime_type }}">
+        {%- endfor -%}
+      </video>
+    {%- endif -%}
+  </div>
+
+  {%- comment %} Contenido principal (parte inferior del hero) {%- endcomment %}
+  <div class="mhero__content">
+    <div class="mhero__inner">
+
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="maniqui-eyebrow mhero__eyebrow">
+          {{- section.settings.eyebrow -}}
+        </p>
+      {%- endif -%}
+
+      <h1 class="mhero__headline">
+        {{- section.settings.headline -}}
+        {%- if section.settings.headline_em != blank -%}
+          <em>{{ section.settings.headline_em }}</em>
+        {%- endif -%}
+      </h1>
+
+      {%- if section.settings.subheadline != blank -%}
+        <p class="mhero__sub">{{ section.settings.subheadline }}</p>
+      {%- endif -%}
+
+      <div class="mhero__ctas">
+        <a
+          class="maniqui-btn maniqui-btn--wa"
+          href="{{ wa_url }}"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="{{ section.settings.cta_wa_label | escape }} (abre WhatsApp)"
+        >
+          <svg class="maniqui-icon-wa" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M17.6 6.32A8 8 0 0 0 4.45 16.4L4 20l3.74-1A8 8 0 1 0 17.6 6.32Zm-5.6 12a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.22.58.6-2.16-.16-.25a6.64 6.64 0 1 1 5.38 2.9Zm3.62-4.96c-.2-.1-1.18-.58-1.36-.65s-.32-.1-.45.1-.5.65-.62.78-.23.15-.43.05a5.42 5.42 0 0 1-1.6-1 6 6 0 0 1-1.1-1.38c-.12-.2 0-.3.08-.4s.2-.23.3-.34a1.34 1.34 0 0 0 .2-.34.37.37 0 0 0 0-.35c-.05-.1-.45-1.08-.62-1.48s-.33-.34-.45-.34h-.38a.74.74 0 0 0-.54.25 2.25 2.25 0 0 0-.7 1.67 3.9 3.9 0 0 0 .82 2.08 8.94 8.94 0 0 0 3.42 3.02c.48.2.85.32 1.14.41a2.76 2.76 0 0 0 1.26.08 2.06 2.06 0 0 0 1.36-.96 1.69 1.69 0 0 0 .12-.96c-.05-.08-.18-.13-.38-.23Z"/>
+          </svg>
+          {{ section.settings.cta_wa_label }}
+        </a>
+
+        <a
+          class="maniqui-btn maniqui-btn--outline-cream"
+          href="{{ section.settings.cta_taller_url }}"
+        >{{ section.settings.cta_taller_label }}</a>
+      </div>
+
+      {%- if section.settings.cta_online_label != blank -%}
+        <p class="mhero__tertiary">
+          {{- section.settings.cta_online_prefix -}}
+          <a
+            class="mhero__tertiary-link"
+            href="{{ section.settings.cta_online_url }}"
+          >{{ section.settings.cta_online_label }} →</a>
+        </p>
+      {%- endif -%}
+
+    </div>
+  </div>
+
+</header>
+
+{% schema %}
+{
+  "name": "Maniquí — Hero",
+  "tag": "div",
+  "class": "section-maniqui-hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Imagen de fondo (desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Imagen para móvil (opcional)",
+      "info": "Si la subes, se muestra solo en móvil (≤749px). Si no, se usa la de escritorio."
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Texto alternativo imagen",
+      "default": "Modistas de Maniquí trabajando en el taller de Marxalenes"
+    },
+    {
+      "type": "header",
+      "content": "Vídeo de fondo (opcional)"
+    },
+    {
+      "type": "video",
+      "id": "hero_video",
+      "label": "Vídeo de fondo",
+      "info": "Si subes un vídeo, sustituye a la imagen en desktop. La imagen se usa como póster y fallback."
+    },
+    {
+      "type": "checkbox",
+      "id": "hero_video_mobile",
+      "label": "Mostrar el vídeo también en móvil",
+      "default": false,
+      "info": "Desactivado = en móvil se muestra la imagen (mejor para consumo de datos)."
+    },
+    {
+      "type": "header",
+      "content": "Contenido principal"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Arreglos de ropa · Valencia"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Titular"
+    },
+    {
+      "type": "text",
+      "id": "headline_em",
+      "label": "Titular — parte en itálica sage (opcional)",
+      "default": "quedar perfecta"
+    },
+    {
+      "type": "textarea",
+      "id": "subheadline",
+      "label": "Subtítulo",
+      "default": "Tres modistas con taller propio en Marxalenes. Cuéntanos qué necesitas por WhatsApp, pásate sin cita, o contrátalo online."
+    },
+    {
+      "type": "header",
+      "content": "CTAs"
+    },
+    {
+      "type": "text",
+      "id": "cta_wa_label",
+      "label": "CTA primario — WhatsApp",
+      "default": "Pregúntanos por WhatsApp"
+    },
+    {
+      "type": "text",
+      "id": "cta_taller_label",
+      "label": "CTA secundario — Taller",
+      "default": "Ven al taller"
+    },
+    {
+      "type": "url",
+      "id": "cta_taller_url",
+      "label": "URL CTA Taller"
+    },
+    {
+      "type": "header",
+      "content": "Enlace online (terciario)"
+    },
+    {
+      "type": "text",
+      "id": "cta_online_prefix",
+      "label": "Texto previo al enlace",
+      "default": "¿Fuera de Valencia?"
+    },
+    {
+      "type": "text",
+      "id": "cta_online_label",
+      "label": "Texto enlace online (dejar vacío para ocultar)",
+      "default": "Contrata el arreglo online"
+    },
+    {
+      "type": "url",
+      "id": "cta_online_url",
+      "label": "URL arreglos online"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Maniquí — Hero"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+/* ─── Hero ─── */
+.section-maniqui-hero .mhero {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  color: var(--cream);
+  background: var(--warm-dark);
+}
+
+/* Capa de media: imagen + vídeo */
+.section-maniqui-hero .mhero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+.section-maniqui-hero .mhero__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.section-maniqui-hero .mhero__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+/* Vídeo solo en desktop si el toggle móvil está off */
+@media (max-width: 749px) {
+  .section-maniqui-hero .mhero__video--desktop-only { display: none; }
+}
+/* Accesibilidad: prefers-reduced-motion → siempre imagen */
+@media (prefers-reduced-motion: reduce) {
+  .section-maniqui-hero .mhero__video { display: none; }
+}
+.section-maniqui-hero .mhero__media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(
+    180deg,
+    rgba(42,37,32,0.20) 0%,
+    rgba(42,37,32,0.05) 35%,
+    rgba(42,37,32,0.65) 100%
+  );
+}
+
+/* Contenido principal */
+.section-maniqui-hero .mhero__content {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: 96px;
+}
+.section-maniqui-hero .mhero__inner {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+.section-maniqui-hero .mhero__eyebrow {
+  margin-bottom: 20px;
+}
+.section-maniqui-hero .mhero__headline {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(48px, 7.2vw, 96px);
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+  color: var(--cream);
+  margin-bottom: 28px;
+  max-width: 1000px;
+}
+.section-maniqui-hero .mhero__headline em {
+  color: var(--sage);
+  font-style: italic;
+  font-weight: 300;
+}
+.section-maniqui-hero .mhero__sub {
+  font-size: 17px;
+  line-height: 1.55;
+  color: rgba(253,251,247,0.85);
+  max-width: 540px;
+  margin-bottom: 36px;
+  font-weight: 400;
+}
+.section-maniqui-hero .mhero__ctas {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.section-maniqui-hero .mhero__tertiary {
+  font-size: 13px;
+  color: rgba(253,251,247,0.70);
+  margin-top: 4px;
+}
+.section-maniqui-hero .mhero__tertiary-link {
+  color: var(--terracotta);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: opacity 200ms ease;
+}
+.section-maniqui-hero .mhero__tertiary-link:hover { opacity: 0.75; }
+
+/* ─── Responsive ─── */
+@media (max-width: 1024px) {
+  .section-maniqui-hero .mhero__content { padding-bottom: 72px; }
+  .section-maniqui-hero .mhero__inner { padding: 0 32px; }
+}
+@media (max-width: 600px) {
+  .section-maniqui-hero .mhero__content { padding-bottom: 56px; }
+  .section-maniqui-hero .mhero__inner { padding: 0 24px; }
+  .section-maniqui-hero .mhero__headline {
+    font-size: clamp(40px, 12vw, 56px);
+    margin-bottom: 20px;
+  }
+  .section-maniqui-hero .mhero__sub {
+    font-size: 15px;
+    margin-bottom: 28px;
+  }
+  .section-maniqui-hero .mhero__ctas {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .section-maniqui-hero .mhero__ctas .maniqui-btn {
+    justify-content: center;
+  }
+}
+{% endstylesheet %}
+
+{% comment %} Hero JS eliminado: delegacion heroBurger->maniquiMenuOpen obsoleta tras migration a details/summary — 2026-06-05 {% endcomment %}

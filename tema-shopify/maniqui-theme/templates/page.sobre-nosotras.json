@@ -1,0 +1,146 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "page-sobre-nosotras-hero",
+      "settings": {
+        "image": "shopify://shop_images/TU_ROPA_NUEVA_MERECE_QUEDAR_PERFECTA_1.svg",
+        "image_alt": "Saydith, Ana y Esperanza en el taller de Maniquí en Marxalenes, Valencia",
+        "eyebrow": "SOBRE NOSOTRAS",
+        "headline": "Tres modistas y un taller de arreglos en Valencia",
+        "subhead": "Saydith, Ana y Esperanza llevan tres años cosiendo en su propio taller de Marxalenes. Sin intermediarios: ellas ven tu prenda y ellas la trabajan, de principio a fin."
+      }
+    },
+    "origen": {
+      "type": "page-sobre-nosotras-origen",
+      "blocks": {
+        "p1": {
+          "type": "paragraph",
+          "settings": {
+            "text": "Todo empezó con un taller compartido."
+          }
+        },
+        "p2": {
+          "type": "paragraph",
+          "settings": {
+            "text": "Pero los clientes empezaron a llegar con otra cosa: un bajo, un ajuste de cintura, una chaqueta que no sentaba bien. La demanda creció sola. Sin publicidad, sin estrategia. Un arreglo llevó a otro, y las tres lo tuvieron claro."
+          }
+        },
+        "p3": {
+          "type": "paragraph",
+          "settings": {
+            "text": "Hoy, Maniquí está formado por tres modistas profesionales que trabajan en su propio taller en Valencia. Tres amigas que se levantan cada día a hacer lo que mejor saben hacer."
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ],
+      "settings": {
+        "image_alt": "Interior del taller de arreglos de Maniquí en Marxalenes, Valencia",
+        "eyebrow": "CÓMO LLEGAMOS AQUÍ",
+        "headline": "Cómo llegamos aquí"
+      }
+    },
+    "modistas": {
+      "type": "page-sobre-nosotras-modistas",
+      "blocks": {
+        "m1": {
+          "type": "paragraph",
+          "settings": {
+            "text": "Conocen los tejidos, los cortes y lo que hace falta para que una prenda siente como debe. Pero antes de tocar nada, escuchan: entienden qué quieres conseguir."
+          }
+        },
+        "m2": {
+          "type": "paragraph",
+          "settings": {
+            "text": "Maniquí se especializa en ajustar ropa nueva que no acaba de quedar bien — sobre todo prendas compradas por internet que necesitan un retoque para quedar perfectas. Cuando vienes al taller o nos envías la prenda, son ellas quienes la trabajan, de principio a fin."
+          }
+        },
+        "m3": {
+          "type": "paragraph",
+          "settings": {
+            "text": "Sin intermediarios. Sin protocolos. Solo tres modistas haciendo bien su trabajo."
+          }
+        }
+      },
+      "block_order": [
+        "m1",
+        "m2",
+        "m3"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/Gemini_Generated_Image_6ae0rt6ae0rt6ae05.png",
+        "image_alt": "Las tres modistas de Maniquí cosiendo en su taller de Valencia",
+        "eyebrow": "LAS MODISTAS",
+        "headline": "Saydith, Ana y Esperanza",
+        "lead": "Tres amigas, un taller en Valencia."
+      }
+    },
+    "banda": {
+      "type": "section-maniqui-banda",
+      "blocks": {
+        "b1": {
+          "type": "item",
+          "settings": {
+            "text": "Tres años en Marxalenes"
+          }
+        },
+        "b2": {
+          "type": "item",
+          "settings": {
+            "text": "4,9★ en Google"
+          }
+        },
+        "b3": {
+          "type": "item",
+          "settings": {
+            "text": "79 reseñas"
+          }
+        },
+        "b4": {
+          "type": "item",
+          "settings": {
+            "text": "Cosido a mano por las modistas"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4"
+      ],
+      "settings": {}
+    },
+    "cta": {
+      "type": "page-sobre-nosotras-cta",
+      "settings": {
+        "headline": "¿Tienes algo que no te queda bien?",
+        "subhead": "Escríbenos por WhatsApp y te damos precio, ven al taller sin cita previa, o contrata online cuando quieras.",
+        "cta_wa_label": "Escríbenos por WhatsApp",
+        "cta_precios_label": "Ver arreglos y precios",
+        "cta_precios_url": "/pages/contratar",
+        "cta_taller_label": "Visítanos en el taller",
+        "cta_taller_url": "/pages/el-taller"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "origen",
+    "modistas",
+    "banda",
+    "cta"
+  ]
+}

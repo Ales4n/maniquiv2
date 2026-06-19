@@ -1,0 +1,164 @@
+{% comment %} MANIQUI: Ilustraciones de arreglo — snippet centralizado, 12 keys — 2026-06-01 {% endcomment %}
+
+{%- comment %}
+  Parámetros:
+    product  — objeto Shopify product (opcional; resuelve key desde product.handle)
+    key      — string clave (opcional; se usa directamente si se pasa)
+    size     — 'sm' (~44px) | 'lg' (~140px)
+{%- endcomment -%}
+
+{%- comment %} Resolver key desde product.handle si no viene explícito {%- endcomment -%}
+{%- unless key -%}
+  {%- case product.handle -%}
+    {%- when 'bajos-vaquero-normal', 'bajos-vaquero-especial', 'bajos-pantalon-vestir-invisible', 'bajos-pantalon-vestir-mano' -%}
+      {%- assign key = 'bajo-pantalon' -%}
+    {%- when 'bajos-vestido', 'bajos-vestido-forro', 'bajos-vestido-mano', 'bajos-vestido-multicapa', 'bajos-vestido-repulgo' -%}
+      {%- assign key = 'bajo-vestido' -%}
+    {%- when 'cremallera-blusa-camisa', 'cremallera-invisible', 'cremallera-pantalon', 'cremallera-metalica' -%}
+      {%- assign key = 'cremallera' -%}
+    {%- when 'cremallera-chaqueta' -%}
+      {%- assign key = 'cremallera-chaqueta' -%}
+    {%- when 'ajustar-vestido-lados', 'meter-lados-camisa', 'meter-lados-camisa-forro' -%}
+      {%- assign key = 'ajuste-lados' -%}
+    {%- when 'ajustar-chaqueta-lado', 'ajustar-chaqueta-lado-forro', 'ajustar-espalda-chaqueta' -%}
+      {%- assign key = 'ajuste-chaqueta' -%}
+    {%- when 'acortar-mangas-chaqueta-sin-apertura', 'acortar-mangas-chaqueta-con-apertura', 'estrechar-mangas-chaqueta', 'cortar-mangas-vestido' -%}
+      {%- assign key = 'manga' -%}
+    {%- when 'tirantes-sin-forro', 'tirantes-con-forro' -%}
+      {%- assign key = 'tirantes' -%}
+    {%- when 'ajuste-cintura' -%}
+      {%- assign key = 'cintura' -%}
+    {%- when 'pinzas' -%}
+      {%- assign key = 'pinzas' -%}
+    {%- when 'zurcido' -%}
+      {%- assign key = 'zurcido' -%}
+    {%- when 'botones' -%}
+      {%- assign key = 'boton' -%}
+    {%- else -%}
+      {%- assign key = 'bajo-pantalon' -%}
+  {%- endcase -%}
+{%- endunless -%}
+
+{%- comment %} Dimensiones y stroke-width según tamaño {%- endcomment -%}
+{%- if size == 'sm' -%}
+  {%- assign svgW = 44 -%}
+  {%- assign svgH = 58 -%}
+  {%- assign sw = '6' -%}
+{%- else -%}
+  {%- assign svgW = 140 -%}
+  {%- assign svgH = 184 -%}
+  {%- assign sw = '2' -%}
+{%- endif -%}
+
+{%- case key -%}
+
+{%- when 'bajo-pantalon' -%}
+<svg width="{{ svgW }}" height="{{ svgH }}" viewBox="0 0 160 210" fill="none" stroke="var(--sage)" stroke-width="{{ sw }}" stroke-linejoin="round" stroke-linecap="round" role="img" aria-label="Pantalón con la línea de bajo marcada">
+  <path d="M46 16 L114 16 L112 188 L88 188 L80 104 L72 188 L48 188 Z"/>
+  <path d="M46 34 L114 34"/>
+  <line x1="50" y1="166" x2="74" y2="166" stroke="var(--terracotta)" stroke-dasharray="4 4"/>
+  <line x1="86" y1="166" x2="110" y2="166" stroke="var(--terracotta)" stroke-dasharray="4 4"/>
+</svg>
+
+{%- when 'bajo-vestido' -%}
+<svg width="{{ svgW }}" height="{{ svgH }}" viewBox="0 0 160 210" fill="none" stroke="var(--sage)" stroke-width="{{ sw }}" stroke-linejoin="round" stroke-linecap="round" role="img" aria-label="Vestido con la línea de bajo marcada">
+  <path d="M62 22 Q80 32 98 22 L110 44 L122 180 L38 180 L50 44 Z"/>
+  <line x1="46" y1="166" x2="114" y2="166" stroke="var(--terracotta)" stroke-dasharray="4 4"/>
+</svg>
+
+{%- when 'cremallera' -%}
+<svg width="{{ svgW }}" height="{{ svgH }}" viewBox="0 0 160 210" fill="none" stroke="var(--sage)" stroke-width="{{ sw }}" stroke-linejoin="round" stroke-linecap="round" role="img" aria-label="Blusa con cremallera central marcada">
+  <path d="M48 36 Q80 22 112 36 L112 178 L48 178 Z"/>
+  <path d="M68 36 Q80 50 92 36"/>
+  <path d="M74 44 L80 38 L86 44" stroke="var(--terracotta)"/>
+  <line x1="80" y1="44" x2="80" y2="164" stroke="var(--terracotta)" stroke-dasharray="4 4"/>
+</svg>
+
+{%- when 'cremallera-chaqueta' -%}
+<svg width="{{ svgW }}" height="{{ svgH }}" viewBox="0 0 160 210" fill="none" stroke="var(--sage)" stroke-width="{{ sw }}" stroke-linejoin="round" stroke-linecap="round" role="img" aria-label="Chaqueta con cremallera frontal marcada">
+  <path d="M40 22 L120 22 L120 182 L40 182 Z"/>
+  <path d="M80 44 L56 72 L40 54"/>
+  <path d="M80 44 L104 72 L120 54"/>
+  <path d="M74 66 L80 60 L86 66" stroke="var(--terracotta)"/>
+  <line x1="80" y1="66" x2="80" y2="170" stroke="var(--terracotta)" stroke-dasharray="4 4"/>
+</svg>
+
+{%- when 'ajuste-lados' -%}
+<svg width="{{ svgW }}" height="{{ svgH }}" viewBox="0 0 160 210" fill="none" stroke="var(--sage)" stroke-width="{{ sw }}" stroke-linejoin="round" stroke-linecap="round" role="img" aria-label="Prenda con líneas de ajuste de lados marcadas">
+  <path d="M50 26 Q80 16 110 26 L112 180 L48 180 Z"/>
+  <path d="M68 26 Q80 38 92 26"/>
+  <line x1="62" y1="72" x2="58" y2="166" stroke="var(--terracotta)" stroke-dasharray="4 4"/>
+  <line x1="98" y1="72" x2="102" y2="166" stroke="var(--terracotta)" stroke-dasharray="4 4"/>
+</svg>
+
+{%- when 'ajuste-chaqueta' -%}
+<svg width="{{ svgW }}" height="{{ svgH }}" viewBox="0 0 160 210" fill="none" stroke="var(--sage)" stroke-width="{{ sw }}" stroke-linejoin="round" stroke-linecap="round" role="img" aria-label="Chaqueta con ajuste de costado marcado">
+  <path d="M40 22 L120 22 L120 182 L40 182 Z"/>
+  <path d="M80 44 L56 70 L40 52"/>
+  <path d="M80 44 L104 70 L120 52"/>
+  <line x1="56" y1="78" x2="52" y2="168" stroke="var(--terracotta)" stroke-dasharray="4 4"/>
+  <line x1="104" y1="78" x2="108" y2="168" stroke="var(--terracotta)" stroke-dasharray="4 4"/>
+</svg>
+
+{%- when 'manga' -%}
+<svg width="{{ svgW }}" height="{{ svgH }}" viewBox="0 0 160 210" fill="none" stroke="var(--sage)" stroke-width="{{ sw }}" stroke-linejoin="round" stroke-linecap="round" role="img" aria-label="Manga con línea de acortamiento marcada">
+  <path d="M44 22 L116 22 L104 178 L56 178 Z"/>
+  <path d="M58 166 L102 166"/>
+  <line x1="54" y1="148" x2="106" y2="148" stroke="var(--terracotta)" stroke-dasharray="4 4"/>
+</svg>
+
+{%- when 'tirantes' -%}
+<svg width="{{ svgW }}" height="{{ svgH }}" viewBox="0 0 160 210" fill="none" stroke="var(--sage)" stroke-width="{{ sw }}" stroke-linejoin="round" stroke-linecap="round" role="img" aria-label="Vestido con tirantes marcados">
+  <path d="M48 68 L112 68 L118 182 L42 182 Z"/>
+  <line x1="58" y1="22" x2="66" y2="22" stroke="var(--terracotta)"/>
+  <line x1="94" y1="22" x2="102" y2="22" stroke="var(--terracotta)"/>
+  <line x1="62" y1="22" x2="58" y2="68" stroke="var(--terracotta)" stroke-dasharray="4 4"/>
+  <line x1="98" y1="22" x2="102" y2="68" stroke="var(--terracotta)" stroke-dasharray="4 4"/>
+</svg>
+
+{%- when 'cintura' -%}
+<svg width="{{ svgW }}" height="{{ svgH }}" viewBox="0 0 160 210" fill="none" stroke="var(--sage)" stroke-width="{{ sw }}" stroke-linejoin="round" stroke-linecap="round" role="img" aria-label="Prenda con ajuste de cintura marcado">
+  <path d="M52 22 Q80 16 108 22 L114 108 L108 184 L52 184 L46 108 Z"/>
+  <path d="M68 22 Q80 34 92 22"/>
+  <line x1="46" y1="108" x2="114" y2="108" stroke="var(--terracotta)" stroke-dasharray="4 4"/>
+</svg>
+
+{%- when 'pinzas' -%}
+<svg width="{{ svgW }}" height="{{ svgH }}" viewBox="0 0 160 210" fill="none" stroke="var(--sage)" stroke-width="{{ sw }}" stroke-linejoin="round" stroke-linecap="round" role="img" aria-label="Prenda con pinzas marcadas">
+  <path d="M50 26 Q80 16 110 26 L112 178 L48 178 Z"/>
+  <path d="M68 26 Q80 38 92 26"/>
+  <path d="M62 55 L68 100 L74 55" stroke="var(--terracotta)" stroke-dasharray="4 4"/>
+  <path d="M86 55 L92 100 L98 55" stroke="var(--terracotta)" stroke-dasharray="4 4"/>
+</svg>
+
+{%- when 'zurcido' -%}
+<svg width="{{ svgW }}" height="{{ svgH }}" viewBox="0 0 160 210" fill="none" stroke="var(--sage)" stroke-width="{{ sw }}" stroke-linejoin="round" stroke-linecap="round" role="img" aria-label="Tela con puntadas de zurcido marcadas">
+  <path d="M28 30 L132 30 L132 180 L28 180 Z"/>
+  <line x1="28" y1="30" x2="28" y2="180" stroke="var(--sage)" opacity="0.3"/>
+  <path d="M52 78 L76 102 M76 78 L52 102" stroke="var(--terracotta)" stroke-dasharray="4 4"/>
+  <path d="M84 78 L108 102 M108 78 L84 102" stroke="var(--terracotta)" stroke-dasharray="4 4"/>
+  <path d="M52 116 L76 140 M76 116 L52 140" stroke="var(--terracotta)" stroke-dasharray="4 4"/>
+  <path d="M84 116 L108 140 M108 116 L84 140" stroke="var(--terracotta)" stroke-dasharray="4 4"/>
+</svg>
+
+{%- when 'boton' -%}
+<svg width="{{ svgW }}" height="{{ svgH }}" viewBox="0 0 160 210" fill="none" stroke="var(--sage)" stroke-width="{{ sw }}" stroke-linejoin="round" stroke-linecap="round" role="img" aria-label="Botón con agujeros e hilo marcados">
+  <circle cx="80" cy="105" r="40"/>
+  <circle cx="68" cy="98" r="5"/>
+  <circle cx="92" cy="98" r="5"/>
+  <circle cx="68" cy="112" r="5"/>
+  <circle cx="92" cy="112" r="5"/>
+  <line x1="68" y1="98" x2="92" y2="112" stroke="var(--terracotta)" stroke-dasharray="4 4"/>
+  <line x1="92" y1="98" x2="68" y2="112" stroke="var(--terracotta)" stroke-dasharray="4 4"/>
+</svg>
+
+{%- else -%}
+{%- comment %} Fallback genérico: bajo-pantalon {%- endcomment -%}
+<svg width="{{ svgW }}" height="{{ svgH }}" viewBox="0 0 160 210" fill="none" stroke="var(--sage)" stroke-width="{{ sw }}" stroke-linejoin="round" stroke-linecap="round" role="img" aria-label="Prenda de ropa">
+  <path d="M46 16 L114 16 L112 188 L88 188 L80 104 L72 188 L48 188 Z"/>
+  <path d="M46 34 L114 34"/>
+  <line x1="50" y1="166" x2="74" y2="166" stroke="var(--terracotta)" stroke-dasharray="4 4"/>
+  <line x1="86" y1="166" x2="110" y2="166" stroke="var(--terracotta)" stroke-dasharray="4 4"/>
+</svg>
+
+{%- endcase -%}

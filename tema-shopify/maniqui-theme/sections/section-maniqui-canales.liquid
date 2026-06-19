@@ -1,0 +1,368 @@
+{% comment %} MANIQUI: Cómo trabajamos · 3 canales — jerarquía WA > Taller > Online — 2026-05-05 {% endcomment %}
+
+{%- liquid
+  assign wa_number = settings.whatsapp_number | remove: '+' | remove: ' ' | remove: '-'
+  assign wa_message = settings.whatsapp_message | url_encode
+  assign wa_url = 'https://wa.me/' | append: wa_number | append: '?text=' | append: wa_message
+-%}
+
+<section class="mcan" id="maniquiCanales">
+  <div class="mcan__inner maniqui-container">
+
+    <header class="mcan__header">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="maniqui-eyebrow mcan__eyebrow">{{ section.settings.eyebrow }}</p>
+        <span class="maniqui-sep-line mcan__sep"></span>
+      {%- endif -%}
+      <h2 class="mcan__headline">
+        {{ section.settings.headline }}
+        {%- if section.settings.headline_em != blank -%}
+          <em class="mcan__headline-em">{{ section.settings.headline_em }}</em>
+        {%- endif -%}
+      </h2>
+      {%- if section.settings.subheadline != blank -%}
+        <p class="mcan__sub">{{ section.settings.subheadline }}</p>
+      {%- endif -%}
+    </header>
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="mcan__grid">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'canal' -%}
+            {%- assign card_url = block.settings.cta_url -%}
+            {%- if block.settings.canal_type == 'wa' -%}
+              {%- assign card_url = wa_url -%}
+            {%- endif -%}
+            <div class="mcan__card{% if block.settings.featured %} mcan__card--featured{% endif %}" {{ block.shopify_attributes }}>
+
+              <div class="mcan__card-icon" aria-hidden="true">
+                {%- if block.settings.canal_type == 'wa' -%}
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17.6 6.32A8 8 0 0 0 4.45 16.4L4 20l3.74-1A8 8 0 1 0 17.6 6.32Zm-5.6 12a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.22.58.6-2.16-.16-.25a6.64 6.64 0 1 1 5.38 2.9Zm3.62-4.96c-.2-.1-1.18-.58-1.36-.65s-.32-.1-.45.1-.5.65-.62.78-.23.15-.43.05a5.42 5.42 0 0 1-1.6-1 6 6 0 0 1-1.1-1.38c-.12-.2 0-.3.08-.4s.2-.23.3-.34a1.34 1.34 0 0 0 .2-.34.37.37 0 0 0 0-.35c-.05-.1-.45-1.08-.62-1.48s-.33-.34-.45-.34h-.38a.74.74 0 0 0-.54.25 2.25 2.25 0 0 0-.7 1.67 3.9 3.9 0 0 0 .82 2.08 8.94 8.94 0 0 0 3.42 3.02c.48.2.85.32 1.14.41a2.76 2.76 0 0 0 1.26.08 2.06 2.06 0 0 0 1.36-.96 1.69 1.69 0 0 0 .12-.96c-.05-.08-.18-.13-.38-.23Z"/>
+                  </svg>
+                {%- elsif block.settings.canal_type == 'taller' -%}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                  </svg>
+                {%- elsif block.settings.canal_type == 'online' -%}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="3" width="20" height="14" rx="2"/>
+                    <path d="M8 21h8M12 17v4"/>
+                  </svg>
+                {%- endif -%}
+              </div>
+
+              <h3 class="mcan__card-title">{{ block.settings.headline }}</h3>
+              <p class="mcan__card-body">{{ block.settings.body }}</p>
+
+              {%- if block.settings.cta_label != blank and card_url != blank -%}
+                <a
+                  class="maniqui-btn {% if block.settings.featured %}maniqui-btn--wa{% else %}maniqui-btn--outline-dark{% endif %} mcan__card-cta"
+                  href="{{ card_url }}"
+                  {% if block.settings.canal_type == 'wa' %}target="_blank" rel="noopener noreferrer"{% endif %}
+                  aria-label="{{ block.settings.cta_label | escape }}"
+                >
+                  {%- if block.settings.canal_type == 'wa' -%}
+                    <svg class="maniqui-icon-wa" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d="M17.6 6.32A8 8 0 0 0 4.45 16.4L4 20l3.74-1A8 8 0 1 0 17.6 6.32Zm-5.6 12a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.22.58.6-2.16-.16-.25a6.64 6.64 0 1 1 5.38 2.9Zm3.62-4.96c-.2-.1-1.18-.58-1.36-.65s-.32-.1-.45.1-.5.65-.62.78-.23.15-.43.05a5.42 5.42 0 0 1-1.6-1 6 6 0 0 1-1.1-1.38c-.12-.2 0-.3.08-.4s.2-.23.3-.34a1.34 1.34 0 0 0 .2-.34.37.37 0 0 0 0-.35c-.05-.1-.45-1.08-.62-1.48s-.33-.34-.45-.34h-.38a.74.74 0 0 0-.54.25 2.25 2.25 0 0 0-.7 1.67 3.9 3.9 0 0 0 .82 2.08 8.94 8.94 0 0 0 3.42 3.02c.48.2.85.32 1.14.41a2.76 2.76 0 0 0 1.26.08 2.06 2.06 0 0 0 1.36-.96 1.69 1.69 0 0 0 .12-.96c-.05-.08-.18-.13-.38-.23Z"/>
+                    </svg>
+                  {%- endif -%}
+                  {{ block.settings.cta_label }}
+                </a>
+              {%- endif -%}
+
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Canales · Cómo trabajamos",
+  "tag": "div",
+  "class": "section-maniqui-canales",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Cómo trabajamos"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Titular (antes del énfasis)",
+      "default": "Tres formas de"
+    },
+    {
+      "type": "text",
+      "id": "headline_em",
+      "label": "Titular énfasis (cursiva sage)",
+      "default": "empezar"
+    },
+    {
+      "type": "text",
+      "id": "subheadline",
+      "label": "Subtítulo",
+      "default": "Tú eliges la que más te encaje."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "canal",
+      "name": "Canal",
+      "settings": [
+        {
+          "type": "select",
+          "id": "canal_type",
+          "label": "Tipo de canal (icono)",
+          "options": [
+            { "value": "wa", "label": "WhatsApp" },
+            { "value": "taller", "label": "Taller (casa)" },
+            { "value": "online", "label": "Online (pantalla)" }
+          ],
+          "default": "wa"
+        },
+        {
+          "type": "checkbox",
+          "id": "featured",
+          "label": "Destacado (fondo oscuro)",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "headline",
+          "label": "Título de la tarjeta",
+          "default": "Por WhatsApp"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Descripción",
+          "default": "Cuéntanos qué necesitas por mensaje. Te respondemos en minutos con presupuesto incluido."
+        },
+        {
+          "type": "text",
+          "id": "cta_label",
+          "label": "Etiqueta del botón",
+          "default": "Pregúntanos ahora"
+        },
+        {
+          "type": "url",
+          "id": "cta_url",
+          "label": "URL del botón (ignorado si canal es WhatsApp)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Canales · Cómo trabajamos",
+      "settings": {
+        "eyebrow": "Cómo trabajamos",
+        "headline": "Tres formas de",
+        "headline_em": "empezar",
+        "subheadline": "Tú eliges la que más te encaje."
+      },
+      "blocks": [
+        {
+          "type": "canal",
+          "settings": {
+            "canal_type": "wa",
+            "featured": true,
+            "headline": "Por WhatsApp",
+            "body": "Cuéntanos qué necesitas por mensaje. Te respondemos en minutos con presupuesto incluido.",
+            "cta_label": "Pregúntanos ahora"
+          }
+        },
+        {
+          "type": "canal",
+          "settings": {
+            "canal_type": "taller",
+            "featured": false,
+            "headline": "En el taller",
+            "body": "Pásate sin cita por Marxalenes. Te atendemos en el momento y ajustamos la prenda delante de ti.",
+            "cta_label": "Cómo llegar",
+            "cta_url": "/pages/el-taller"
+          }
+        },
+        {
+          "type": "canal",
+          "settings": {
+            "canal_type": "online",
+            "featured": false,
+            "headline": "Online",
+            "body": "¿Fuera de Valencia? Contrátalo online, envíanos la prenda y te la devolvemos arreglada.",
+            "cta_label": "Contratar online",
+            "cta_url": "/collections/arreglos"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+/* ─── Canales · Cómo trabajamos ─── */
+.section-maniqui-canales .mcan {
+  background: var(--cream);
+  padding: 120px 0;
+}
+
+.section-maniqui-canales .mcan__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 72px;
+}
+
+/* Header */
+.section-maniqui-canales .mcan__header {
+  text-align: center;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.section-maniqui-canales .mcan__eyebrow {
+  margin-bottom: 16px;
+}
+
+.section-maniqui-canales .mcan__sep {
+  margin-bottom: 24px;
+}
+
+.section-maniqui-canales .mcan__headline {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(32px, 4vw, 52px);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--warm-dark);
+  margin-bottom: 16px;
+}
+
+.section-maniqui-canales .mcan__headline-em {
+  font-style: italic;
+  color: var(--sage);
+}
+
+.section-maniqui-canales .mcan__sub {
+  font-size: 17px;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+
+/* Grid */
+.section-maniqui-canales .mcan__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+/* Card base */
+.section-maniqui-canales .mcan__card {
+  display: flex;
+  flex-direction: column;
+  padding: 40px 36px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--cream-warm);
+}
+
+/* Featured card — canal WhatsApp */
+.section-maniqui-canales .mcan__card--featured {
+  background: var(--warm-dark);
+  border-color: var(--warm-dark);
+}
+
+/* Icon */
+.section-maniqui-canales .mcan__card-icon {
+  width: 36px;
+  height: 36px;
+  margin-bottom: 32px;
+  color: var(--sage);
+  flex-shrink: 0;
+}
+
+.section-maniqui-canales .mcan__card-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Title */
+.section-maniqui-canales .mcan__card-title {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(22px, 2vw, 26px);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--warm-dark);
+  margin-bottom: 14px;
+}
+
+.section-maniqui-canales .mcan__card--featured .mcan__card-title {
+  color: var(--cream-warm);
+}
+
+/* Body */
+.section-maniqui-canales .mcan__card-body {
+  font-size: 15px;
+  color: var(--text-2);
+  line-height: 1.7;
+  margin-bottom: 36px;
+  flex: 1;
+}
+
+.section-maniqui-canales .mcan__card--featured .mcan__card-body {
+  color: rgba(253, 251, 247, 0.72);
+}
+
+/* CTA */
+.section-maniqui-canales .mcan__card-cta {
+  border-radius: 999px;
+  align-self: flex-start;
+}
+
+/* ─── Tablet ─── */
+@media (max-width: 1024px) {
+  .section-maniqui-canales .mcan {
+    padding: 80px 0;
+  }
+  .section-maniqui-canales .mcan__inner {
+    gap: 56px;
+  }
+  .section-maniqui-canales .mcan__grid {
+    gap: 16px;
+  }
+  .section-maniqui-canales .mcan__card {
+    padding: 32px 28px;
+  }
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 600px) {
+  .section-maniqui-canales .mcan {
+    padding: 64px 0;
+  }
+  .section-maniqui-canales .mcan__inner {
+    gap: 48px;
+  }
+  .section-maniqui-canales .mcan__grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .section-maniqui-canales .mcan__card--featured {
+    order: -1;
+  }
+  .section-maniqui-canales .mcan__card-cta {
+    width: 100%;
+    justify-content: center;
+  }
+}
+{% endstylesheet %}

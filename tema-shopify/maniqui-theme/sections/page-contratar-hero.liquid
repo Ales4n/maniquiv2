@@ -1,0 +1,109 @@
+{% comment %} MANIQUI: Hero página contratar — eyebrow + h1 + subhead — 2026-05-27 {% endcomment %}
+
+<section class="pch" id="contratarHero" aria-labelledby="pch-headline">
+  <div class="pch__inner maniqui-container">
+
+    {%- render 'snippet-maniqui-stepper', current_step: 1 -%}
+
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="maniqui-eyebrow pch__eyebrow">{{ section.settings.eyebrow }}</p>
+      <span class="maniqui-sep-line pch__sep" aria-hidden="true"></span>
+    {%- endif -%}
+
+    <h1 class="pch__headline" id="pch-headline">{{ section.settings.headline }}</h1>
+
+    {%- if section.settings.subhead != blank -%}
+      <p class="pch__sub">{{ section.settings.subhead }}</p>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contratar hero",
+  "tag": "div",
+  "class": "section-page-contratar-hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "CONTRATAR"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Titular (h1)",
+      "default": "¿Qué arreglo necesitas?"
+    },
+    {
+      "type": "textarea",
+      "id": "subhead",
+      "label": "Subtítulo",
+      "default": "Elige la categoría, selecciona el arreglo y contrátalo directamente. Plazos según servicio."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contratar hero"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+/* ─── Hero contratar ─── */
+.section-page-contratar-hero .pch {
+  background: var(--cream);
+  padding: 80px 0;
+}
+.section-page-contratar-hero .pch__inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+.section-page-contratar-hero .pch__eyebrow {
+  margin-bottom: 16px;
+}
+.section-page-contratar-hero .pch__sep {
+  display: block;
+  margin-bottom: 24px;
+}
+.section-page-contratar-hero .pch__headline {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  color: var(--warm-dark);
+  margin-bottom: 20px;
+}
+.section-page-contratar-hero .pch__sub {
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--text-2);
+  max-width: 600px;
+  margin: 0;
+}
+
+/* ─── Tablet ─── */
+@media (max-width: 1024px) {
+  .section-page-contratar-hero .pch {
+    padding: 64px 0;
+  }
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 600px) {
+  .section-page-contratar-hero .pch {
+    padding: 40px 0;
+  }
+  .section-page-contratar-hero .pch__headline {
+    font-size: clamp(2rem, 8vw, 2.5rem);
+  }
+  .section-page-contratar-hero .pch__sub {
+    font-size: 16px;
+  }
+}
+{% endstylesheet %}

@@ -1,0 +1,248 @@
+{% comment %} MANIQUI: Las modistas — 2col imagen+texto, humanización, sin CTA venta — 2026-05-05 {% endcomment %}
+
+<section class="mmod" id="maniquiModistas">
+  <div class="mmod__inner maniqui-container">
+
+    <div class="mmod__media">
+      {%- if section.settings.image -%}
+        {% render 'responsive-image',
+            image: section.settings.image,
+            image_mobile: section.settings.image_mobile,
+            alt: 'El equipo de Maniquí',
+            class: 'mmod__img',
+            loading: 'lazy',
+            sizes: '(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 600px',
+            widths: '600, 900, 1200' %}
+      {%- else -%}
+        <div class="mmod__img-placeholder" aria-hidden="true"></div>
+      {%- endif -%}
+    </div>
+
+    <div class="mmod__text">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="maniqui-eyebrow mmod__eyebrow">{{ section.settings.eyebrow }}</p>
+        <span class="maniqui-sep-line mmod__sep"></span>
+      {%- endif -%}
+      <h2 class="mmod__headline">
+        {{ section.settings.headline }}
+        {%- if section.settings.headline_em != blank -%}
+          <em class="mmod__headline-em">{{ section.settings.headline_em }}</em>
+        {%- endif -%}
+      </h2>
+      {%- if section.settings.body != blank -%}
+        <p class="mmod__body">{{ section.settings.body }}</p>
+      {%- endif -%}
+      {%- if section.settings.cta_label != blank and section.settings.cta_url != blank -%}
+        <a class="mmod__link" href="{{ section.settings.cta_url }}">
+          {{ section.settings.cta_label }}
+          <svg class="mmod__link-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 8h10M9 4l4 4-4 4"/>
+          </svg>
+        </a>
+      {%- endif -%}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Las modistas",
+  "tag": "div",
+  "class": "section-maniqui-modistas",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Foto del equipo o detalle del taller"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Imagen para móvil (opcional)",
+      "info": "Si la subes, se muestra solo en móvil (≤749px). Si no, se usa la de escritorio."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "El equipo"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Titular",
+      "default": "Tres amigas. Un taller."
+    },
+    {
+      "type": "text",
+      "id": "headline_em",
+      "label": "Titular énfasis (cursiva sage)",
+      "default": "Cosen ellas mismas tu prenda."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Texto",
+      "default": "Sin intermediarios, sin protocolos. Tres años en Marxalenes cosiendo ellas mismas cada arreglo — y se nota."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Texto del enlace",
+      "default": "Conoce su historia →"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "URL del enlace"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Las modistas",
+      "settings": {
+        "eyebrow": "El equipo",
+        "headline": "Tres amigas. Un taller.",
+        "headline_em": "Cosen ellas mismas tu prenda.",
+        "body": "Sin intermediarios, sin protocolos. Tres años en Marxalenes cosiendo ellas mismas cada arreglo — y se nota.",
+        "cta_label": "Conoce su historia →",
+        "cta_url": "/pages/sobre-nosotras"
+      }
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+/* ─── Las modistas ─── */
+.section-maniqui-modistas .mmod {
+  background: var(--warm-dark);
+  padding: 120px 0;
+}
+
+.section-maniqui-modistas .mmod__inner {
+  display: grid;
+  grid-template-columns: 55fr 45fr;
+  gap: 80px;
+  align-items: center;
+}
+
+/* Imagen */
+.section-maniqui-modistas .mmod__media {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+}
+
+.section-maniqui-modistas .mmod__media picture { display: block; width: 100%; height: 100%; }
+.section-maniqui-modistas .mmod__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+.section-maniqui-modistas .mmod__img-placeholder {
+  width: 100%;
+  height: 100%;
+  background: rgba(253, 251, 247, 0.06);
+}
+
+/* Texto */
+.section-maniqui-modistas .mmod__text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.section-maniqui-modistas .mmod__eyebrow {
+  margin-bottom: 16px;
+}
+
+.section-maniqui-modistas .mmod__sep {
+  margin-bottom: 24px;
+}
+
+.section-maniqui-modistas .mmod__headline {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(28px, 3.2vw, 44px);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--cream-warm);
+  margin-bottom: 20px;
+}
+
+.section-maniqui-modistas .mmod__headline-em {
+  font-style: italic;
+  color: var(--sage);
+}
+
+.section-maniqui-modistas .mmod__body {
+  font-size: 16px;
+  color: rgba(253, 251, 247, 0.65);
+  line-height: 1.75;
+  margin-bottom: 32px;
+  max-width: 40ch;
+}
+
+/* Link suave — no es CTA de conversión */
+.section-maniqui-modistas .mmod__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--sage);
+  text-decoration: none;
+  transition: gap var(--tr-fast), color var(--tr-fast);
+}
+
+.section-maniqui-modistas .mmod__link:hover {
+  color: var(--cream-warm);
+  gap: 12px;
+}
+
+.section-maniqui-modistas .mmod__link-arrow {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* ─── Tablet ─── */
+@media (max-width: 1024px) {
+  .section-maniqui-modistas .mmod {
+    padding: 80px 0;
+  }
+  .section-maniqui-modistas .mmod__inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 600px) {
+  .section-maniqui-modistas .mmod {
+    padding: 64px 0;
+  }
+  .section-maniqui-modistas .mmod__inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .section-maniqui-modistas .mmod__media {
+    aspect-ratio: 4 / 3;
+    order: 1;
+  }
+  .section-maniqui-modistas .mmod__text {
+    order: 0;
+  }
+  .section-maniqui-modistas .mmod__body {
+    max-width: 100%;
+  }
+}
+{% endstylesheet %}

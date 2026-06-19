@@ -1,0 +1,792 @@
+{% comment %} MANIQUI: Product main — 2 cols, ilustración pantalón, sin WA button — 2026-06-01 {% endcomment %}
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+<section class="prm" id="productMain">
+  <div class="prm__inner maniqui-container">
+
+    <nav class="prm__breadcrumb" aria-label="Navegación">
+      <a href="/pages/contratar" class="prm__bc-link">Contratar</a>
+      {%- if product.collections.first -%}
+        <span class="prm__bc-sep" aria-hidden="true">/</span>
+        <a href="{{ product.collections.first.url }}" class="prm__bc-link">{{ product.collections.first.title }}</a>
+      {%- endif -%}
+      <span class="prm__bc-sep" aria-hidden="true">/</span>
+      <span class="prm__bc-current" aria-current="page">{{ product.title }}</span>
+    </nav>
+
+    {%- render 'snippet-maniqui-stepper', current_step: 3 -%}
+
+    <div class="prm__layout">
+
+      <!-- ── Columna izquierda ── -->
+      <div class="prm__content">
+
+        <h1 class="prm__title">{{ product.title }}</h1>
+
+        {%- if product.description != blank -%}
+          <div class="prm__desc">{{ product.description }}</div>
+        {%- endif -%}
+
+        <div class="prm__price-block">
+          <span class="maniqui-sep-line prm__price-sep" aria-hidden="true"></span>
+          <p class="prm__price-amount">{{ product.price_min | money_without_trailing_zeros }}</p>
+          <p class="prm__price-caption">{{ section.settings.price_caption }}</p>
+        </div>
+
+        {%- assign form_id = 'prm-form-' | append: product.id -%}
+        {%- form 'product', product, id: form_id, class: 'prm__form', novalidate: 'novalidate' -%}
+          <input type="hidden" name="id" value="{{ current_variant.id }}">
+
+          <!-- Instrucciones -->
+          <div class="prm__field">
+            <label class="prm__label" for="prm-notes-{{ product.id }}">
+              {{ section.settings.notes_label }}
+              <span class="prm__label-hint">{{ section.settings.notes_hint }}</span>
+            </label>
+            <textarea
+              class="prm__textarea"
+              id="prm-notes-{{ product.id }}"
+              name="properties[Instrucciones]"
+              rows="3"
+              placeholder="{{ section.settings.notes_placeholder | escape }}"
+            ></textarea>
+            {%- if section.settings.notes_help != blank -%}
+              <p class="prm__field-help">{{ section.settings.notes_help }}</p>
+            {%- endif -%}
+          </div>
+
+          <!-- Foto (solo si hay endpoint configurado) -->
+          {%- if section.settings.upload_endpoint != blank -%}
+          <div class="prm__field prm__field--photo">
+            <p class="prm__label">
+              {{ section.settings.photo_label }}
+              <span class="prm__label-hint">{{ section.settings.photo_hint }}</span>
+            </p>
+            <p id="prm-foto-error-{{ product.id }}" class="prm__foto-error" hidden>
+              Sube una foto de la prenda para continuar.
+            </p>
+            <input
+              type="file"
+              id="prm-photo-{{ product.id }}"
+              accept="image/*"
+              class="prm__file-hidden"
+            >
+            <label
+              for="prm-photo-{{ product.id }}"
+              class="prm__drop"
+              id="prm-drop-{{ product.id }}"
+              tabindex="0"
+            >
+              <div class="prm__drop-inner">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 16V4M7 9l5-5 5 5"/><path d="M5 16v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2"/>
+                </svg>
+                <span class="prm__drop-text">Arrastra tu foto aquí o</span>
+                <span class="prm__drop-btn">Seleccionar foto</span>
+              </div>
+            </label>
+            <div class="prm__photo-preview" id="prm-preview-{{ product.id }}"></div>
+            <button type="button" class="prm__photo-remove" id="prm-remove-{{ product.id }}" hidden aria-label="Quitar foto">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              Quitar foto
+            </button>
+            <span class="prm__photo-status" id="prm-photo-status-{{ product.id }}" aria-live="polite"></span>
+            <input type="hidden" name="properties[Foto]" id="prm-photo-url-{{ product.id }}" value="">
+          </div>
+          {%- endif -%}
+
+          <!-- CTA -->
+          <div class="prm__actions">
+            <button
+              type="submit"
+              name="add"
+              id="prm-submit-{{ product.id }}"
+              class="maniqui-btn prm__btn-add"
+              {%- if section.settings.upload_endpoint != blank and section.settings.photo_required -%}
+                disabled aria-disabled="true"
+              {%- endif -%}
+            >
+              {{ section.settings.cta_add_label }}
+            </button>
+          </div>
+        {%- endform -%}
+
+      </div>
+
+      <!-- ── Columna derecha ── -->
+      <aside class="prm__sidebar">
+
+        {%- if section.settings.show_illustration -%}
+        <div class="prm__illus-card">
+          <div class="prm__illus-wrap">
+            {%- render 'arreglo-illustration', product: product, size: 'lg' -%}
+          </div>
+          <p class="prm__illus-caption">{{ section.settings.illus_caption }}</p>
+        </div>
+        {%- endif -%}
+
+        <div class="prm__includes">
+          <span class="maniqui-eyebrow prm__includes-eyebrow">{{ section.settings.includes_label }}</span>
+          <ul class="prm__check-list" role="list">
+            {%- if section.settings.trust_1 != blank -%}
+              <li class="prm__check-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4 4 10-10"/></svg>
+                <span>{{ section.settings.trust_1 }}</span>
+              </li>
+            {%- endif -%}
+            {%- if section.settings.trust_2 != blank -%}
+              <li class="prm__check-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4 4 10-10"/></svg>
+                <span>{{ section.settings.trust_2 }}</span>
+              </li>
+            {%- endif -%}
+            {%- if section.settings.trust_3 != blank -%}
+              <li class="prm__check-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4 4 10-10"/></svg>
+                <span>{{ section.settings.trust_3 }}</span>
+              </li>
+            {%- endif -%}
+          </ul>
+        </div>
+
+        {%- if section.settings.modistas_quote != blank -%}
+          <p class="prm__quote">{{ section.settings.modistas_quote }}</p>
+        {%- endif -%}
+
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+<script>
+{% comment %} MANIQUI: upload + add-to-cart AJAX — JS aislado, no depende del bundle — 2026-06-12 {% endcomment %}
+(function () {
+  var endpoint      = {{ section.settings.upload_endpoint | json }};
+  var photoRequired = {{ section.settings.photo_required | json }};
+  var productId     = {{ product.id | json }};
+  var variantId     = {{ current_variant.id | json }};
+
+  var drop      = document.getElementById('prm-drop-'         + productId);
+  var fileInput = document.getElementById('prm-photo-'        + productId);
+  var preview   = document.getElementById('prm-preview-'      + productId);
+  var photoUrl  = document.getElementById('prm-photo-url-'    + productId);
+  var statusEl  = document.getElementById('prm-photo-status-' + productId);
+  var removeBtn = document.getElementById('prm-remove-'       + productId);
+  var submitBtn = document.getElementById('prm-submit-'       + productId);
+  var fotoError = document.getElementById('prm-foto-error-'   + productId);
+  var form      = document.getElementById('prm-form-'         + productId);
+
+  /* ── Upload ── */
+  if (endpoint && drop && fileInput) {
+    ['dragenter', 'dragover'].forEach(function (ev) {
+      drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('is-hover'); });
+    });
+    ['dragleave', 'dragend'].forEach(function (ev) {
+      drop.addEventListener(ev, function () { drop.classList.remove('is-hover'); });
+    });
+    drop.addEventListener('drop', function (e) {
+      e.preventDefault(); drop.classList.remove('is-hover');
+      var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+      if (f && /^image\//.test(f.type)) handleFile(f);
+    });
+    drop.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); }
+    });
+    fileInput.addEventListener('change', function (e) {
+      var f = e.target.files && e.target.files[0];
+      if (f) handleFile(f);
+    });
+  }
+
+  if (removeBtn) {
+    removeBtn.addEventListener('click', function () {
+      if (preview) { preview.innerHTML = ''; preview.style.display = 'none'; }
+      if (photoUrl) photoUrl.value = '';
+      if (fileInput) fileInput.value = '';
+      if (drop) drop.classList.remove('is-done', 'is-hover');
+      removeBtn.hidden = true;
+      setStatus('', '');
+      if (submitBtn && photoRequired) {
+        submitBtn.disabled = true;
+        submitBtn.setAttribute('aria-disabled', 'true');
+      }
+    });
+  }
+
+  function setStatus(msg, type) {
+    if (!statusEl) return;
+    statusEl.textContent = msg;
+    statusEl.className = 'prm__photo-status' + (type ? ' prm__photo-status--' + type : '');
+  }
+
+  function handleFile(file) {
+    if (!/^image\//.test(file.type)) { setStatus('Solo se admiten imágenes.', 'error'); return; }
+    if (file.size > 10 * 1024 * 1024) { setStatus('Imagen demasiado grande (máx. 10 MB).', 'error'); return; }
+
+    var objUrl = URL.createObjectURL(file);
+    var img = document.createElement('img');
+    img.src = objUrl; img.className = 'prm__photo-preview-img'; img.alt = 'Vista previa';
+    if (preview) { preview.innerHTML = ''; preview.appendChild(img); preview.style.display = 'block'; }
+
+    setStatus('Subiendo foto…', '');
+    if (photoUrl) photoUrl.value = '';
+    if (submitBtn) { submitBtn.disabled = true; submitBtn.setAttribute('aria-disabled', 'true'); }
+
+    resizeImage(file, 800).then(function (base64) {
+      return fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ file: base64 })
+      });
+    }).then(function (res) {
+      return res.json().then(function (data) {
+        if (!res.ok) throw new Error(data.error || 'Error al subir');
+        return data;
+      });
+    }).then(function (data) {
+      if (photoUrl) photoUrl.value = data.url;
+      if (drop) drop.classList.add('is-done');
+      setStatus('Foto lista', 'ok');
+      if (removeBtn) removeBtn.hidden = false;
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.removeAttribute('aria-disabled'); }
+      if (fotoError) fotoError.hidden = true;
+    }).catch(function (err) {
+      if (preview) { preview.innerHTML = ''; preview.style.display = 'none'; }
+      if (photoUrl) photoUrl.value = '';
+      if (drop) drop.classList.remove('is-done');
+      if (removeBtn) removeBtn.hidden = true;
+      setStatus(err.message || 'Error al subir. Inténtalo de nuevo.', 'error');
+      if (submitBtn) {
+        if (photoRequired) {
+          submitBtn.disabled = true;
+          submitBtn.setAttribute('aria-disabled', 'true');
+        } else {
+          submitBtn.disabled = false;
+          submitBtn.removeAttribute('aria-disabled');
+        }
+      }
+    });
+  }
+
+  function resizeImage(file, maxWidth) {
+    return new Promise(function (resolve, reject) {
+      var reader = new FileReader();
+      reader.onerror = function () { reject(new Error('No se pudo leer la imagen')); };
+      reader.onload = function (e) {
+        var img = new Image();
+        img.onerror = function () { reject(new Error('Formato de imagen no compatible')); };
+        img.onload = function () {
+          var w = img.width, h = img.height;
+          if (w > maxWidth) { h = Math.round((h * maxWidth) / w); w = maxWidth; }
+          var canvas = document.createElement('canvas');
+          canvas.width = w; canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+          resolve(canvas.toDataURL('image/jpeg', 0.82));
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  /* ── Form submit — AJAX add-to-cart (Bug 1 + Bug 3) ── */
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      /* Bug 3: foto obligatoria (solo si photo_required activo) */
+      if (photoRequired && endpoint && photoUrl && !photoUrl.value) {
+        if (fotoError) fotoError.hidden = false;
+        if (drop) drop.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+      if (fotoError) fotoError.hidden = true;
+
+      if (submitBtn) submitBtn.disabled = true;
+
+      var props = {};
+      if (photoUrl && photoUrl.value) props['Foto'] = photoUrl.value;
+      var instrEl = form.querySelector('[name="properties[Instrucciones]"]');
+      if (instrEl && instrEl.value.trim()) props['Instrucciones'] = instrEl.value.trim();
+
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ items: [{ id: variantId, quantity: 1, properties: props }] })
+      }).then(function (res) {
+        if (!res.ok) return res.text().then(function (t) { throw new Error(t); });
+        return res.json();
+      }).then(function () {
+        if (typeof window.openCartDrawer === 'function') {
+          window.openCartDrawer();
+        } else {
+          window.location.href = '/cart';
+        }
+        if (submitBtn) submitBtn.disabled = false;
+      }).catch(function () {
+        if (submitBtn) submitBtn.disabled = false;
+        if (fotoError) {
+          fotoError.hidden = false;
+          fotoError.textContent = 'No se pudo añadir al carrito. Inténtalo de nuevo.';
+        }
+      });
+    });
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Product main",
+  "tag": "div",
+  "class": "section-product-main",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Precio"
+    },
+    {
+      "type": "text",
+      "id": "price_caption",
+      "label": "Caption bajo el precio",
+      "default": "Precio cerrado · Sin sorpresas"
+    },
+    {
+      "type": "header",
+      "content": "Instrucciones"
+    },
+    {
+      "type": "text",
+      "id": "notes_label",
+      "label": "Label instrucciones",
+      "default": "Instrucciones para las modistas"
+    },
+    {
+      "type": "text",
+      "id": "notes_hint",
+      "label": "Hint instrucciones",
+      "default": "(opcional)"
+    },
+    {
+      "type": "text",
+      "id": "notes_placeholder",
+      "label": "Placeholder textarea",
+      "default": "Ej: bajar 4 cm, dejar dobladillo visible, conservar el bajo original..."
+    },
+    {
+      "type": "text",
+      "id": "notes_help",
+      "label": "Texto de ayuda bajo textarea",
+      "default": "Cuéntanos qué necesitas — lo revisaremos al recibir la prenda."
+    },
+    {
+      "type": "header",
+      "content": "Foto de la prenda"
+    },
+    {
+      "type": "text",
+      "id": "upload_endpoint",
+      "label": "URL endpoint subida (Vercel)",
+      "info": "Deja vacío para ocultar el campo de foto."
+    },
+    {
+      "type": "text",
+      "id": "photo_label",
+      "label": "Label foto",
+      "default": "Foto de la prenda"
+    },
+    {
+      "type": "text",
+      "id": "photo_hint",
+      "label": "Hint foto",
+      "default": "(obligatoria)"
+    },
+    {
+      "type": "checkbox",
+      "id": "photo_required",
+      "label": "Foto obligatoria para contratar",
+      "default": true,
+      "info": "Desactivado → el cliente puede pagar sin subir foto."
+    },
+    {
+      "type": "header",
+      "content": "CTA"
+    },
+    {
+      "type": "text",
+      "id": "cta_add_label",
+      "label": "Texto botón contratar",
+      "default": "Contratar ahora"
+    },
+    {
+      "type": "header",
+      "content": "Columna derecha"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_illustration",
+      "label": "Mostrar ilustración del arreglo",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "illus_caption",
+      "label": "Caption ilustración",
+      "default": "Línea de corte estimada"
+    },
+    {
+      "type": "text",
+      "id": "includes_label",
+      "label": "Eyebrow 'Qué incluye'",
+      "default": "Qué incluye"
+    },
+    {
+      "type": "text",
+      "id": "trust_1",
+      "label": "Incluye 1",
+      "default": "Plazo confirmado al contratar"
+    },
+    {
+      "type": "text",
+      "id": "trust_2",
+      "label": "Incluye 2",
+      "default": "Precio cerrado · sin sorpresas"
+    },
+    {
+      "type": "text",
+      "id": "trust_3",
+      "label": "Incluye 3",
+      "default": "Cosido a mano por las modistas"
+    },
+    {
+      "type": "text",
+      "id": "modistas_quote",
+      "label": "Cita modistas",
+      "default": "Cosen ellas mismas tu prenda."
+    }
+  ],
+  "presets": [
+    { "name": "Product main" }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+/* ─── Product main ─── */
+.section-product-main .prm {
+  background: var(--cream);
+  padding: 48px 0 96px;
+}
+.section-product-main .prm__inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+/* ─── Breadcrumb ─── */
+.section-product-main .prm__breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-bottom: 0;
+  font-size: 13px;
+  color: var(--text-muted);
+  letter-spacing: 0.01em;
+}
+.section-product-main .prm__bc-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+.section-product-main .prm__bc-link:hover { color: var(--sage-dark); }
+.section-product-main .prm__bc-sep { color: var(--border); }
+.section-product-main .prm__bc-current { color: var(--warm-dark); }
+
+/* ─── Layout 2 columnas ─── */
+.section-product-main .prm__layout {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+
+/* ─── Título ─── */
+.section-product-main .prm__title {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  line-height: 1.08;
+  letter-spacing: -0.005em;
+  color: var(--warm-dark);
+  margin-bottom: 20px;
+}
+
+/* ─── Descripción ─── */
+.section-product-main .prm__desc {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--text-2);
+  max-width: 44ch;
+  margin-bottom: 26px;
+}
+.section-product-main .prm__desc p { margin: 0 0 10px; }
+.section-product-main .prm__desc p:last-child { margin-bottom: 0; }
+
+/* ─── Precio ─── */
+.section-product-main .prm__price-block {
+  margin-bottom: 36px;
+}
+.section-product-main .prm__price-sep {
+  display: block;
+  margin-bottom: 22px;
+}
+.section-product-main .prm__price-amount {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 40px;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  color: var(--warm-dark);
+  margin: 0 0 8px;
+}
+.section-product-main .prm__price-caption {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+/* ─── Formulario ─── */
+.section-product-main .prm__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.section-product-main .prm__field {
+  margin-top: 36px;
+}
+.section-product-main .prm__label {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--warm-dark);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.section-product-main .prm__label-hint {
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.section-product-main .prm__textarea {
+  width: 100%;
+  height: 88px;
+  background: var(--cream-warm);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-style: italic;
+  color: var(--warm-dark);
+  resize: none;
+  transition: border-color 200ms ease;
+  box-sizing: border-box;
+}
+.section-product-main .prm__textarea::placeholder { color: var(--text-muted); }
+.section-product-main .prm__textarea:focus {
+  outline: none;
+  border-color: var(--sage);
+  font-style: normal;
+}
+.section-product-main .prm__field-help {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin-top: 10px;
+}
+
+/* ─── Upload ─── */
+.section-product-main .prm__foto-error {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--terracotta);
+  margin: 0 0 10px;
+  line-height: 1.45;
+}
+.section-product-main .prm__file-hidden {
+  position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none;
+}
+.section-product-main .prm__drop {
+  height: 72px;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: var(--cream-warm);
+  transition: border-color 200ms ease, background 200ms ease;
+}
+.section-product-main .prm__drop:hover,
+.section-product-main .prm__drop.is-hover { border-color: var(--sage); background: var(--cream); }
+.section-product-main .prm__drop.is-done { border-color: var(--sage); background: var(--sage-soft); }
+.section-product-main .prm__drop-inner {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;
+  color: var(--text-muted); font-size: 13px;
+}
+.section-product-main .prm__drop-inner svg { color: var(--sage); }
+.section-product-main .prm__drop-btn {
+  font-family: var(--font-body); font-size: 13px; font-weight: 500;
+  color: var(--warm-dark); background: none; border: none;
+  border-bottom: 1px solid var(--border); padding-bottom: 1px; cursor: pointer;
+  transition: border-color 200ms ease;
+}
+.section-product-main .prm__drop-btn:hover { border-color: var(--sage-line); }
+.section-product-main .prm__photo-preview { margin-top: 10px; display: none; }
+.section-product-main .prm__photo-preview-img {
+  width: 80px; height: 80px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border);
+}
+.section-product-main .prm__photo-remove {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--terracotta);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 0 2px;
+  transition: opacity 200ms ease;
+}
+.section-product-main .prm__photo-remove:hover { opacity: 0.65; }
+.section-product-main .prm__photo-status {
+  display: block; font-size: 12px; margin-top: 4px; min-height: 16px; color: var(--text-muted);
+  font-family: var(--font-body);
+}
+.section-product-main .prm__photo-status--error { color: var(--terracotta); }
+.section-product-main .prm__photo-status--ok    { color: var(--sage); }
+
+/* ─── CTA ─── */
+.section-product-main .prm__actions {
+  margin-top: 40px;
+}
+.section-product-main .prm__btn-add {
+  background: var(--sage);
+  color: var(--cream);
+  border-color: var(--sage);
+  padding: 13px 28px;
+}
+.section-product-main .prm__btn-add:hover {
+  background: var(--sage-dark);
+  border-color: var(--sage-dark);
+  color: var(--cream);
+  transform: translateY(-1px);
+}
+.section-product-main .prm__btn-add:disabled,
+.section-product-main .prm__btn-add[aria-disabled="true"] {
+  opacity: 0.42;
+  cursor: not-allowed;
+  transform: none;
+  pointer-events: none;
+}
+
+/* ─── Columna derecha ─── */
+.section-product-main .prm__sidebar {
+  position: sticky;
+  top: 24px;
+}
+.section-product-main .prm__illus-card {
+  background: var(--cream-warm);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px 28px 24px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+.section-product-main .prm__illus-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+.section-product-main .prm__illus-wrap svg {
+  display: block;
+}
+.section-product-main .prm__illus-caption {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+.section-product-main .prm__includes {
+  margin-bottom: 28px;
+}
+.section-product-main .prm__includes-eyebrow {
+  display: block;
+  margin-bottom: 20px;
+}
+.section-product-main .prm__check-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.section-product-main .prm__check-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--text-2);
+}
+.section-product-main .prm__check-item svg {
+  width: 18px; height: 18px; color: var(--sage); flex-shrink: 0;
+}
+.section-product-main .prm__quote {
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.35;
+  color: var(--sage-dark);
+}
+
+/* ─── Tablet ─── */
+@media (max-width: 1100px) {
+  .section-product-main .prm__layout {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .section-product-main .prm__sidebar {
+    position: static;
+  }
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 600px) {
+  .section-product-main .prm {
+    padding: 32px 0 64px;
+  }
+  .section-product-main .prm__title {
+    font-size: clamp(1.75rem, 7vw, 2.25rem);
+  }
+  .section-product-main .prm__actions .maniqui-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+{% endstylesheet %}
+
+{% comment %} JS movido a <script> inline sobre el schema — no depende del bundle — 2026-06-12 {% endcomment %}

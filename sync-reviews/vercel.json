@@ -1,0 +1,16 @@
+{
+  "functions": {
+    "api/sync-reviews.ts": {
+      "maxDuration": 30
+    },
+    "api/upload-photo.ts": {
+      "maxDuration": 30
+    }
+  },
+  "crons": [
+    {
+      "path": "/api/sync-reviews",
+      "schedule": "0 3 * * *"
+    }
+  ]
+}

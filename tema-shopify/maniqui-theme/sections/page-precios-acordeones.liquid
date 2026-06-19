@@ -1,0 +1,367 @@
+{% comment %} MANIQUI: Acordeones precios — collections dinámicas, min-price, JSON-LD — 2026-05-26 {% endcomment %}
+
+{%- comment %} JSON-LD Service + Offers dinámico para SEO {%- endcomment %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "Arreglos de ropa",
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Maniquí",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Avinguda de la Constitució, 94",
+      "addressLocality": "Valencia",
+      "postalCode": "46009",
+      "addressCountry": "ES"
+    }
+  },
+  "areaServed": "Valencia, España",
+  "offers": [
+    {%- assign ld_first = true -%}
+    {%- for block in section.blocks -%}
+      {%- assign ld_col = block.settings.collection -%}
+      {%- if ld_col == blank -%}{%- continue -%}{%- endif -%}
+      {%- for product in ld_col.products -%}
+        {%- unless ld_first -%},{%- endunless -%}
+        {
+          "@type": "Offer",
+          "name": {{ product.title | json }},
+          "price": {{ product.price | divided_by: 100.0 }},
+          "priceCurrency": "EUR",
+          "url": "{{ shop.url }}{{ product.url }}"
+        }
+        {%- assign ld_first = false -%}
+      {%- endfor -%}
+    {%- endfor -%}
+  ]
+}
+</script>
+
+<section class="ppacc" id="preciosAcordeones">
+  <div class="ppacc__inner maniqui-container">
+
+    {%- for block in section.blocks -%}
+      {%- assign collection = block.settings.collection -%}
+      {%- if collection == blank -%}{%- continue -%}{%- endif -%}
+
+      {%- comment %} Calcular precio mínimo de la colección {%- endcomment %}
+      {%- assign min_price = 9999999 -%}
+      {%- for product in collection.products -%}
+        {%- if product.price < min_price -%}
+          {%- assign min_price = product.price -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      <details
+        class="ppacc__item"
+        id="ppacc-{{ block.settings.collection }}"
+        {%- if forloop.first and section.settings.first_open %} open{%- endif %}
+        {{ block.shopify_attributes }}
+      >
+        <summary class="ppacc__header">
+          <h2 class="ppacc__title">{{ collection.title }}</h2>
+          <div class="ppacc__header-meta">
+            {%- if collection.products.size > 0 -%}
+              <span class="ppacc__from-price">Desde {{ min_price | money_without_trailing_zeros }}</span>
+            {%- endif -%}
+            <span class="ppacc__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <line x1="12" y1="5" x2="12" y2="19"/>
+                <line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+            </span>
+          </div>
+        </summary>
+
+        <div class="ppacc__body">
+          {%- if collection.products.size > 0 -%}
+            <ul class="ppacc__list" role="list">
+              {%- for product in collection.products -%}
+                <li class="ppacc__row">
+                  <a href="{{ product.url }}" class="ppacc__row-link">
+                    <span class="ppacc__product-name">{{ product.title }}</span>
+                    <span class="ppacc__product-price">{{ product.price_min | money_without_trailing_zeros }}</span>
+                  </a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- else -%}
+            <p class="ppacc__empty">Sin productos asignados.</p>
+          {%- endif -%}
+        </div>
+      </details>
+    {%- endfor -%}
+
+    {%- if section.settings.nota_legal != blank -%}
+      <p class="ppacc__nota">{{ section.settings.nota_legal }}</p>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Acordeones precios",
+  "tag": "div",
+  "class": "section-page-precios-acordeones",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "first_open",
+      "label": "Primer acordeón abierto por defecto",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "nota_legal",
+      "label": "Nota legal inferior",
+      "default": "Precios cerrados. Solo varían si la prenda requiere técnica especial."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection_item",
+      "name": "Colección",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Colección"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Acordeones precios"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+/* ─── Acordeones precios ─── */
+.section-page-precios-acordeones .ppacc {
+  background: var(--cream-warm);
+  padding: 80px 0;
+}
+.section-page-precios-acordeones .ppacc__inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+/* ─── Item (<details>) ─── */
+.section-page-precios-acordeones .ppacc__item {
+  border-bottom: 1px solid var(--border);
+}
+.section-page-precios-acordeones .ppacc__item:first-of-type {
+  border-top: 1px solid var(--border);
+}
+
+/* ─── Header (<summary>) ─── */
+.section-page-precios-acordeones .ppacc__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px 0;
+  cursor: pointer;
+  list-style: none;
+  transition: background var(--tr-fast), padding-inline var(--tr-fast);
+  border-radius: 4px;
+}
+.section-page-precios-acordeones .ppacc__header::-webkit-details-marker { display: none; }
+.section-page-precios-acordeones .ppacc__header::marker { display: none; }
+.section-page-precios-acordeones .ppacc__header:hover {
+  background: var(--sage-soft);
+  padding-inline: 8px;
+  margin-inline: -8px;
+}
+.section-page-precios-acordeones .ppacc__header:focus-visible {
+  outline: 2px solid var(--sage);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ─── Título colección (h2) ─── */
+.section-page-precios-acordeones .ppacc__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.375rem, 2.2vw, 1.5rem);
+  line-height: 1.2;
+  color: var(--warm-dark);
+  margin: 0;
+}
+
+/* ─── Meta derecha (precio + icono) ─── */
+.section-page-precios-acordeones .ppacc__header-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.section-page-precios-acordeones .ppacc__from-price {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--sage);
+  white-space: nowrap;
+}
+
+/* ─── Icono + que rota a × ─── */
+.section-page-precios-acordeones .ppacc__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sage);
+  transition: transform 300ms ease;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+.section-page-precios-acordeones .ppacc__item[open] .ppacc__icon {
+  transform: rotate(45deg);
+}
+
+/* ─── Body (contenido desplegable) ─── */
+.section-page-precios-acordeones .ppacc__body {
+  padding-top: 32px;
+  padding-bottom: 40px;
+}
+.section-page-precios-acordeones .ppacc__item[open] .ppacc__body {
+  animation: ppacc-slide-down 400ms ease-out;
+}
+@keyframes ppacc-slide-down {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Lista de productos ─── */
+.section-page-precios-acordeones .ppacc__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.section-page-precios-acordeones .ppacc__row {
+  border-bottom: 1px solid rgba(232, 226, 213, 0.5);
+}
+.section-page-precios-acordeones .ppacc__row:last-child {
+  border-bottom: none;
+}
+.section-page-precios-acordeones .ppacc__row-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 0;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background var(--tr-fast), padding-inline var(--tr-fast);
+}
+.section-page-precios-acordeones .ppacc__row-link:hover {
+  background: rgba(143, 165, 133, 0.10);
+  padding-inline: 8px;
+  margin-inline: -8px;
+}
+.section-page-precios-acordeones .ppacc__row-link:focus-visible {
+  outline: 2px solid var(--sage);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.section-page-precios-acordeones .ppacc__product-name {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--warm-dark);
+  line-height: 1.4;
+}
+.section-page-precios-acordeones .ppacc__product-price {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--sage);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.section-page-precios-acordeones .ppacc__empty {
+  font-size: 14px;
+  color: var(--text-muted);
+  padding: 12px 0;
+}
+
+/* ─── Nota legal ─── */
+.section-page-precios-acordeones .ppacc__nota {
+  margin-top: 40px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+/* ─── Tablet ─── */
+@media (max-width: 1024px) {
+  .section-page-precios-acordeones .ppacc {
+    padding: 64px 0;
+  }
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 600px) {
+  .section-page-precios-acordeones .ppacc {
+    padding: 48px 0;
+  }
+  .section-page-precios-acordeones .ppacc__header {
+    flex-wrap: wrap;
+    padding: 20px 0;
+  }
+  .section-page-precios-acordeones .ppacc__title {
+    flex: 1 1 100%;
+    font-size: 1.25rem;
+  }
+  .section-page-precios-acordeones .ppacc__header-meta {
+    flex: 1 1 auto;
+  }
+  .section-page-precios-acordeones .ppacc__row-link {
+    flex-wrap: wrap;
+    gap: 2px;
+    padding: 16px 0;
+  }
+  .section-page-precios-acordeones .ppacc__product-name {
+    flex: 1 1 100%;
+  }
+  .section-page-precios-acordeones .ppacc__product-price {
+    font-size: 14px;
+    color: var(--text-2);
+  }
+}
+{% endstylesheet %}
+
+{% javascript %}
+(function () {
+  var items = document.querySelectorAll('details.ppacc__item');
+  if (!items.length) return;
+
+  function syncAria(d) {
+    var s = d.querySelector('.ppacc__header');
+    if (s) s.setAttribute('aria-expanded', d.open ? 'true' : 'false');
+  }
+
+  items.forEach(function (d) {
+    syncAria(d);
+    d.addEventListener('toggle', function () {
+      syncAria(d);
+      if (d.open) {
+        items.forEach(function (other) {
+          if (other !== d && other.open) {
+            other.removeAttribute('open');
+            syncAria(other);
+          }
+        });
+      }
+    });
+  });
+})();
+{% endjavascript %}

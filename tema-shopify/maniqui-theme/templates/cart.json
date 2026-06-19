@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "maniqui-cart-page",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

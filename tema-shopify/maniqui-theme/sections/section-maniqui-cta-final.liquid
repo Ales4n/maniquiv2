@@ -1,0 +1,214 @@
+{% comment %} MANIQUI: CTA final — warm-dark, WhatsApp + Taller, sin canal online — 2026-05-10 {% endcomment %}
+
+{%- assign wa_phone = '34603305566' -%}
+{%- assign wa_msg = 'Hola, necesito arreglar una prenda. ¿Me podéis dar precio?' | url_encode -%}
+{%- assign wa_url = 'https://wa.me/' | append: wa_phone | append: '?text=' | append: wa_msg -%}
+
+<section class="mctaf" id="maniquiCtaFinal">
+  <div class="mctaf__inner maniqui-container">
+    <div class="mctaf__body">
+
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="maniqui-eyebrow mctaf__eyebrow">{{ section.settings.eyebrow }}</p>
+        <span class="maniqui-sep-line mctaf__sep"></span>
+      {%- endif -%}
+
+      <h2 class="mctaf__headline">
+        {{ section.settings.headline }}
+        {%- if section.settings.headline_em != blank -%}
+          <em class="mctaf__headline-em">{{ section.settings.headline_em }}</em>
+        {%- endif -%}
+      </h2>
+
+      {%- if section.settings.subheadline != blank -%}
+        <p class="mctaf__sub">{{ section.settings.subheadline }}</p>
+      {%- endif -%}
+
+      <div class="mctaf__ctas">
+        <a
+          href="{{ wa_url }}"
+          class="maniqui-btn maniqui-btn--wa"
+          target="_blank"
+          rel="noopener"
+        >{{- section.settings.cta_wa_label -}}</a>
+        <a
+          href="{{ section.settings.cta_taller_url }}"
+          class="maniqui-btn mctaf__btn-taller"
+        >{{- section.settings.cta_taller_label -}}</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CTA final",
+  "tag": "div",
+  "class": "section-maniqui-cta-final",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "¿Lista para empezar?"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Titular",
+      "default": "¿Tienes una prenda que necesita"
+    },
+    {
+      "type": "text",
+      "id": "headline_em",
+      "label": "Titular énfasis (sage cursiva)",
+      "default": "un retoque?"
+    },
+    {
+      "type": "text",
+      "id": "subheadline",
+      "label": "Subtítulo",
+      "default": "Cuéntanoslo o pásate. Lo demás lo hacemos nosotras."
+    },
+    {
+      "type": "text",
+      "id": "cta_wa_label",
+      "label": "CTA WhatsApp (etiqueta)",
+      "default": "Escribir por WhatsApp"
+    },
+    {
+      "type": "text",
+      "id": "cta_taller_label",
+      "label": "CTA Taller (etiqueta)",
+      "default": "Ven al taller"
+    },
+    {
+      "type": "text",
+      "id": "cta_taller_url",
+      "label": "CTA Taller (URL)",
+      "default": "/pages/el-taller"
+    }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "CTA final",
+      "settings": {
+        "eyebrow": "¿Lista para empezar?",
+        "headline": "¿Tienes una prenda que necesita",
+        "headline_em": "un retoque?",
+        "subheadline": "Cuéntanoslo o pásate. Lo demás lo hacemos nosotras.",
+        "cta_wa_label": "Escribir por WhatsApp",
+        "cta_taller_label": "Ven al taller",
+        "cta_taller_url": "/pages/el-taller"
+      }
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+/* ─── CTA final ─── */
+.section-maniqui-cta-final .mctaf {
+  background: var(--warm-dark);
+  padding: 120px 0;
+}
+
+.section-maniqui-cta-final .mctaf__inner {
+  /* maniqui-container maneja el padding lateral */
+}
+
+/* Contenido centrado dentro del container */
+.section-maniqui-cta-final .mctaf__body {
+  max-width: 740px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Eyebrow — override para fondo oscuro */
+.section-maniqui-cta-final .mctaf__eyebrow {
+  color: var(--sage);
+  margin-bottom: 16px;
+}
+
+.section-maniqui-cta-final .mctaf__sep {
+  margin-bottom: 32px;
+  background: var(--sage-line);
+}
+
+/* Headline */
+.section-maniqui-cta-final .mctaf__headline {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(36px, 5vw, 64px);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  color: var(--cream);
+  margin-bottom: 24px;
+}
+
+.section-maniqui-cta-final .mctaf__headline-em {
+  font-style: italic;
+  color: var(--sage);
+}
+
+.section-maniqui-cta-final .mctaf__sub {
+  font-size: 16px;
+  color: rgba(253, 251, 247, 0.6);
+  line-height: 1.65;
+  margin-bottom: 48px;
+}
+
+/* CTAs */
+.section-maniqui-cta-final .mctaf__ctas {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Botón Taller — outline cream sobre fondo oscuro */
+.section-maniqui-cta-final .mctaf__btn-taller {
+  background: transparent;
+  color: var(--cream);
+  border-color: rgba(253, 251, 247, 0.35);
+}
+
+.section-maniqui-cta-final .mctaf__btn-taller:hover {
+  background: rgba(253, 251, 247, 0.08);
+  border-color: var(--cream);
+  color: var(--cream);
+  transform: translateY(-2px);
+}
+
+/* ─── Tablet ─── */
+@media (max-width: 1024px) {
+  .section-maniqui-cta-final .mctaf {
+    padding: 80px 0;
+  }
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 600px) {
+  .section-maniqui-cta-final .mctaf {
+    padding: 64px 0;
+  }
+  .section-maniqui-cta-final .mctaf__headline {
+    font-size: clamp(30px, 8vw, 44px);
+  }
+  .section-maniqui-cta-final .mctaf__ctas {
+    flex-direction: column;
+    width: 100%;
+  }
+  .section-maniqui-cta-final .mctaf__ctas .maniqui-btn,
+  .section-maniqui-cta-final .mctaf__ctas .mctaf__btn-taller {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+}
+{% endstylesheet %}

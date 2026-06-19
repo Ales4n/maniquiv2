@@ -1,0 +1,46 @@
+{
+  "general": {
+    "typography": "Tipografía",
+    "fonts": "Fuentes",
+    "primary": "Fuente principal",
+    "layout": "Disposición",
+    "colors": "Colores",
+    "text": "Texto",
+    "group": "Grupo",
+    "custom_section": "Sección personalizada"
+  },
+  "labels": {
+    "text": "Texto",
+    "text_style": "Estilo de texto",
+    "alignment": "Alineación",
+    "layout_direction": "Dirección del diseño",
+    "padding": "Relleno",
+    "background": "Imagen de fondo",
+    "page_width": "Ancho de página",
+    "page_margin": "Margen de página",
+    "foreground": "Color del texto",
+    "input_corner_radius": "Radio de esquinas"
+  },
+  "options": {
+    "text_style": {
+      "title": "Título",
+      "subtitle": "Subtítulo",
+      "normal": "Normal"
+    },
+    "alignment": {
+      "left": "Izquierda",
+      "center": "Centro",
+      "right": "Derecha"
+    },
+    "direction": {
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
+    },
+    "page_width": {
+      "narrow": "Estrecho",
+      "wide": "Ancho"
+    },
+    "full": "Ancho completo",
+    "narrow": "Estrecho"
+  }
+}

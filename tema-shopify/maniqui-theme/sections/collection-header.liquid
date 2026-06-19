@@ -1,0 +1,131 @@
+{% comment %} MANIQUI: Collection header — breadcrumb + h1 + descripción dinámica — 2026-05-27 {% endcomment %}
+
+<section class="colh" id="collectionHeader" aria-labelledby="colh-title">
+  <div class="colh__inner maniqui-container">
+
+    <nav class="colh__breadcrumb" aria-label="Navegación">
+      <a href="/pages/contratar" class="colh__bc-link">Contratar</a>
+      <span class="colh__bc-sep" aria-hidden="true">/</span>
+      <span class="colh__bc-current" aria-current="page">{{ collection.title }}</span>
+    </nav>
+
+    {%- render 'snippet-maniqui-stepper', current_step: 2 -%}
+
+    <p class="maniqui-eyebrow colh__eyebrow">
+      {%- if collection.products_count == 1 -%}
+        1 arreglo
+      {%- else -%}
+        {{ collection.products_count }} arreglos
+      {%- endif -%}
+    </p>
+    <span class="maniqui-sep-line colh__sep" aria-hidden="true"></span>
+
+    <h1 class="colh__title" id="colh-title">{{ collection.title }}</h1>
+
+    {%- if collection.description != blank -%}
+      <div class="colh__desc">{{ collection.description }}</div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection header",
+  "tag": "div",
+  "class": "section-collection-header",
+  "settings": [],
+  "presets": [
+    { "name": "Collection header" }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+/* ─── Collection header ─── */
+.section-collection-header .colh {
+  background: var(--cream);
+  padding: 48px 0 64px;
+}
+.section-collection-header .colh__inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+/* ─── Breadcrumb ─── */
+.section-collection-header .colh__breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+.section-collection-header .colh__bc-link {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+.section-collection-header .colh__bc-link:hover {
+  color: var(--sage);
+}
+.section-collection-header .colh__bc-sep {
+  font-size: 13px;
+  color: var(--border);
+}
+.section-collection-header .colh__bc-current {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--text-2);
+}
+
+/* ─── Eyebrow + sep ─── */
+.section-collection-header .colh__eyebrow {
+  margin-bottom: 16px;
+}
+.section-collection-header .colh__sep {
+  display: block;
+  margin-bottom: 24px;
+}
+
+/* ─── Title ─── */
+.section-collection-header .colh__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  color: var(--warm-dark);
+  margin-bottom: 20px;
+}
+
+/* ─── Description ─── */
+.section-collection-header .colh__desc {
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--text-2);
+  max-width: 600px;
+}
+.section-collection-header .colh__desc p { margin: 0; }
+
+/* ─── Tablet ─── */
+@media (max-width: 1024px) {
+  .section-collection-header .colh {
+    padding: 40px 0 48px;
+  }
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 600px) {
+  .section-collection-header .colh {
+    padding: 32px 0 40px;
+  }
+  .section-collection-header .colh__title {
+    font-size: clamp(2rem, 8vw, 2.5rem);
+  }
+  .section-collection-header .colh__desc {
+    font-size: 15px;
+  }
+}
+{% endstylesheet %}

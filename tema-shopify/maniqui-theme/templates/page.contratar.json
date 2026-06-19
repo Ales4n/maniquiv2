@@ -1,0 +1,64 @@
+{
+  "sections": {
+    "hero": {
+      "type": "page-contratar-hero",
+      "settings": {
+        "eyebrow": "CONTRATAR",
+        "headline": "¿Qué arreglo necesitas?",
+        "subhead": "Elige la categoría, selecciona el arreglo y contrátalo directamente. Plazos según servicio."
+      }
+    },
+    "grid": {
+      "type": "page-contratar-grid",
+      "settings": {
+        "nota_wa": "¿No encuentras lo que necesitas? Escríbenos por WhatsApp y te orientamos."
+      },
+      "blocks": {
+        "block-bajos": {
+          "type": "collection_item",
+          "settings": {
+            "collection": "bajos-dobladillos",
+            "tagline": "Dobladillos, forros, largos de pantalón y falda."
+          }
+        },
+        "block-crem": {
+          "type": "collection_item",
+          "settings": {
+            "collection": "cremalleras",
+            "tagline": "Cremalleras invisibles, laterales y de bolsillo."
+          }
+        },
+        "block-ajus": {
+          "type": "collection_item",
+          "settings": {
+            "collection": "ajustes-anchura",
+            "tagline": "Cintura, caderas, costados y hombros."
+          }
+        },
+        "block-mang": {
+          "type": "collection_item",
+          "settings": {
+            "collection": "mangas",
+            "tagline": "Largo y ajuste de manga en camisas y chaquetas."
+          }
+        },
+        "block-tira": {
+          "type": "collection_item",
+          "settings": {
+            "collection": "tirantes-vestido",
+            "tagline": "Tirantes de vestido y ajustes de escote."
+          }
+        },
+        "block-otro": {
+          "type": "collection_item",
+          "settings": {
+            "collection": "otros-arreglos",
+            "tagline": "¿Tu arreglo no encaja en ninguna categoría? Cuéntanos."
+          }
+        }
+      },
+      "block_order": ["block-bajos", "block-crem", "block-ajus", "block-mang", "block-tira", "block-otro"]
+    }
+  },
+  "order": ["hero", "grid"]
+}
