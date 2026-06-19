@@ -86,13 +86,8 @@
                 <span class="prm__drop-btn">Seleccionar foto</span>
               </div>
             </label>
-            <div class="prm__photo-preview" id="prm-preview-{{ product.id }}"></div>
-            <button type="button" class="prm__photo-remove" id="prm-remove-{{ product.id }}" hidden aria-label="Quitar foto">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
-              Quitar foto
-            </button>
+            <div class="prm__photo-grid" id="prm-photo-grid-{{ product.id }}" hidden></div>
             <span class="prm__photo-status" id="prm-photo-status-{{ product.id }}" aria-live="polite"></span>
-            <input type="hidden" name="properties[Foto]" id="prm-photo-url-{{ product.id }}" value="">
           </div>
           {%- endif -%}
 
@@ -161,58 +156,25 @@
 </section>
 
 <script>
-{% comment %} MANIQUI: upload + add-to-cart AJAX — JS aislado, no depende del bundle — 2026-06-12 {% endcomment %}
+{% comment %} MANIQUI: upload 3 fotos + add-to-cart AJAX — JS aislado, no depende del bundle — 2026-06-19 {% endcomment %}
 (function () {
   var endpoint      = {{ section.settings.upload_endpoint | json }};
   var photoRequired = {{ section.settings.photo_required | json }};
   var productId     = {{ product.id | json }};
   var variantId     = {{ current_variant.id | json }};
+  var MAX_FOTOS     = 3;
+  var fotos         = [];
 
   var drop      = document.getElementById('prm-drop-'         + productId);
   var fileInput = document.getElementById('prm-photo-'        + productId);
-  var preview   = document.getElementById('prm-preview-'      + productId);
-  var photoUrl  = document.getElementById('prm-photo-url-'    + productId);
+  var photoGrid = document.getElementById('prm-photo-grid-'   + productId);
   var statusEl  = document.getElementById('prm-photo-status-' + productId);
-  var removeBtn = document.getElementById('prm-remove-'       + productId);
   var submitBtn = document.getElementById('prm-submit-'       + productId);
   var fotoError = document.getElementById('prm-foto-error-'   + productId);
   var form      = document.getElementById('prm-form-'         + productId);
 
-  /* ── Upload ── */
-  if (endpoint && drop && fileInput) {
-    ['dragenter', 'dragover'].forEach(function (ev) {
-      drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('is-hover'); });
-    });
-    ['dragleave', 'dragend'].forEach(function (ev) {
-      drop.addEventListener(ev, function () { drop.classList.remove('is-hover'); });
-    });
-    drop.addEventListener('drop', function (e) {
-      e.preventDefault(); drop.classList.remove('is-hover');
-      var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
-      if (f && /^image\//.test(f.type)) handleFile(f);
-    });
-    drop.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); }
-    });
-    fileInput.addEventListener('change', function (e) {
-      var f = e.target.files && e.target.files[0];
-      if (f) handleFile(f);
-    });
-  }
-
-  if (removeBtn) {
-    removeBtn.addEventListener('click', function () {
-      if (preview) { preview.innerHTML = ''; preview.style.display = 'none'; }
-      if (photoUrl) photoUrl.value = '';
-      if (fileInput) fileInput.value = '';
-      if (drop) drop.classList.remove('is-done', 'is-hover');
-      removeBtn.hidden = true;
-      setStatus('', '');
-      if (submitBtn && photoRequired) {
-        submitBtn.disabled = true;
-        submitBtn.setAttribute('aria-disabled', 'true');
-      }
-    });
+  function escHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
   function setStatus(msg, type) {
@@ -221,18 +183,87 @@
     statusEl.className = 'prm__photo-status' + (type ? ' prm__photo-status--' + type : '');
   }
 
+  function updateSubmit() {
+    if (!submitBtn) return;
+    var ok = !photoRequired || !endpoint || fotos.length > 0;
+    submitBtn.disabled = !ok;
+    if (ok) { submitBtn.removeAttribute('aria-disabled'); }
+    else    { submitBtn.setAttribute('aria-disabled', 'true'); }
+  }
+
+  function renderThumbs() {
+    if (!photoGrid) return;
+    if (fotos.length === 0) {
+      photoGrid.innerHTML = '';
+      photoGrid.hidden = true;
+    } else {
+      photoGrid.hidden = false;
+      photoGrid.innerHTML = fotos.map(function (url, i) {
+        return '<div class="prm__thumb">'
+          + '<img src="' + escHtml(url) + '" alt="Foto ' + (i + 1) + '" class="prm__thumb-img" loading="lazy">'
+          + '<button class="prm__thumb-remove" data-index="' + i + '" type="button" aria-label="Quitar foto ' + (i + 1) + '">'
+          + '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>'
+          + '</button>'
+          + '</div>';
+      }).join('');
+    }
+    if (drop) {
+      if (fotos.length >= MAX_FOTOS) { drop.classList.add('is-full'); if (fileInput) fileInput.disabled = true; }
+      else                           { drop.classList.remove('is-full'); if (fileInput) fileInput.disabled = false; }
+    }
+    if (fotos.length === 0)      setStatus('', '');
+    else if (fotos.length === 1) setStatus('¡Foto lista!', 'ok');
+    else                         setStatus('¡' + fotos.length + ' fotos listas!', 'ok');
+    updateSubmit();
+  }
+
+  /* ── Quitar foto por índice ── */
+  if (photoGrid) {
+    photoGrid.addEventListener('click', function (e) {
+      var btn = e.target.closest('.prm__thumb-remove');
+      if (!btn) return;
+      var idx = parseInt(btn.dataset.index, 10);
+      if (!isNaN(idx) && idx >= 0 && idx < fotos.length) {
+        fotos.splice(idx, 1);
+        if (fileInput) fileInput.value = '';
+        renderThumbs();
+        if (fotoError) fotoError.hidden = true;
+      }
+    });
+  }
+
+  /* ── Drag & drop / selector ── */
+  if (endpoint && drop && fileInput) {
+    ['dragenter', 'dragover'].forEach(function (ev) {
+      drop.addEventListener(ev, function (e) {
+        if (fotos.length >= MAX_FOTOS) return;
+        e.preventDefault(); drop.classList.add('is-hover');
+      });
+    });
+    ['dragleave', 'dragend'].forEach(function (ev) {
+      drop.addEventListener(ev, function () { drop.classList.remove('is-hover'); });
+    });
+    drop.addEventListener('drop', function (e) {
+      e.preventDefault(); drop.classList.remove('is-hover');
+      if (fotos.length >= MAX_FOTOS) return;
+      var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+      if (f && /^image\//.test(f.type)) handleFile(f);
+    });
+    drop.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (fotos.length < MAX_FOTOS) fileInput.click(); }
+    });
+    fileInput.addEventListener('change', function (e) {
+      var f = e.target.files && e.target.files[0];
+      if (f) handleFile(f);
+    });
+  }
+
   function handleFile(file) {
+    if (fotos.length >= MAX_FOTOS) return;
     if (!/^image\//.test(file.type)) { setStatus('Solo se admiten imágenes.', 'error'); return; }
     if (file.size > 10 * 1024 * 1024) { setStatus('Imagen demasiado grande (máx. 10 MB).', 'error'); return; }
 
-    var objUrl = URL.createObjectURL(file);
-    var img = document.createElement('img');
-    img.src = objUrl; img.className = 'prm__photo-preview-img'; img.alt = 'Vista previa';
-    if (preview) { preview.innerHTML = ''; preview.appendChild(img); preview.style.display = 'block'; }
-
     setStatus('Subiendo foto…', '');
-    if (photoUrl) photoUrl.value = '';
-    if (submitBtn) { submitBtn.disabled = true; submitBtn.setAttribute('aria-disabled', 'true'); }
 
     resizeImage(file, 800).then(function (base64) {
       return fetch(endpoint, {
@@ -246,27 +277,13 @@
         return data;
       });
     }).then(function (data) {
-      if (photoUrl) photoUrl.value = data.url;
-      if (drop) drop.classList.add('is-done');
-      setStatus('Foto lista', 'ok');
-      if (removeBtn) removeBtn.hidden = false;
-      if (submitBtn) { submitBtn.disabled = false; submitBtn.removeAttribute('aria-disabled'); }
+      if (fotos.length < MAX_FOTOS) fotos.push(data.url);
+      if (fileInput) fileInput.value = '';
+      renderThumbs();
       if (fotoError) fotoError.hidden = true;
     }).catch(function (err) {
-      if (preview) { preview.innerHTML = ''; preview.style.display = 'none'; }
-      if (photoUrl) photoUrl.value = '';
-      if (drop) drop.classList.remove('is-done');
-      if (removeBtn) removeBtn.hidden = true;
       setStatus(err.message || 'Error al subir. Inténtalo de nuevo.', 'error');
-      if (submitBtn) {
-        if (photoRequired) {
-          submitBtn.disabled = true;
-          submitBtn.setAttribute('aria-disabled', 'true');
-        } else {
-          submitBtn.disabled = false;
-          submitBtn.removeAttribute('aria-disabled');
-        }
-      }
+      updateSubmit();
     });
   }
 
@@ -291,13 +308,12 @@
     });
   }
 
-  /* ── Form submit — AJAX add-to-cart (Bug 1 + Bug 3) ── */
+  /* ── Form submit — AJAX add-to-cart ── */
   if (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
 
-      /* Bug 3: foto obligatoria (solo si photo_required activo) */
-      if (photoRequired && endpoint && photoUrl && !photoUrl.value) {
+      if (photoRequired && endpoint && fotos.length === 0) {
         if (fotoError) fotoError.hidden = false;
         if (drop) drop.scrollIntoView({ behavior: 'smooth', block: 'center' });
         return;
@@ -307,7 +323,7 @@
       if (submitBtn) submitBtn.disabled = true;
 
       var props = {};
-      if (photoUrl && photoUrl.value) props['Foto'] = photoUrl.value;
+      fotos.forEach(function (url, i) { props['Foto ' + (i + 1)] = url; });
       var instrEl = form.querySelector('[name="properties[Instrucciones]"]');
       if (instrEl && instrEl.value.trim()) props['Instrucciones'] = instrEl.value.trim();
 
@@ -319,11 +335,8 @@
         if (!res.ok) return res.text().then(function (t) { throw new Error(t); });
         return res.json();
       }).then(function () {
-        if (typeof window.openCartDrawer === 'function') {
-          window.openCartDrawer();
-        } else {
-          window.location.href = '/cart';
-        }
+        if (typeof window.openCartDrawer === 'function') { window.openCartDrawer(); }
+        else { window.location.href = '/cart'; }
         if (submitBtn) submitBtn.disabled = false;
       }).catch(function () {
         if (submitBtn) submitBtn.disabled = false;
@@ -650,24 +663,45 @@
   transition: border-color 200ms ease;
 }
 .section-product-main .prm__drop-btn:hover { border-color: var(--sage-line); }
-.section-product-main .prm__photo-preview { margin-top: 10px; display: none; }
-.section-product-main .prm__photo-preview-img {
-  width: 80px; height: 80px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border);
-}
-.section-product-main .prm__photo-remove {
+.section-product-main .prm__drop.is-full { display: none; }
+.section-product-main .prm__photo-grid {
   display: flex;
-  align-items: center;
-  gap: 6px;
-  font-family: var(--font-body);
-  font-size: 12px;
-  color: var(--terracotta);
-  background: none;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+.section-product-main .prm__thumb {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.section-product-main .prm__thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.section-product-main .prm__thumb-remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(42, 37, 32, 0.75);
+  color: var(--cream);
   border: none;
   cursor: pointer;
-  padding: 6px 0 2px;
-  transition: opacity 200ms ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background 200ms ease;
 }
-.section-product-main .prm__photo-remove:hover { opacity: 0.65; }
+.section-product-main .prm__thumb-remove:hover { background: var(--terracotta); }
 .section-product-main .prm__photo-status {
   display: block; font-size: 12px; margin-top: 4px; min-height: 16px; color: var(--text-muted);
   font-family: var(--font-body);

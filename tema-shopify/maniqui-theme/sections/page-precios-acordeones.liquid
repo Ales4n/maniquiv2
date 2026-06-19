@@ -84,6 +84,10 @@
                     <span class="ppacc__product-name">{{ product.title }}</span>
                     <span class="ppacc__product-price">{{ product.price_min | money_without_trailing_zeros }}</span>
                   </a>
+                  {%- assign desc = product.description | strip_html | strip_newlines | split: '.' | first | strip -%}
+                  {%- if desc != blank -%}
+                    <p class="ppacc__product-desc">{{ desc | truncate: 80, '…' }}</p>
+                  {%- endif -%}
                 </li>
               {%- endfor -%}
             </ul>
@@ -256,7 +260,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 16px 0;
+  padding: 16px 0 6px;
   text-decoration: none;
   border-radius: 4px;
   transition: background var(--tr-fast), padding-inline var(--tr-fast);
@@ -272,19 +276,28 @@
   border-radius: 4px;
 }
 .section-page-precios-acordeones .ppacc__product-name {
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 400;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 500;
   color: var(--warm-dark);
   line-height: 1.4;
 }
 .section-page-precios-acordeones .ppacc__product-price {
   font-family: var(--font-body);
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 500;
-  color: var(--sage);
+  color: var(--text-2);
   white-space: nowrap;
   flex-shrink: 0;
+}
+.section-page-precios-acordeones .ppacc__product-desc {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
+  padding-bottom: 10px;
+  line-height: 1.5;
 }
 .section-page-precios-acordeones .ppacc__empty {
   font-size: 14px;
@@ -327,14 +340,13 @@
   .section-page-precios-acordeones .ppacc__row-link {
     flex-wrap: wrap;
     gap: 2px;
-    padding: 16px 0;
+    padding: 16px 0 6px;
   }
   .section-page-precios-acordeones .ppacc__product-name {
     flex: 1 1 100%;
   }
   .section-page-precios-acordeones .ppacc__product-price {
     font-size: 14px;
-    color: var(--text-2);
   }
 }
 {% endstylesheet %}
