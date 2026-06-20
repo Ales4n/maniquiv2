@@ -1,0 +1,235 @@
+{% comment %} MANIQUI: Cursos · Qué aprenderás — grid 2 col, numeración tipográfica 01-04 — 2026-06-20 {% endcomment %}
+
+<section class="pca" id="cursosAprenderas" aria-labelledby="pca-headline">
+  <div class="pca__inner maniqui-container">
+
+    <header class="pca__header">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="maniqui-eyebrow pca__eyebrow">{{ section.settings.eyebrow }}</p>
+        <span class="maniqui-sep-line pca__sep" aria-hidden="true"></span>
+      {%- endif -%}
+      <h2 class="pca__headline" id="pca-headline">
+        {{ section.settings.headline }}
+        {%- if section.settings.headline_em != blank -%}
+          <em class="pca__headline-em">{{ section.settings.headline_em }}</em>
+        {%- endif -%}
+      </h2>
+    </header>
+
+    {%- if section.blocks.size > 0 -%}
+      <ul class="pca__grid" role="list">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'item' -%}
+            {%- assign num = forloop.index | prepend: '0' | slice: -2, 2 -%}
+            <li class="pca__item" {{ block.shopify_attributes }}>
+              <span class="pca__num" aria-hidden="true">{{ num }}</span>
+              <h3 class="pca__item-title">{{ block.settings.titulo }}</h3>
+              {%- if block.settings.texto != blank -%}
+                <p class="pca__item-text">{{ block.settings.texto }}</p>
+              {%- endif -%}
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Cursos · Qué aprenderás",
+  "tag": "div",
+  "class": "section-page-cursos-aprenderas",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "EL CURSO"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Titular (antes del énfasis)",
+      "default": "Qué vas a"
+    },
+    {
+      "type": "text",
+      "id": "headline_em",
+      "label": "Titular énfasis (cursiva sage)",
+      "default": "aprender"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Ítem de aprendizaje",
+      "settings": [
+        {
+          "type": "text",
+          "id": "titulo",
+          "label": "Título",
+          "default": "Título del módulo"
+        },
+        {
+          "type": "textarea",
+          "id": "texto",
+          "label": "Descripción",
+          "default": "Descripción breve de lo que aprenderás."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Cursos · Qué aprenderás",
+      "settings": {
+        "eyebrow": "EL CURSO",
+        "headline": "Qué vas a",
+        "headline_em": "aprender"
+      },
+      "blocks": [
+        {
+          "type": "item",
+          "settings": {
+            "titulo": "La máquina, sin miedo",
+            "texto": "Aprende a usar y entender la máquina de coser de principio a fin."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "titulo": "Los arreglos básicos",
+            "texto": "Dobladillos, bajos y ajustes sencillos. Los arreglos del día a día, por tu cuenta."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "titulo": "Bordado",
+            "texto": "Las técnicas básicas para dar un toque personal a tus prendas."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "titulo": "Tu primera totebag",
+            "texto": "Cose una totebag desde cero y llévatela hecha a casa."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+/* ─── Cursos · Qué aprenderás ─── */
+.section-page-cursos-aprenderas .pca {
+  background: var(--cream-warm);
+  padding: 96px 0;
+}
+.section-page-cursos-aprenderas .pca__inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+/* ─── Header ─── */
+.section-page-cursos-aprenderas .pca__header {
+  text-align: center;
+  max-width: 560px;
+  margin: 0 auto;
+}
+.section-page-cursos-aprenderas .pca__eyebrow {
+  margin-bottom: 16px;
+}
+.section-page-cursos-aprenderas .pca__sep {
+  margin-bottom: 24px;
+  display: block;
+}
+.section-page-cursos-aprenderas .pca__headline {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--warm-dark);
+  margin: 0;
+}
+.section-page-cursos-aprenderas .pca__headline-em {
+  font-style: italic;
+  color: var(--sage);
+}
+
+/* ─── Grid ─── */
+.section-page-cursos-aprenderas .pca__grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+}
+
+/* ─── Ítem ─── */
+.section-page-cursos-aprenderas .pca__item {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 40px 36px;
+}
+.section-page-cursos-aprenderas .pca__num {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  line-height: 1;
+  color: var(--sage);
+  margin-bottom: 20px;
+  letter-spacing: -0.02em;
+}
+.section-page-cursos-aprenderas .pca__item-title {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--warm-dark);
+  margin: 0 0 10px;
+  line-height: 1.3;
+}
+.section-page-cursos-aprenderas .pca__item-text {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--text-2);
+  margin: 0;
+}
+
+/* ─── Tablet ─── */
+@media (max-width: 1024px) {
+  .section-page-cursos-aprenderas .pca {
+    padding: 80px 0;
+  }
+  .section-page-cursos-aprenderas .pca__inner {
+    gap: 48px;
+  }
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 600px) {
+  .section-page-cursos-aprenderas .pca {
+    padding: 64px 0;
+  }
+  .section-page-cursos-aprenderas .pca__grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .section-page-cursos-aprenderas .pca__item {
+    padding: 28px 24px;
+  }
+}
+{% endstylesheet %}

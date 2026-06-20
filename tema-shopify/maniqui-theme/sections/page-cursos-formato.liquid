@@ -1,0 +1,362 @@
+{% comment %} MANIQUI: Cursos · Formato + datos prácticos + CTA final WA propio — 2026-06-20 {% endcomment %}
+
+{%- liquid
+  assign wa_number  = settings.whatsapp_number | remove: '+' | remove: ' ' | remove: '-'
+  assign wa_message = section.settings.wa_message_curso | url_encode
+  assign wa_url     = 'https://wa.me/' | append: wa_number | append: '?text=' | append: wa_message
+-%}
+
+<section class="pcf" id="cursosFormato" aria-labelledby="pcf-headline">
+  <div class="pcf__inner maniqui-container">
+
+    <header class="pcf__header">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="maniqui-eyebrow pcf__eyebrow">{{ section.settings.eyebrow }}</p>
+        <span class="maniqui-sep-line pcf__sep" aria-hidden="true"></span>
+      {%- endif -%}
+      <h2 class="pcf__headline" id="pcf-headline">
+        {{ section.settings.headline }}
+        {%- if section.settings.headline_em != blank -%}
+          <em class="pcf__headline-em">{{ section.settings.headline_em }}</em>
+        {%- endif -%}
+      </h2>
+    </header>
+
+    {%- if section.settings.autoridad != blank -%}
+      <div class="pcf__autoridad">{{ section.settings.autoridad }}</div>
+    {%- endif -%}
+
+    <!-- ── Datos prácticos ── -->
+    {%- if section.blocks.size > 0 -%}
+      <dl class="pcf__datos">
+        {%- if section.settings.fecha_inicio != blank -%}
+          <div class="pcf__dato pcf__dato--fecha">
+            <dt class="pcf__dato-label">Próxima fecha</dt>
+            <dd class="pcf__dato-valor">{{ section.settings.fecha_inicio }}</dd>
+          </div>
+        {%- endif -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'dato' -%}
+            <div class="pcf__dato" {{ block.shopify_attributes }}>
+              <dt class="pcf__dato-label">{{ block.settings.label }}</dt>
+              <dd class="pcf__dato-valor">{{ block.settings.valor }}</dd>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </dl>
+    {%- endif -%}
+
+    <!-- ── CTA final ── -->
+    <div class="pcf__cta-block">
+      {%- if section.settings.cta_headline != blank -%}
+        <p class="pcf__cta-headline">{{ section.settings.cta_headline }}</p>
+      {%- endif -%}
+      {%- if section.settings.cta_label != blank -%}
+        <a
+          href="{{ wa_url }}"
+          class="maniqui-btn maniqui-btn--wa pcf__cta"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="{{ section.settings.cta_label | escape }}"
+        >
+          <svg class="maniqui-icon-wa" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M17.6 6.32A8 8 0 0 0 4.45 16.4L4 20l3.74-1A8 8 0 1 0 17.6 6.32Zm-5.6 12a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.22.58.6-2.16-.16-.25a6.64 6.64 0 1 1 5.38 2.9Zm3.62-4.96c-.2-.1-1.18-.58-1.36-.65s-.32-.1-.45.1-.5.65-.62.78-.23.15-.43.05a5.42 5.42 0 0 1-1.6-1 6 6 0 0 1-1.1-1.38c-.12-.2 0-.3.08-.4s.2-.23.3-.34a1.34 1.34 0 0 0 .2-.34.37.37 0 0 0 0-.35c-.05-.1-.45-1.08-.62-1.48s-.33-.34-.45-.34h-.38a.74.74 0 0 0-.54.25 2.25 2.25 0 0 0-.7 1.67 3.9 3.9 0 0 0 .82 2.08 8.94 8.94 0 0 0 3.42 3.02c.48.2.85.32 1.14.41a2.76 2.76 0 0 0 1.26.08 2.06 2.06 0 0 0 1.36-.96 1.69 1.69 0 0 0 .12-.96c-.05-.08-.18-.13-.38-.23Z"/>
+          </svg>
+          {{ section.settings.cta_label }}
+        </a>
+      {%- endif -%}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Cursos · Formato",
+  "tag": "div",
+  "class": "section-page-cursos-formato",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "PRÁCTICO"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Titular (antes del énfasis)",
+      "default": "Cómo"
+    },
+    {
+      "type": "text",
+      "id": "headline_em",
+      "label": "Titular énfasis (cursiva sage)",
+      "default": "funciona"
+    },
+    {
+      "type": "richtext",
+      "id": "autoridad",
+      "label": "Frase de autoridad",
+      "default": "<p>Te enseñan Saydith, Ana y Esperanza — las mismas manos que arreglan la ropa de medio Marxalenes.</p>"
+    },
+    {
+      "type": "text",
+      "id": "fecha_inicio",
+      "label": "Próxima fecha (editar en cada tanda)",
+      "info": "Deja vacío para ocultar este campo.",
+      "default": "Sábado 4 de julio"
+    },
+    {
+      "type": "text",
+      "id": "cta_headline",
+      "label": "Titular del bloque CTA",
+      "default": "¿Te apuntas?"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Texto del botón WhatsApp",
+      "default": "Reserva tu plaza por WhatsApp"
+    },
+    {
+      "type": "text",
+      "id": "wa_message_curso",
+      "label": "Mensaje WhatsApp (curso)",
+      "info": "⚠️ No usar el mensaje global de arreglos — este es específico del curso.",
+      "default": "Hola, me interesa el curso de costura. ¿Me dais más información?"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "dato",
+      "name": "Dato práctico",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Etiqueta",
+          "default": "Etiqueta"
+        },
+        {
+          "type": "text",
+          "id": "valor",
+          "label": "Valor",
+          "default": "—"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Cursos · Formato",
+      "settings": {
+        "eyebrow": "PRÁCTICO",
+        "headline": "Cómo",
+        "headline_em": "funciona",
+        "autoridad": "<p>Te enseñan Saydith, Ana y Esperanza — las mismas manos que arreglan la ropa de medio Marxalenes.</p>",
+        "fecha_inicio": "Sábado 4 de julio",
+        "cta_headline": "¿Te apuntas?",
+        "cta_label": "Reserva tu plaza por WhatsApp",
+        "wa_message_curso": "Hola, me interesa el curso de costura. ¿Me dais más información?"
+      },
+      "blocks": [
+        {
+          "type": "dato",
+          "settings": { "label": "Precio", "valor": "140 € · materiales incluidos" }
+        },
+        {
+          "type": "dato",
+          "settings": { "label": "Duración", "valor": "4 clases · 1 mes" }
+        },
+        {
+          "type": "dato",
+          "settings": { "label": "Cuándo", "valor": "Todos los sábados" }
+        },
+        {
+          "type": "dato",
+          "settings": { "label": "Plazas", "valor": "Máximo 10 personas" }
+        },
+        {
+          "type": "dato",
+          "settings": { "label": "Dónde", "valor": "En el taller · Marxalenes, Valencia" }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+/* ─── Cursos · Formato ─── */
+.section-page-cursos-formato .pcf {
+  background: var(--cream-warm);
+  padding: 96px 0;
+}
+.section-page-cursos-formato .pcf__inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+
+/* ─── Header ─── */
+.section-page-cursos-formato .pcf__header {
+  text-align: center;
+  max-width: 560px;
+  margin: 0 auto;
+}
+.section-page-cursos-formato .pcf__eyebrow {
+  margin-bottom: 16px;
+}
+.section-page-cursos-formato .pcf__sep {
+  display: block;
+  margin-bottom: 24px;
+}
+.section-page-cursos-formato .pcf__headline {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--warm-dark);
+  margin: 0;
+}
+.section-page-cursos-formato .pcf__headline-em {
+  font-style: italic;
+  color: var(--sage);
+}
+
+/* ─── Frase de autoridad ─── */
+.section-page-cursos-formato .pcf__autoridad {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.125rem, 2vw, 1.375rem);
+  line-height: 1.5;
+  color: var(--sage-dark);
+  text-align: center;
+  max-width: 56ch;
+  margin: 0 auto;
+}
+.section-page-cursos-formato .pcf__autoridad p { margin: 0; }
+
+/* ─── Datos prácticos ─── */
+.section-page-cursos-formato .pcf__datos {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--cream);
+}
+.section-page-cursos-formato .pcf__dato {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 24px 28px;
+  border-bottom: 1px solid var(--border);
+}
+.section-page-cursos-formato .pcf__dato:nth-child(odd) {
+  border-right: 1px solid var(--border);
+}
+.section-page-cursos-formato .pcf__dato:nth-last-child(-n+2):not(:only-child) {
+  border-bottom: none;
+}
+.section-page-cursos-formato .pcf__dato--fecha {
+  grid-column: 1 / -1;
+  background: var(--sage-soft);
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.section-page-cursos-formato .pcf__dato-label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.section-page-cursos-formato .pcf__dato-valor {
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--warm-dark);
+  margin: 0;
+}
+.section-page-cursos-formato .pcf__dato--fecha .pcf__dato-label {
+  color: var(--sage-dark);
+}
+.section-page-cursos-formato .pcf__dato--fecha .pcf__dato-valor {
+  font-size: 16px;
+  color: var(--warm-dark);
+}
+
+/* ─── CTA final ─── */
+.section-page-cursos-formato .pcf__cta-block {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 48px 0 0;
+  border-top: 1px solid var(--border);
+}
+.section-page-cursos-formato .pcf__cta-headline {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  color: var(--warm-dark);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+.section-page-cursos-formato .pcf__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ─── Tablet ─── */
+@media (max-width: 1024px) {
+  .section-page-cursos-formato .pcf {
+    padding: 80px 0;
+  }
+  .section-page-cursos-formato .pcf__inner {
+    gap: 48px;
+  }
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 600px) {
+  .section-page-cursos-formato .pcf {
+    padding: 64px 0;
+  }
+  .section-page-cursos-formato .pcf__datos {
+    grid-template-columns: 1fr;
+  }
+  .section-page-cursos-formato .pcf__dato:nth-child(odd) {
+    border-right: none;
+  }
+  .section-page-cursos-formato .pcf__dato:nth-last-child(-n+2):not(:only-child) {
+    border-bottom: 1px solid var(--border);
+  }
+  .section-page-cursos-formato .pcf__dato:last-child {
+    border-bottom: none;
+  }
+  .section-page-cursos-formato .pcf__dato--fecha {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .section-page-cursos-formato .pcf__cta {
+    width: 100%;
+    justify-content: center;
+  }
+}
+{% endstylesheet %}

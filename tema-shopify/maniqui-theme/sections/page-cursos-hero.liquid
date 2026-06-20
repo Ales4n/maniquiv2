@@ -1,0 +1,292 @@
+{% comment %} MANIQUI: Hero página cursos — dos columnas, precio destacado, CTA WA propio — 2026-06-20 {% endcomment %}
+
+{%- liquid
+  assign wa_number  = settings.whatsapp_number | remove: '+' | remove: ' ' | remove: '-'
+  assign wa_message = section.settings.wa_message_curso | url_encode
+  assign wa_url     = 'https://wa.me/' | append: wa_number | append: '?text=' | append: wa_message
+-%}
+
+<section class="pch" id="cursosHero" aria-labelledby="pch-headline">
+  <div class="pch__inner maniqui-container">
+
+    <div class="pch__layout">
+
+      <!-- ── Columna texto ── -->
+      <div class="pch__content">
+
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="maniqui-eyebrow pch__eyebrow">{{ section.settings.eyebrow }}</p>
+          <span class="maniqui-sep-line pch__sep" aria-hidden="true"></span>
+        {%- endif -%}
+
+        <h1 class="pch__headline" id="pch-headline">
+          {{ section.settings.headline }}
+          {%- if section.settings.headline_em != blank -%}
+            <em class="pch__headline-em">{{ section.settings.headline_em }}</em>
+          {%- endif -%}
+        </h1>
+
+        {%- if section.settings.subhead != blank -%}
+          <div class="pch__sub">{{ section.settings.subhead }}</div>
+        {%- endif -%}
+
+        {%- if section.settings.precio != blank -%}
+          <div class="pch__precio-block">
+            <span class="pch__precio">{{ section.settings.precio }}</span>
+            {%- if section.settings.precio_nota != blank -%}
+              <span class="pch__precio-nota">{{ section.settings.precio_nota }}</span>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.cta_label != blank -%}
+          <a
+            href="{{ wa_url }}"
+            class="maniqui-btn maniqui-btn--wa pch__cta"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="{{ section.settings.cta_label | escape }}"
+          >
+            <svg class="maniqui-icon-wa" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M17.6 6.32A8 8 0 0 0 4.45 16.4L4 20l3.74-1A8 8 0 1 0 17.6 6.32Zm-5.6 12a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.22.58.6-2.16-.16-.25a6.64 6.64 0 1 1 5.38 2.9Zm3.62-4.96c-.2-.1-1.18-.58-1.36-.65s-.32-.1-.45.1-.5.65-.62.78-.23.15-.43.05a5.42 5.42 0 0 1-1.6-1 6 6 0 0 1-1.1-1.38c-.12-.2 0-.3.08-.4s.2-.23.3-.34a1.34 1.34 0 0 0 .2-.34.37.37 0 0 0 0-.35c-.05-.1-.45-1.08-.62-1.48s-.33-.34-.45-.34h-.38a.74.74 0 0 0-.54.25 2.25 2.25 0 0 0-.7 1.67 3.9 3.9 0 0 0 .82 2.08 8.94 8.94 0 0 0 3.42 3.02c.48.2.85.32 1.14.41a2.76 2.76 0 0 0 1.26.08 2.06 2.06 0 0 0 1.36-.96 1.69 1.69 0 0 0 .12-.96c-.05-.08-.18-.13-.38-.23Z"/>
+            </svg>
+            {{ section.settings.cta_label }}
+          </a>
+        {%- endif -%}
+
+      </div>
+
+      <!-- ── Columna imagen ── -->
+      <div class="pch__media">
+        {%- if section.settings.imagen != blank -%}
+          {{ section.settings.imagen | image_url: width: 900 | image_tag:
+            loading: 'lazy',
+            widths: '450, 600, 900',
+            sizes: '(max-width: 600px) 100vw, (max-width: 1100px) 45vw, 520px',
+            alt: section.settings.imagen_alt | default: section.settings.headline,
+            class: 'pch__img' }}
+        {%- else -%}
+          <div class="pch__img-placeholder" aria-hidden="true"></div>
+        {%- endif -%}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Cursos · Hero",
+  "tag": "div",
+  "class": "section-page-cursos-hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "CURSOS"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Titular (antes del énfasis)",
+      "default": "Aprende a coser"
+    },
+    {
+      "type": "text",
+      "id": "headline_em",
+      "label": "Titular énfasis (cursiva sage)",
+      "default": "con nosotras"
+    },
+    {
+      "type": "richtext",
+      "id": "subhead",
+      "label": "Subtítulo",
+      "default": "<p>Cuatro sábados, una máquina y todo lo que necesitas para empezar. De usar la máquina sin miedo a coserte tu primera totebag.</p>"
+    },
+    {
+      "type": "text",
+      "id": "precio",
+      "label": "Precio",
+      "default": "140 €"
+    },
+    {
+      "type": "text",
+      "id": "precio_nota",
+      "label": "Nota junto al precio",
+      "default": "4 clases · 1 mes · materiales incluidos"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Texto del botón WhatsApp",
+      "default": "Reserva tu plaza por WhatsApp"
+    },
+    {
+      "type": "text",
+      "id": "wa_message_curso",
+      "label": "Mensaje WhatsApp (curso)",
+      "info": "⚠️ No usar el mensaje global de arreglos — este es específico del curso.",
+      "default": "Hola, me interesa el curso de costura. ¿Me dais más información?"
+    },
+    {
+      "type": "image_picker",
+      "id": "imagen",
+      "label": "Imagen (opcional)"
+    },
+    {
+      "type": "text",
+      "id": "imagen_alt",
+      "label": "Alt text de la imagen"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Cursos · Hero",
+      "settings": {
+        "eyebrow": "CURSOS",
+        "headline": "Aprende a coser",
+        "headline_em": "con nosotras",
+        "subhead": "<p>Cuatro sábados, una máquina y todo lo que necesitas para empezar. De usar la máquina sin miedo a coserte tu primera totebag.</p>",
+        "precio": "140 €",
+        "precio_nota": "4 clases · 1 mes · materiales incluidos",
+        "cta_label": "Reserva tu plaza por WhatsApp",
+        "wa_message_curso": "Hola, me interesa el curso de costura. ¿Me dais más información?"
+      }
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+/* ─── Cursos · Hero ─── */
+.section-page-cursos-hero .pch {
+  background: var(--cream);
+  padding: 80px 0 96px;
+}
+.section-page-cursos-hero .pch__inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+/* ─── Layout dos columnas ─── */
+.section-page-cursos-hero .pch__layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+
+/* ─── Columna texto ─── */
+.section-page-cursos-hero .pch__eyebrow {
+  margin-bottom: 16px;
+}
+.section-page-cursos-hero .pch__sep {
+  display: block;
+  margin-bottom: 24px;
+}
+.section-page-cursos-hero .pch__headline {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(2.5rem, 4.5vw, 3.75rem);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  color: var(--warm-dark);
+  margin-bottom: 22px;
+}
+.section-page-cursos-hero .pch__headline-em {
+  display: block;
+  font-style: italic;
+  color: var(--sage);
+}
+.section-page-cursos-hero .pch__sub {
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--text-2);
+  max-width: 46ch;
+  margin-bottom: 28px;
+}
+.section-page-cursos-hero .pch__sub p { margin: 0; }
+
+/* ─── Precio destacado ─── */
+.section-page-cursos-hero .pch__precio-block {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 36px;
+}
+.section-page-cursos-hero .pch__precio {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2rem, 3.5vw, 2.75rem);
+  color: var(--sage);
+  line-height: 1;
+}
+.section-page-cursos-hero .pch__precio-nota {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--text-muted);
+  letter-spacing: 0.01em;
+}
+
+/* ─── CTA WhatsApp ─── */
+.section-page-cursos-hero .pch__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ─── Columna imagen ─── */
+.section-page-cursos-hero .pch__media {
+  aspect-ratio: 4 / 5;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.section-page-cursos-hero .pch__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.section-page-cursos-hero .pch__img-placeholder {
+  width: 100%;
+  height: 100%;
+  background: var(--cream-warm);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+/* ─── Tablet ─── */
+@media (max-width: 1100px) {
+  .section-page-cursos-hero .pch__layout {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .section-page-cursos-hero .pch__media {
+    max-width: 480px;
+    aspect-ratio: 16 / 9;
+  }
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 600px) {
+  .section-page-cursos-hero .pch {
+    padding: 48px 0 64px;
+  }
+  .section-page-cursos-hero .pch__headline {
+    font-size: clamp(2rem, 8vw, 2.5rem);
+  }
+  .section-page-cursos-hero .pch__sub {
+    font-size: 16px;
+  }
+  .section-page-cursos-hero .pch__cta {
+    width: 100%;
+    justify-content: center;
+  }
+  .section-page-cursos-hero .pch__media {
+    max-width: 100%;
+    aspect-ratio: 4 / 3;
+  }
+}
+{% endstylesheet %}
