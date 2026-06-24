@@ -52,10 +52,20 @@
         {%- endif -%}
 
         <div class="pch__ctas">
-          {%- if section.settings.cta_primary_label != blank and primary_url != blank -%}
-            <a href="{{ primary_url }}" class="maniqui-btn pch__cta-primary">
-              {{ section.settings.cta_primary_label }}
-            </a>
+          {%- if section.settings.cta_primary_label != blank -%}
+            {%- if curso != blank -%}
+              <form action="/cart/add" method="post" class="pch__buy-form">
+                <input type="hidden" name="id" value="{{ curso.variants.first.id }}">
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" name="checkout" class="maniqui-btn pch__cta-primary">
+                  {{ section.settings.cta_primary_label }}
+                </button>
+              </form>
+            {%- elsif primary_url != blank -%}
+              <a href="{{ primary_url }}" class="maniqui-btn pch__cta-primary">
+                {{ section.settings.cta_primary_label }}
+              </a>
+            {%- endif -%}
           {%- endif -%}
           {%- if section.settings.cta_label != blank -%}
             <a
@@ -269,6 +279,7 @@
 }
 
 /* ─── CTAs ─── */
+.section-page-cursos-hero .pch__buy-form { margin: 0; }
 .section-page-cursos-hero .pch__ctas {
   display: flex;
   flex-direction: column;

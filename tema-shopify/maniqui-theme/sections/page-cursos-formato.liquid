@@ -4,6 +4,10 @@
   assign wa_number  = settings.whatsapp_number | remove: '+' | remove: ' ' | remove: '-'
   assign wa_message = section.settings.wa_message_curso | url_encode
   assign wa_url     = 'https://wa.me/' | append: wa_number | append: '?text=' | append: wa_message
+
+  if section.settings.course_product != blank
+    assign curso = all_products[section.settings.course_product]
+  endif
 -%}
 
 <section class="pcf" id="cursosFormato" aria-labelledby="pcf-headline">
@@ -52,10 +56,20 @@
         <p class="pcf__cta-headline">{{ section.settings.cta_headline }}</p>
       {%- endif -%}
       <div class="pcf__ctas">
-        {%- if section.settings.cta_primary_label != blank and section.settings.cta_primary_url != blank -%}
-          <a href="{{ section.settings.cta_primary_url }}" class="maniqui-btn pcf__cta-primary">
-            {{ section.settings.cta_primary_label }}
-          </a>
+        {%- if section.settings.cta_primary_label != blank -%}
+          {%- if curso != blank -%}
+            <form action="/cart/add" method="post" class="pcf__buy-form">
+              <input type="hidden" name="id" value="{{ curso.variants.first.id }}">
+              <input type="hidden" name="quantity" value="1">
+              <button type="submit" name="checkout" class="maniqui-btn pcf__cta-primary">
+                {{ section.settings.cta_primary_label }}
+              </button>
+            </form>
+          {%- elsif section.settings.cta_primary_url != blank -%}
+            <a href="{{ section.settings.cta_primary_url }}" class="maniqui-btn pcf__cta-primary">
+              {{ section.settings.cta_primary_label }}
+            </a>
+          {%- endif -%}
         {%- endif -%}
         {%- if section.settings.cta_label != blank -%}
           <a
@@ -114,6 +128,12 @@
       "label": "Próxima fecha (editar en cada tanda)",
       "info": "Deja vacío para ocultar este campo.",
       "default": "Sábado 4 de julio"
+    },
+    {
+      "type": "product",
+      "id": "course_product",
+      "label": "Producto del curso (directo a checkout)",
+      "info": "Mismo producto que en el Hero. El botón irá directo a checkout al pulsarlo."
     },
     {
       "type": "text",
@@ -319,6 +339,7 @@
 }
 
 /* ─── CTA final ─── */
+.section-page-cursos-formato .pcf__buy-form { margin: 0; }
 .section-page-cursos-formato .pcf__cta-block {
   text-align: center;
   display: flex;
