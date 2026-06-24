@@ -4,6 +4,18 @@
   assign wa_number  = settings.whatsapp_number | remove: '+' | remove: ' ' | remove: '-'
   assign wa_message = section.settings.wa_message_curso | url_encode
   assign wa_url     = 'https://wa.me/' | append: wa_number | append: '?text=' | append: wa_message
+
+  if section.settings.course_product != blank
+    assign curso = all_products[section.settings.course_product]
+  endif
+
+  if curso != blank
+    assign display_price = curso.price_min | money_without_trailing_zeros
+    assign primary_url   = curso.url
+  else
+    assign display_price = section.settings.precio
+    assign primary_url   = section.settings.cta_primary_url
+  endif
 -%}
 
 <section class="pch" id="cursosHero" aria-labelledby="pch-headline">
@@ -30,9 +42,9 @@
           <div class="pch__sub">{{ section.settings.subhead }}</div>
         {%- endif -%}
 
-        {%- if section.settings.precio != blank -%}
+        {%- if display_price != blank -%}
           <div class="pch__precio-block">
-            <span class="pch__precio">{{ section.settings.precio }}</span>
+            <span class="pch__precio">{{ display_price }}</span>
             {%- if section.settings.precio_nota != blank -%}
               <span class="pch__precio-nota">{{ section.settings.precio_nota }}</span>
             {%- endif -%}
@@ -40,8 +52,8 @@
         {%- endif -%}
 
         <div class="pch__ctas">
-          {%- if section.settings.cta_primary_label != blank and section.settings.cta_primary_url != blank -%}
-            <a href="{{ section.settings.cta_primary_url }}" class="maniqui-btn pch__cta-primary">
+          {%- if section.settings.cta_primary_label != blank and primary_url != blank -%}
+            <a href="{{ primary_url }}" class="maniqui-btn pch__cta-primary">
               {{ section.settings.cta_primary_label }}
             </a>
           {%- endif -%}
@@ -112,10 +124,16 @@
       "default": "<p>Cuatro sábados, una máquina y todo lo que necesitas para empezar. De usar la máquina sin miedo a coserte tu primera totebag.</p>"
     },
     {
+      "type": "product",
+      "id": "course_product",
+      "label": "Producto del curso (precio y URL automáticos)",
+      "info": "Al seleccionar el producto, el precio mostrado y el enlace del botón se actualizan solos."
+    },
+    {
       "type": "text",
       "id": "precio",
-      "label": "Precio",
-      "default": "140 €"
+      "label": "Precio manual (fallback si no hay producto)",
+      "default": "150 €"
     },
     {
       "type": "text",
@@ -271,15 +289,22 @@
 .section-page-cursos-hero .pch__cta-wa {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: 10px;
   font-family: var(--font-body);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
-  color: var(--text-2);
+  color: var(--warm-dark);
   text-decoration: none;
-  transition: color 200ms ease;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 13px 28px;
+  background: transparent;
+  transition: border-color 200ms ease, color 200ms ease;
 }
-.section-page-cursos-hero .pch__cta-wa:hover { color: var(--warm-dark); }
+.section-page-cursos-hero .pch__cta-wa:hover {
+  border-color: var(--warm-dark);
+}
 .section-page-cursos-hero .pch__cta-wa svg { color: #25d366; flex-shrink: 0; }
 
 /* ─── Columna imagen ─── */

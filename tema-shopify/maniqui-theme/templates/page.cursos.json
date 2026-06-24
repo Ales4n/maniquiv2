@@ -7,7 +7,7 @@
         "headline": "Aprende a coser",
         "headline_em": "con nosotras",
         "subhead": "<p>Cuatro sábados, una máquina y todo lo que necesitas para empezar. De usar la máquina sin miedo a coserte tu primera totebag.</p>",
-        "precio": "140 €",
+        "precio": "150 €",
         "precio_nota": "4 clases · 1 mes · materiales incluidos",
         "cta_primary_label": "Reservar plaza",
         "cta_label": "Tengo una duda — escríbenos",
@@ -69,7 +69,7 @@
       "blocks": {
         "dato-1": {
           "type": "dato",
-          "settings": { "label": "Precio", "valor": "140 € · materiales incluidos" }
+          "settings": { "label": "Precio", "valor": "150 € · materiales incluidos" }
         },
         "dato-2": {
           "type": "dato",
