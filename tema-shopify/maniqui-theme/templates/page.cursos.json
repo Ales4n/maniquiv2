@@ -9,7 +9,8 @@
         "subhead": "<p>Cuatro sábados, una máquina y todo lo que necesitas para empezar. De usar la máquina sin miedo a coserte tu primera totebag.</p>",
         "precio": "140 €",
         "precio_nota": "4 clases · 1 mes · materiales incluidos",
-        "cta_label": "Reserva tu plaza por WhatsApp",
+        "cta_primary_label": "Reservar plaza",
+        "cta_label": "Tengo una duda — escríbenos",
         "wa_message_curso": "Hola, me interesa el curso de costura. ¿Me dais más información?"
       }
     },
@@ -61,7 +62,8 @@
         "autoridad": "<p>Te enseñan Saydith, Ana y Esperanza — las mismas manos que arreglan la ropa de medio Marxalenes.</p>",
         "fecha_inicio": "Sábado 4 de julio",
         "cta_headline": "¿Te apuntas?",
-        "cta_label": "Reserva tu plaza por WhatsApp",
+        "cta_primary_label": "Reservar plaza",
+        "cta_label": "Tengo una duda — escríbenos",
         "wa_message_curso": "Hola, me interesa el curso de costura. ¿Me dais más información?"
       },
       "blocks": {

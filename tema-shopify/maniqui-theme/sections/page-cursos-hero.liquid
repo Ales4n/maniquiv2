@@ -39,20 +39,27 @@
           </div>
         {%- endif -%}
 
-        {%- if section.settings.cta_label != blank -%}
-          <a
-            href="{{ wa_url }}"
-            class="maniqui-btn maniqui-btn--wa pch__cta"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="{{ section.settings.cta_label | escape }}"
-          >
-            <svg class="maniqui-icon-wa" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M17.6 6.32A8 8 0 0 0 4.45 16.4L4 20l3.74-1A8 8 0 1 0 17.6 6.32Zm-5.6 12a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.22.58.6-2.16-.16-.25a6.64 6.64 0 1 1 5.38 2.9Zm3.62-4.96c-.2-.1-1.18-.58-1.36-.65s-.32-.1-.45.1-.5.65-.62.78-.23.15-.43.05a5.42 5.42 0 0 1-1.6-1 6 6 0 0 1-1.1-1.38c-.12-.2 0-.3.08-.4s.2-.23.3-.34a1.34 1.34 0 0 0 .2-.34.37.37 0 0 0 0-.35c-.05-.1-.45-1.08-.62-1.48s-.33-.34-.45-.34h-.38a.74.74 0 0 0-.54.25 2.25 2.25 0 0 0-.7 1.67 3.9 3.9 0 0 0 .82 2.08 8.94 8.94 0 0 0 3.42 3.02c.48.2.85.32 1.14.41a2.76 2.76 0 0 0 1.26.08 2.06 2.06 0 0 0 1.36-.96 1.69 1.69 0 0 0 .12-.96c-.05-.08-.18-.13-.38-.23Z"/>
-            </svg>
-            {{ section.settings.cta_label }}
-          </a>
-        {%- endif -%}
+        <div class="pch__ctas">
+          {%- if section.settings.cta_primary_label != blank and section.settings.cta_primary_url != blank -%}
+            <a href="{{ section.settings.cta_primary_url }}" class="maniqui-btn pch__cta-primary">
+              {{ section.settings.cta_primary_label }}
+            </a>
+          {%- endif -%}
+          {%- if section.settings.cta_label != blank -%}
+            <a
+              href="{{ wa_url }}"
+              class="pch__cta-wa"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="{{ section.settings.cta_label | escape }}"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M17.6 6.32A8 8 0 0 0 4.45 16.4L4 20l3.74-1A8 8 0 1 0 17.6 6.32Zm-5.6 12a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.22.58.6-2.16-.16-.25a6.64 6.64 0 1 1 5.38 2.9Zm3.62-4.96c-.2-.1-1.18-.58-1.36-.65s-.32-.1-.45.1-.5.65-.62.78-.23.15-.43.05a5.42 5.42 0 0 1-1.6-1 6 6 0 0 1-1.1-1.38c-.12-.2 0-.3.08-.4s.2-.23.3-.34a1.34 1.34 0 0 0 .2-.34.37.37 0 0 0 0-.35c-.05-.1-.45-1.08-.62-1.48s-.33-.34-.45-.34h-.38a.74.74 0 0 0-.54.25 2.25 2.25 0 0 0-.7 1.67 3.9 3.9 0 0 0 .82 2.08 8.94 8.94 0 0 0 3.42 3.02c.48.2.85.32 1.14.41a2.76 2.76 0 0 0 1.26.08 2.06 2.06 0 0 0 1.36-.96 1.69 1.69 0 0 0 .12-.96c-.05-.08-.18-.13-.38-.23Z"/>
+              </svg>
+              {{ section.settings.cta_label }}
+            </a>
+          {%- endif -%}
+        </div>
 
       </div>
 
@@ -118,9 +125,21 @@
     },
     {
       "type": "text",
+      "id": "cta_primary_label",
+      "label": "Texto del botón primario (inscripción)",
+      "default": "Reservar plaza"
+    },
+    {
+      "type": "url",
+      "id": "cta_primary_url",
+      "label": "URL del botón primario",
+      "info": "Apunta al producto del curso en Shopify una vez creado."
+    },
+    {
+      "type": "text",
       "id": "cta_label",
-      "label": "Texto del botón WhatsApp",
-      "default": "Reserva tu plaza por WhatsApp"
+      "label": "Texto enlace WhatsApp (secundario — dudas / más info)",
+      "default": "Tengo una duda — escríbenos"
     },
     {
       "type": "text",
@@ -150,7 +169,8 @@
         "subhead": "<p>Cuatro sábados, una máquina y todo lo que necesitas para empezar. De usar la máquina sin miedo a coserte tu primera totebag.</p>",
         "precio": "140 €",
         "precio_nota": "4 clases · 1 mes · materiales incluidos",
-        "cta_label": "Reserva tu plaza por WhatsApp",
+        "cta_primary_label": "Reservar plaza",
+        "cta_label": "Tengo una duda — escríbenos",
         "wa_message_curso": "Hola, me interesa el curso de costura. ¿Me dais más información?"
       }
     }
@@ -230,12 +250,37 @@
   letter-spacing: 0.01em;
 }
 
-/* ─── CTA WhatsApp ─── */
-.section-page-cursos-hero .pch__cta {
+/* ─── CTAs ─── */
+.section-page-cursos-hero .pch__ctas {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+.section-page-cursos-hero .pch__cta-primary {
+  background: var(--sage);
+  color: var(--cream);
+  border-color: var(--sage);
+}
+.section-page-cursos-hero .pch__cta-primary:hover {
+  background: var(--sage-dark);
+  border-color: var(--sage-dark);
+  color: var(--cream);
+  transform: translateY(-1px);
+}
+.section-page-cursos-hero .pch__cta-wa {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-2);
+  text-decoration: none;
+  transition: color 200ms ease;
 }
+.section-page-cursos-hero .pch__cta-wa:hover { color: var(--warm-dark); }
+.section-page-cursos-hero .pch__cta-wa svg { color: #25d366; flex-shrink: 0; }
 
 /* ─── Columna imagen ─── */
 .section-page-cursos-hero .pch__media {
@@ -280,8 +325,13 @@
   .section-page-cursos-hero .pch__sub {
     font-size: 16px;
   }
-  .section-page-cursos-hero .pch__cta {
-    width: 100%;
+  .section-page-cursos-hero .pch__ctas {
+    align-items: stretch;
+  }
+  .section-page-cursos-hero .pch__cta-primary {
+    justify-content: center;
+  }
+  .section-page-cursos-hero .pch__cta-wa {
     justify-content: center;
   }
   .section-page-cursos-hero .pch__media {
